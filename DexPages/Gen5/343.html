@@ -1,0 +1,2284 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>Baltoy - #343 - Serebii.net Pokédex</title>
+<link href="https://tags.bkrtx.com/" rel="preconnect"/>
+<link crossorigin="" href="https://securepubads.g.doubleclick.net/" rel="preconnect"/>
+<link crossorigin="" href="https://cdn.consentmanager.mgr.consensu.org/" rel="preconnect"/>
+<meta content="no" http-equiv="imagetoolbar"/>
+<link href="/style/layout.css" rel="stylesheet" type="text/css">
+<meta content="width=device-width,initial-scale=1" id="viewport-meta" name="viewport"/>
+<!-- GDPR Compliancy -->
+<style>
+body {
+	--cmpBgColor: #507C36;
+	--cmpTextColor: #000000;
+	--cmpLinkColor: #ffffff;
+	--cmpPurposesColor: #000000;
+	--cmpBrandColor: #000000;
+	--cmpLogo: url('https://www.serebii.net/extralogo.png');
+}
+</style>
+<!-- GDPR Compliancy -->
+<link href="/serebii-opensearch.xml" rel="search" title="Serebii Open Search" type="application/opensearchdescription+xml">
+<link href="/favicon.ico" rel="shortcut icon">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-128947957-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-128947957-1');
+</script>
+<!-- Place the below code anywhere you like in the <head> (higher is better) -->
+<script>window.AdSlots = window.AdSlots || {cmd: [], disableScripts: ['gpt','bk']};</script>
+<script async="" src="https://tags.bkrtx.com/js/bk-coretag.js"></script>
+<script async="" src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
+<script async="" src="/dist/serebii2.min.js"></script>
+<meta content="Pokemon, Pokédex, Baltoy (Pokémon),Baltoy, Baltoy, Black, White, Black Version 2, White Version 2, Unova" name="keywords">
+<link href="/style/dexy-new.css" rel="stylesheet" type="text/css"/>
+</meta></link></link></link></head>
+<body>
+<script type="text/javascript">
+	var viewport_meta = document.getElementById('viewport-meta');
+	var viewport_timer;
+
+	// these body*Class are reused in the lbar mobile menu
+	function bodyAddClass(className){
+		if(document.body) document.body.classList.add(className);
+	}
+	function bodyRemoveClass(className){
+		if(document.body) document.body.className = document.body.className.replace(className,"");
+	}
+
+	function viewport_set() {
+		// Define our viewport meta values
+		var viewports = {
+			default: viewport_meta.getAttribute('content'),
+			mobileL: 'width=device-width,initial-scale=0.75',
+			mobileM: 'width=device-width,initial-scale=0.5',
+			mobileS: 'width=device-width,initial-scale=0.4'
+		};
+
+		// Change the viewport value based on screen.width
+		if(screen.width < 370){
+			viewport_meta.setAttribute('content', viewports.mobileS);
+			bodyAddClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if(screen.width < 505){
+			viewport_meta.setAttribute('content', viewports.mobileM);
+			bodyRemoveClass("nav_mobileS");
+			bodyAddClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if (screen.width < 760){
+			viewport_meta.setAttribute('content', viewports.mobileL);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyAddClass("nav_mobileL");
+		} else{
+			viewport_meta.setAttribute('content', viewports.default);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		}
+	}
+
+	// Set the correct viewport value on page load
+	viewport_set();
+
+	/* attach listener to (delay) set the correct viewport after device orientation change or resize. also onload so the nav_mobile* class gets added to body AFTER <body> has loaded */
+	if(window.addEventListener){
+		window.addEventListener('load', viewport_set);
+		window.addEventListener('resize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	} else{
+		window.attachEvent('onload', viewport_set)
+		window.attachEvent('onresize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	}
+
+</script>
+<header id="header">
+<div class="banner">
+<a href="/"><img alt="Serebii.net Header" src="/Banner.jpg" style="height:139px"/></a>
+</div>
+<nav class="quicklinks">
+<ul>
+<li><b>Quick Links</b></li>
+<li><a href="/index2.shtml">Home</a></li>
+<li><a href="https://forums.serebii.net/" target="blank">Forums</a></li>
+<li><a href="mailto:webmaster@serebii.net">Contact</a></li>
+<li><a href="/discord.shtml">Discord</a></li>
+<li><a href="/pokemon">Pokédex Hub</a></li>
+<li><a href="/pokemongo/pokemon">GO Pokédex</a></li>
+<li><a href="/pokedex-swsh">Sword &amp; Shield Pokédex</a></li>
+<li><a href="/pokearth">Pokéarth</a></li>
+<li class="search">
+<form action="/search.shtml" id="searchbox_018410473690156091934:6gahkiyodbi" style="margin:0px;">
+<input name="cx" type="hidden" value="018410473690156091934:6gahkiyodbi"/>
+<input name="cof" type="hidden" value="FORID:11"/>
+<input name="q" size="20" type="text"/>
+<input name="sa" type="submit" value="Search"/>
+</form>
+<script src="//www.google.com/coop/cse/brand?form=searchbox_018410473690156091934%3A6gahkiyodbi" type="text/javascript"></script>
+</li>
+</ul>
+</nav>
+</header>
+<div id="wrapper">
+<ul id="tbar_sticky">
+<li>
+<a class="navheader" href="#lbar" id="tbar_lbar_open"><img src="/hidden/2019-04/burger.svg"/></a>
+</li>
+<li>
+<form action="/search.shtml" id="searchbox_018410473690156091934:6gahkiyodbi" style="margin:0px;">
+<input name="cx" type="hidden" value="018410473690156091934:6gahkiyodbi"/>
+<input name="cof" type="hidden" value="FORID:11"/>
+<input name="q" placeholder="Search Serebii.net..." type="search"/>
+</form>
+</li>
+<li>
+<a class="navheader" href="#rbar" id="tbar_rbar_open"><img src="/hidden/2019-04/burger.svg"/></a>
+</li>
+</ul>
+<div id="tbar_backdrop"></div>
+<nav id="lbar">
+<ul id="lbar_ul">
+<li>
+<a class="navheader" href="/">Databases</a>
+<ul>
+<li><a href="/index2.shtml">News</a>
+<li><a href="/archive.shtml">Archived news</a></li>
+<li><a href="/pokemon/"><b>Pokédex</b></a></li>
+<li><a href="/pokedex/">-Red/Blue Pokédex</a></li>
+<li><a href="/pokedex-gs/">-Gold/Silver Pokédex</a></li>
+<li><a href="/pokedex-rs/">-Ruby/Sapphire Pokédex</a></li>
+<li><a href="/pokedex-dp/">-Diamond/Pearl Pokédex</a></li>
+<li><a href="/pokedex-bw/">-Black/White Pokédex</a></li>
+<li><a href="/pokedex-xy/">-X &amp; Y Pokédex</a></li>
+<li><a href="/pokedex-sm/">-Sun &amp; Moon Pokédex</a></li>
+<li><a href="/pokedex-sm/">-Let's Go Pokédex</a></li>
+<li><a href="/pokedex-swsh/">-Sword &amp; Shield Pokédex</a></li>
+<li><a href="/pokemongo/pokemon/">-GO Pokédex</a></li>
+<li><strong>Attackdex</strong></li>
+<li><a href="/attackdex-rby/">-Gen 1 Attackdex</a></li>
+<li><a href="/attackdex-gs/">-Gen 2 Attackdex</a></li>
+<li><a href="/attackdex/">-Gen 3 Attackdex</a></li>
+<li><a href="/attackdex-dp/">-Gen 4 Attackdex</a></li>
+<li><a href="/attackdex-bw/">-Gen 5 Attackdex</a></li>
+<li><a href="/attackdex-xy/">-Gen 6 Attackdex</a></li>
+<li><a href="/attackdex-sm/">-Gen 7 Attackdex</a></li>
+<li><a href="/attackdex-swsh/">-Gen 8 Attackdex</a></li>
+<li><a href="/itemdex/">ItemDex</a></li>
+<li><a href="/pokearth/">Pokéarth</a></li>
+<li><a href="/abilitydex/">Abilitydex</a></li>
+<li><a href="/spindex/">Spin-Off Pokédex</a></li>
+<li><a href="/spindex-dp/">Spin-Off Pokédex DP</a></li>
+<li><a href="/spindex-bw/">Spin-Off Pokédex BW</a></li>
+<li><a href="/card/dex/">Cardex</a></li>
+<li><a href="/movies/dex/">Cinematic Pokédex</a></li>
+<li><a href="/games/mechanics.shtml">Game Mechanics</a></li>
+<li><a href="/games/iv-calcswsh.shtml">-Sword/Shield IV Calc.</a></li>
+<li><a href="/potw-swsh">Pokémon of the Week</a></li>
+<li><a href="/potw-swsh/">-8th Gen</a></li>
+<li><a href="/potw-sm/">-7th Gen</a></li>
+<li><a href="/pokemon/timeline.shtml">Pokémon Timeline</a></li>
+<li><a href="/pokemoncenter/">Pokémon Centers</a></li>
+<li><a href="/playpokemon">Play! Pokémon</a></li>
+<li><a href="/music/p25music">P25 Music</a></li>
+<li><a href="http://www.serebiiforums.com" target="blank">Forums</a></li>
+<li><a href="/discord.shtml">Discord Chat</a></li>
+<li><a href="/games/currentevents.shtml">Current &amp; Upcoming Events</a></li>
+<li><a href="/events">Event Database</a></li>
+<li><a href="/swordshield/pokemon.shtml">8th Generation Pokémon</a></li>
+<li><a href="/swordshield/dlcpokemon.shtml">-DLC Gen 8 Pokémon</a></li>
+</li></ul>
+</li>
+<li>
+<a class="navheader" href="/anime/">Anime</a>
+<ul>
+<li><a href="/anime/epiguide/">Episode Listings &amp; Pictures</a>
+<li><a href="/anime/dex/">AniméDex</a></li>
+<li><a href="/anime/characters/">Character Bios</a></li>
+<li><a href="/anime/epiguide/indigo/">The Indigo League</a></li>
+<li><a href="/anime/epiguide/orange/">The Orange League</a></li>
+<li><a href="/anime/epiguide/johto/">The Johto Saga</a></li>
+<li><a href="/anime/epiguide/houen/">The Saga in Hoenn!</a></li>
+<li><a href="/anime/epiguide/kanto/">Kanto Battle Frontier Saga!</a></li>
+<li><a href="/anime/epiguide/shinou/">The Sinnoh Saga!</a></li>
+<li><a href="/anime/epiguide/bestwishes/">Best Wishes - Unova Saga</a></li>
+<li><a href="/anime/epiguide/xy/">XY - Kalos Saga</a></li>
+<li><a href="/anime/epiguide/sunmoon/">Sun &amp; Moon - Alola Saga</a></li>
+<li><a href="/anime/epiguide/pokemon/">Pokémon Journeys - Galar Saga</a></li>
+<li><a href="/anime/epiguide/chronicles/">Pokémon Chronicles</a></li>
+<li><a href="/anime/epiguide/generations/">Pokémon Generations</a></li>
+<li><a href="/anime/epiguide/twilightwings/">Pokémon Twilight Wings</a></li>
+<li><a href="/anime/epiguide/specials/">The Special Episodes</a></li>
+<li><a href="/anime/banned.shtml">The Banned Episodes</a></li>
+<li><a href="/anime/shiny/">Shiny Pokémon</a></li>
+<li><a href="/anime/movies/">Movies In Anime</a></li>
+<li><a href="/anime/gba/">GBA Video Listings</a></li>
+</li></ul>
+</li>
+<li>
+<a class="navheader" href="/games/">Video Games</a>
+<ul>
+<li><a href="/pokemon/generation8.shtml"><b>Gen VIII</b></a></li>
+<li><a href="/swordshield/">Sword &amp; Shield</a></li>
+<li><a href="/brilliantdiamondshiningpearl/">Brilliant Diamond &amp; Shining Pearl</a></li>
+<li><a href="/legendsarceus/">Pokémon Legends: Arceus</a></li>
+<li><a href="/pokemonhome/">Pokémon HOME</a></li>
+<li><a href="/pokemongo/">Pokémon GO</a></li>
+<li><a href="/pokemonmasters/">Pokémon Masters EX</a></li>
+<li><a href="/dungeonrescueteamdx/">Pokémon Mystery Dungeon Rescue Team DX</a></li>
+<li><a href="/pokemonsmile/">Pokémon Smile</a></li>
+<li><a href="/cafemix/">Pokémon Café Mix</a></li>
+<li><a href="/newpokemonsnap/">New Pokémon Snap</a></li>
+<li><a href="/pokemonsleep/">Pokémon Sleep</a></li>
+<li><a href="/detectivepikachu2/">Detective Pikachu 2</a></li>
+<li><a href="/pokemonunite/">Pokémon UNITE</a></li>
+<li><a href="/pokemon/generation7.shtml"><b>Gen VII</b></a></li>
+<li><a href="/sunmoon/">Sun &amp; Moon</a></li>
+<li><a href="/ultrasunultramoon/">Ultra Sun &amp; Ultra Moon</a></li>
+<li><a href="/letsgopikachueevee/">Let's Go, Pikachu! &amp; Let's Go, Eevee!</a></li>
+<li><a href="/pokemongo/">Pokémon GO</a></li>
+<li><a href="/magikarpjump/">Pokémon: Magikarp Jump</a></li>
+<li><a href="/rumblerush/">Pokémon Rumble Rush</a></li>
+<li><a href="/pokkendx/">Pokkén Tournament DX</a></li>
+<li><a href="/detective/">Detective Pikachu</a></li>
+<li><a href="/quest/">Pokémon Quest</a></li>
+<li><a href="/smashbrosultimate/">Super Smash Bros. Ultimate</a></li>
+<li><a href="/pokemon/generation6.shtml"><b>Gen VI</b></a></li>
+<li><a href="/xy/">X &amp; Y</a></li>
+<li><a href="/omegarubyalphasapphire/">Omega Ruby &amp; Alpha Sapphire</a></li>
+<li><a href="/bank/">Pokémon Bank</a></li>
+<li><a href="/battletrozei/">Pokémon Battle TrozeiPokémon Link: Battle</a></li>
+<li><a href="/artacademy/">Pokémon Art Academy</a></li>
+<li><a href="/bandofthieves/">The Band of Thieves &amp; 1000 Pokémon</a></li>
+<li><a href="/shuffle/">Pokémon Shuffle</a></li>
+<li><a href="/rumbleworld/">Pokémon Rumble World</a></li>
+<li><a href="/supermysterydungeon/">Pokémon Super Mystery Dungeon</a></li>
+<li><a href="/picross/">Pokémon Picross</a></li>
+<li><a href="/detective/">Detective Pikachu</a></li>
+<li><a href="/pokken/">Pokkén Tournament</a></li>
+<li><a href="/duel/">Pokémon Duel</a></li>
+<li><a href="/smashbros3dswiiu/">Smash Bros for 3DS/Wii U</a></li>
+<li><a href="/games/badge/">Nintendo Badge Arcade</a></li>
+<li><a href="/pokemon/generation5.shtml"><b>Gen V</b></a></li>
+<li><a href="/blackwhite/">Black &amp; White</a></li>
+<li><a href="/black2white2/">Black 2 &amp; White 2</a></li>
+<li><a href="/dreamradar/">Pokémon Dream Radar</a></li>
+<li><a href="/trettalab/">Pokémon Tretta Lab</a></li>
+<li><a href="/rumbleu/">Pokémon Rumble U</a></li>
+<li><a href="/dungeoninfinity/">Mystery Dungeon: Gates to Infinity</a></li>
+<li><a href="/conquest/">Pokémon Conquest</a></li>
+<li><a href="/pokepark2/">PokéPark 2: Wonders Beyond</a></li>
+<li><a href="/rumble2/">Pokémon Rumble Blast</a></li>
+<li><a href="/pokedex3d/">Pokédex 3D</a></li>
+<li><a href="/pokedex3dpro/">Pokédex 3D Pro</a></li>
+<li><a href="/typingds/">Learn With Pokémon: Typing Adventure</a></li>
+<li><a href="/card/howtoplayds/">TCG How to Play DS</a></li>
+<li><a href="/pokedexios/">Pokédex for iOS</a></li>
+<li><a href="/pokemon/generation4.shtml"><b>Gen IV</b></a></li>
+<li><a href="/diamondpearl/">Diamond &amp; Pearl</a></li>
+<li><a href="/platinum/">Platinum</a></li>
+<li><a href="/heartgoldsoulsilver/">Heart Gold &amp; Soul Silver</a></li>
+<li><a href="/ranger3/">Pokémon Ranger: Guardian Signs</a></li>
+<li><a href="/melee/">Pokémon Rumble</a></li>
+<li><a href="/dungeon3/">Mystery Dungeon: Blazing, Stormy &amp; Light Adventure Squad</a></li>
+<li><a href="/pokepark/">PokéPark Wii - Pikachu's  Adventure</a></li>
+<li><a href="/battle/">Pokémon Battle Revolution</a></li>
+<li><a href="/dungeonsky/">Mystery Dungeon - Explorers of Sky</a></li>
+<li><a href="/ranger2/">Pokémon Ranger: Shadows of Almia</a></li>
+<li><a href="/dungeon2/">Mystery Dungeon - Explorers of Time &amp; Darkness</a></li>
+<li><a href="/ranch/">My Pokémon Ranch</a></li>
+<li><a href="/battrio/">Pokémon Battrio</a></li>
+<li><a href="/ssbb/">Smash Bros Brawl</a></li>
+<li><a href="/pokemon/generation3.shtml"><b>Gen III</b></a></li>
+<li><a href="/rubysapphire/">Ruby &amp; Sapphire</a></li>
+<li><a href="/fireredleafgreen/">Fire Red &amp; Leaf Green</a></li>
+<li><a href="/emerald/">Emerald</a></li>
+<li><a href="/colosseum/">Pokémon Colosseum</a></li>
+<li><a href="/xd/">Pokémon XD: Gale of Darkness</a></li>
+<li><a href="/dash/">Pokémon Dash</a></li>
+<li><a href="/pokemon_channel/">Pokémon Channel</a></li>
+<li><a href="/pokemon_box/">Pokémon Box: RS</a></li>
+<li><a href="/pinball_rs/">Pokémon Pinball RS</a></li>
+<li><a href="/ranger/">Pokémon Ranger</a></li>
+<li><a href="/mysteriousdungeon/">Mystery Dungeon Red &amp; Blue</a></li>
+<li><a href="/torouze/">PokémonTrozei</a></li>
+<li><a href="/pikachu/">Pikachu DS Tech Demo</a></li>
+<li><a href="/pokeparkfish/">PokéPark Fishing Rally</a></li>
+<li><a href="/e-reader/">The E-Reader</a></li>
+<li><a href="/pokemate/">PokéMate</a></li>
+<li><a href="/pokemon/generation2.shtml"><b>Gen II</b></a></li>
+<li><a href="/gs/">Gold/Silver</a></li>
+<li><a href="/crystal/">Crystal</a></li>
+<li><a href="/stadium2/">Pokémon Stadium 2</a></li>
+<li><a href="/puzzlechallenge/">Pokémon Puzzle Challenge</a></li>
+<li><a href="/mini/">Pokémon Mini</a></li>
+<li><a href="/smash_bros_2/">Super Smash Bros. Melee</a></li>
+<li><a href="/pokemon/generation1.shtml"><b>Gen I</b></a></li>
+<li><a href="/rb/">Red, Blue &amp; Green</a></li>
+<li><a href="/yellow/">Yellow</a></li>
+<li><a href="/puzzleleague/">Pokémon Puzzle League</a></li>
+<li><a href="/snap/">Pokémon Snap</a></li>
+<li><a href="/pinball/">Pokémon Pinball</a></li>
+<li><a href="/stadiumjp/">Pokémon Stadium (Japanese)</a></li>
+<li><a href="/stadium/">Pokémon Stadium</a></li>
+<li><a href="/tradingcardgamegb/">Pokémon Trading Card Game GB</a></li>
+<li><a href="/smash_bros/">Super Smash Bros.</a></li>
+<li><strong>Miscellaneous</strong></li>
+<li><a href="/games/mechanics.shtml">Game Mechanics</a></li>
+<li><a href="/playpokemon">Play! Pokémon Championship Series</a></li>
+<li><a href="/games/others.shtml">In Other Games</a></li>
+<li><a href="/games/virtualconsole.shtml">Virtual Console</a></li>
+<li><a href="/games/consoles.shtml">Special Edition Consoles</a></li>
+<li><a href="/games/themes.shtml">Pokémon 3DS Themes</a></li>
+<li><a href="/apps">Smartphone &amp; Tablet Apps</a></li>
+<li><a href="/virtualpet">Virtual Pets</a></li>
+<li><a href="/amiibo">amiibo</a></li>
+</ul>
+</li>
+<li>
+<a class="navheader" href="/manga/">Manga</a>
+<ul>
+<li><a href="/manga/">General Information</a>
+<li><a href="/manga/dex">MangaDex</a></li>
+<li><a href="/manga/characters">Character BIOs</a></li>
+<li><a href="/manga/characters-new">Detailed BIOs</a></li>
+<li><a href="/manga/chapter.shtml">Chapter Guides</a></li>
+<li><a href="/manga/volume.shtml">Volume Guides</a></li>
+<li><a href="/manga/rby/">RBG Series</a></li>
+<li><a href="/manga/yellow/">Yellow Series</a></li>
+<li><a href="/manga/gsc/">GSC Series</a></li>
+<li><a href="/manga/rs/">RS Series</a></li>
+<li><a href="/manga/frlg/">FRLG Series</a></li>
+<li><a href="/manga/bf/">Emerald Series</a></li>
+<li><a href="/manga/dp/">DP Series</a></li>
+<li><a href="/manga/pt/">Platinum Series</a></li>
+<li><a href="/manga/hgss/">HGSS Series</a></li>
+<li><a href="/manga/bw/">BW Series</a></li>
+<li><a href="/manga/b2w2/">B2W2 Series</a></li>
+<li><a href="/manga/xy/">XY Series</a></li>
+<li><a href="/manga/oras/">ORAS Series</a></li>
+<li><a href="/manga/sunmoon/">SM Series</a></li>
+</li></ul>
+</li>
+<li>
+<a class="navheader" href="/movies/">Movies</a>
+<ul>
+<li><strong>Anime</strong></li>
+<li><a href="/movies/mewtwo/origin/">The Origin of Mewtwo</a></li>
+<li><a href="/movies/mewtwo/">Mewtwo Strikes Back</a></li>
+<li><a href="/movies/lugia/">The Power of One</a></li>
+<li><a href="/movies/entei/">Spell Of The Unown</a></li>
+<li><a href="/anime/epiguide/specials/002.shtml">Mewtwo Returns</a></li>
+<li><a href="/movies/serebii/">Celebi: Voice of the Forest</a></li>
+<li><a href="/movies/latias_latios/">Pokémon Heroes</a></li>
+<li><a href="/movies/jirachi/">Jirachi - Wish Maker</a></li>
+<li><a href="/movies/deoxys/">Destiny Deoxys!</a></li>
+<li><a href="/movies/mew/">Lucario and the Mystery of Mew!</a></li>
+<li><a href="/movies/kyogre/">Pokémon Ranger &amp; The Temple of the Sea!</a></li>
+<li><a href="/movies/dp/">The Rise of Darkrai!</a></li>
+<li><a href="/movies/giratina/">Giratina &amp; The Sky Warrior!</a></li>
+<li><a href="/movies/arceus/">Arceus and the Jewel of Life</a></li>
+<li><a href="/movies/celebi/">Zoroark - Master of Illusions</a></li>
+<li><a href="/movies/victini/">Black: Victini &amp; ReshiramWhite: Victini &amp; Zekrom</a></li>
+<li><a href="/movies/kyurem/">Kyurem VS The Sword of Justice</a></li>
+<li><a href="/movies/meloetta/">-Meloetta's Midnight Serenade</a></li>
+<li><a href="/movies/genesect/">Genesect and the Legend Awakened</a></li>
+<li><a href="/movies/xy/">Diancie &amp; The Cocoon of Destruction</a></li>
+<li><a href="/movies/hoopa/">Hoopa &amp; The Clash of Ages</a></li>
+<li><a href="/movies/volcanion/">Volcanion and the Mechanical Marvel</a></li>
+<li><a href="/movies/pokemon20/">Pokémon I Choose You!</a></li>
+<li><a href="/movies/thepowerofus/">Pokémon The Power of Us</a></li>
+<li><a href="/movies/mewtwoevolution/">Mewtwo Strikes Back Evolution</a></li>
+<li><a href="/movies/secretsofthejungle/">Secrets of the Jungle</a></li>
+<li><strong>Live Action</strong></li>
+<li><a href="/movies/detectivepikachu/">Pokémon Detective Pikachu</a></li>
+</ul>
+</li>
+<li>
+<a class="navheader" href="/movies/">Pikachu Shorts</a>
+<ul>
+<li><a href="/movies/pikachu1/">Pikachu's Summer Vacation</a></li>
+<li><a href="/movies/pikachu2/">Pikachu's Rescue Adventure</a></li>
+<li><a href="/movies/pikachu3/">Pikachu And Pichu</a></li>
+<li><a href="/movies/pikachu4/">Pikachu's PikaBoo</a></li>
+<li><a href="/movies/pikachu5/">Camp Pikachu!</a></li>
+<li><a href="/movies/pikachu6/">Gotta Dance!!</a></li>
+<li><a href="/movies/pikachu7/">Pikachu's Summer Festival!</a></li>
+<li><a href="/movies/pikachu8/">Pikachu's Ghost Festival!</a></li>
+<li><a href="/movies/pikachu9/">Pikachu's Island Adventure!</a></li>
+<li><a href="/movies/pikachu10/">Pikachu's Exploration Club</a></li>
+<li><a href="/movies/pikachu11/">Pikachu's Great Ice Adventure</a></li>
+<li><a href="/movies/pikachu12/">Pikachu's Sparkling Search</a></li>
+<li><a href="/movies/pikachu13/">Pikachu's Really Mysterious Adventure</a></li>
+<li><a href="/movies/eevee/">Eevee &amp; Friends</a></li>
+<li><a href="/movies/klefki/">Pikachu, What's This Key?</a></li>
+<li><a href="/movies/pikachumusic/">Pikachu &amp; The Pokémon Music Squad</a></li>
+</ul>
+</li>
+<li>
+<a class="navheader" href="/card/">Trading Cards</a>
+<ul>
+<li><a href="/card/dex/">Cardex</a></li>
+<li><a href="/card/dex/extra">-Extra Pokémon Types</a></li>
+<li><a href="/card/dex/trainers">Trainer Cards</a></li>
+<li><a href="/card/dex/energy">Energy Cards</a></li>
+<li><a href="/card/dex/extra/altart.shtml">Alternate Art Cards</a></li>
+<li><a href="/card/raidbattles">Raid Battles</a></li>
+<li><a href="/card/english.shtml"><b>English Sets</b></a></li>
+<li><a href="/card/chillingreign">-Chilling Reign</a></li>
+<li><a href="/card/battlestyles">-Battle Styles</a></li>
+<li><a href="/card/shiningfates">-Shining Fates</a></li>
+<li><a href="/card/vividvoltage">-Vivid Voltage</a></li>
+<li><a href="/card/champion'spath">-Champion's Path</a></li>
+<li><a href="/card/darknessablaze">-Darkness Ablaze</a></li>
+<li><a href="/card/rebelclash">-Rebel Clash</a></li>
+<li><a href="/card/swordshield">-Sword &amp; Shield</a></li>
+<li><a href="/card/cosmiceclipse">-Cosmic Eclipse</a></li>
+<li><a href="/card/hiddenfates">-Hidden Fates</a></li>
+<li><a href="/card/unifiedminds">-Unified Minds</a></li>
+<li><a href="/card/unbrokenbonds">-Unbroken Bonds</a></li>
+<li><a href="/card/pokemondetectivepikachu">-Detective Pikachu</a></li>
+<li><a href="/card/teamup">-Team Up</a></li>
+<li><a href="/card/xy.shtml">-XY Series</a></li>
+<li><a href="/card/bw.shtml">-BW Series</a></li>
+<li><a href="/card/dpt.shtml">-DPtHS Series</a></li>
+<li><a href="/card/ex.shtml">-EX Series</a></li>
+<li><a href="/card/neo.shtml">-Neo/eSeries</a></li>
+<li><a href="/card/first.shtml">-First Gen Series</a></li>
+<li><a href="/card/engpromo.shtml"><b>English Promos</b></a></li>
+<li><a href="/card/swshpromos">-SWSH Promos</a></li>
+<li><a href="/card/smpromos">-SM Promos</a></li>
+<li><a href="/card/xypromos">-XY Promos</a></li>
+<li><a href="/card/bwpromos">-BW Promos</a></li>
+<li><a href="/card/hgsspromo">-HGSS Promo</a></li>
+<li><a href="/card/popseries.shtml">-POP Series</a></li>
+<li><a href="/card/japanese.shtml"><b>Japanese Sets</b></a></li>
+<li><a href="/card/silverlance">-Silver Lance</a></li>
+<li><a href="/card/jetblackpoltergeist">-Jet Black Poltergeist</a></li>
+<li><a href="/card/matchlessfighter">-Matchless Fighter</a></li>
+<li><a href="/card/singlestrikemaster">-Single Strike Master</a></li>
+<li><a href="/card/rapidstrikemaster">-Rapid Strike Master</a></li>
+<li><a href="/card/shinystarv">-Shiny Star V</a></li>
+<li><a href="/card/astonishingvolttackle">-Astonishing Volt Tackle</a></li>
+<li><a href="/card/legendarybeat">-Legendary Beat</a></li>
+<li><a href="/card/infinityzone">-Infinity Zone</a></li>
+<li><a href="/card/explosivewalker">-Explosive Walker</a></li>
+<li><a href="/card/rebelliousclash">-Rebellious Clash</a></li>
+<li><a href="/card/sword">-Sword</a></li>
+<li><a href="/card/shield">-Shield</a></li>
+<li><a href="/card/tagallstars">-Tag All Stars</a></li>
+<li><a href="/card/vs">-Pokémon VS</a></li>
+<li><a href="/card/jppromo.shtml"><b>Japanese Promos</b></a></li>
+<li><a href="/card/spromo">-S Promos</a></li>
+<li><a href="/card/smpromo">-SM Promos</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+<script type="text/javascript">
+
+function loadMobileLbar(){
+	var tbar_lbar_open=document.getElementById('tbar_lbar_open'),
+		tbar_backdrop=document.getElementById('tbar_backdrop'),
+		lbar=document.getElementById('lbar'),
+		lbarLIs=document.querySelectorAll("#lbar_ul>li .navheader"),
+		lbarLIULs=document.querySelectorAll("#lbar_ul>li>ul");
+
+	/* lbar display/hide */
+	tbar_lbar_open.onclick=function() {
+		if (lbar.className.indexOf("show") > -1){//hide
+			lbar.className = lbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			lbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+
+
+	/* background clicked when bar shown */
+	tbar_backdrop.onclick=function() {// if the backdrop is clicked, hide menus
+		lbar.className = lbar.className.replace("show","");
+		rbar.className = rbar.className.replace("show","");
+		bodyRemoveClass("nav_modal");
+		return false;
+	}
+
+	/* handle expand/collapse sub-menus in lbar by attaching click events */
+	for(i=0; i<lbarLIs.length; i++){
+		lbarLIs[i].onclick=function(i) {
+			var elem=this.parentNode.getElementsByTagName("UL")[0];
+			var elemDisp=(elem.className.indexOf("show") === -1)
+
+			// hide all ul, then open one if clicked
+			for(i2=0; i2<lbarLIULs.length; i2++){
+				lbarLIULs[i2].className = lbarLIULs[i2].className.replace("show","");
+			}
+
+			if(elemDisp){
+				elem.classList.add("show");
+			}
+
+			return false;
+		}
+	}
+}
+function loadMobileRbar(){
+	var tbar_rbar_open=document.getElementById('tbar_rbar_open'),
+		rbar=document.getElementById('rbar');
+
+	/* rbar display/hide */
+	tbar_rbar_open.onclick=function() {
+		if (rbar.className.indexOf("show") > -1){//hide
+			rbar.className = rbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			rbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+}
+
+loadMobileLbar();
+
+/* attach listener to for rbar events AFTER page loads (because #rbar hasn't loaded at this point in page ) */
+if(window.addEventListener){
+	window.addEventListener('load', loadMobileRbar)
+} else{
+	window.attachEvent('onload', loadMobileRbar)
+}
+</script>
+<div id="content">
+<div class="center" style="margin-top:16px;height:100px"><div id="nn_lb1"></div><div id="nn_mobile_lb1"></div></div>
+<main>
+<div align="center"><table align="center" border="0" cellpadding="4" cellspacing="0" width="95%">
+<tr>
+<td align="center" width="20%"><form name="nav">
+<select name="SelectURL" onchange="document.location.href=document.nav.SelectURL.options[document.nav.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
+<option><b>Kanto: 001 - 151
+<option value="/pokedex-bw/001.shtml">001 Bulbasaur
+<option value="/pokedex-bw/002.shtml">002 Ivysaur
+<option value="/pokedex-bw/003.shtml">003 Venusaur
+<option value="/pokedex-bw/004.shtml">004 Charmander
+<option value="/pokedex-bw/005.shtml">005 Charmeleon
+<option value="/pokedex-bw/006.shtml">006 Charizard
+<option value="/pokedex-bw/007.shtml">007 Squirtle
+<option value="/pokedex-bw/008.shtml">008 Wartortle
+<option value="/pokedex-bw/009.shtml">009 Blastoise
+<option value="/pokedex-bw/010.shtml">010 Caterpie
+<option value="/pokedex-bw/011.shtml">011 Metapod
+<option value="/pokedex-bw/012.shtml">012 Butterfree
+<option value="/pokedex-bw/013.shtml">013 Weedle
+<option value="/pokedex-bw/014.shtml">014 Kakuna
+<option value="/pokedex-bw/015.shtml">015 Beedrill
+<option value="/pokedex-bw/016.shtml">016 Pidgey
+<option value="/pokedex-bw/017.shtml">017 Pidgeotto
+<option value="/pokedex-bw/018.shtml">018 Pidgeot
+<option value="/pokedex-bw/019.shtml">019 Rattata
+<option value="/pokedex-bw/020.shtml">020 Raticate
+<option value="/pokedex-bw/021.shtml">021 Spearow
+<option value="/pokedex-bw/022.shtml">022 Fearow
+<option value="/pokedex-bw/023.shtml">023 Ekans
+<option value="/pokedex-bw/024.shtml">024 Arbok
+<option value="/pokedex-bw/025.shtml">025 Pikachu
+<option value="/pokedex-bw/026.shtml">026 Raichu
+<option value="/pokedex-bw/027.shtml">027 Sandshrew
+<option value="/pokedex-bw/028.shtml">028 Sandslash
+<option value="/pokedex-bw/029.shtml">029 Nidoran-F
+<option value="/pokedex-bw/030.shtml">030 Nidorina
+<option value="/pokedex-bw/031.shtml">031 Nidoqueen
+<option value="/pokedex-bw/032.shtml">032 Nidoran-M
+<option value="/pokedex-bw/033.shtml">033 Nidorino
+<option value="/pokedex-bw/034.shtml">034 Nidoking
+<option value="/pokedex-bw/035.shtml">035 Clefairy
+<option value="/pokedex-bw/036.shtml">036 Clefable
+<option value="/pokedex-bw/037.shtml">037 Vulpix
+<option value="/pokedex-bw/038.shtml">038 Ninetales
+<option value="/pokedex-bw/039.shtml">039 Jigglypuff
+<option value="/pokedex-bw/040.shtml">040 Wigglytuff
+<option value="/pokedex-bw/041.shtml">041 Zubat
+<option value="/pokedex-bw/042.shtml">042 Golbat
+<option value="/pokedex-bw/043.shtml">043 Oddish
+<option value="/pokedex-bw/044.shtml">044 Gloom
+<option value="/pokedex-bw/045.shtml">045 Vileplume
+<option value="/pokedex-bw/046.shtml">046 Paras
+<option value="/pokedex-bw/047.shtml">047 Parasect
+<option value="/pokedex-bw/048.shtml">048 Venonat
+<option value="/pokedex-bw/049.shtml">049 Venomoth
+<option value="/pokedex-bw/050.shtml">050 Diglett
+<option value="/pokedex-bw/051.shtml">051 Dugtrio
+<option value="/pokedex-bw/052.shtml">052 Meowth
+<option value="/pokedex-bw/053.shtml">053 Persian
+<option value="/pokedex-bw/054.shtml">054 Psyduck
+<option value="/pokedex-bw/055.shtml">055 Golduck
+<option value="/pokedex-bw/056.shtml">056 Mankey
+<option value="/pokedex-bw/057.shtml">057 Primeape
+<option value="/pokedex-bw/058.shtml">058 Growlithe
+<option value="/pokedex-bw/059.shtml">059 Arcanine
+<option value="/pokedex-bw/060.shtml">060 Poliwag
+<option value="/pokedex-bw/061.shtml">061 Poliwhirl
+<option value="/pokedex-bw/062.shtml">062 Poliwrath
+<option value="/pokedex-bw/063.shtml">063 Abra
+<option value="/pokedex-bw/064.shtml">064 Kadabra
+<option value="/pokedex-bw/065.shtml">065 Alakazam
+<option value="/pokedex-bw/066.shtml">066 Machop
+<option value="/pokedex-bw/067.shtml">067 Machoke
+<option value="/pokedex-bw/068.shtml">068 Machamp
+<option value="/pokedex-bw/069.shtml">069 Bellsprout
+<option value="/pokedex-bw/070.shtml">070 Weepinbell
+<option value="/pokedex-bw/071.shtml">071 Victreebel
+<option value="/pokedex-bw/072.shtml">072 Tentacool
+<option value="/pokedex-bw/073.shtml">073 Tentacruel
+<option value="/pokedex-bw/074.shtml">074 Geodude
+<option value="/pokedex-bw/075.shtml">075 Graveler
+<option value="/pokedex-bw/076.shtml">076 Golem
+<option value="/pokedex-bw/077.shtml">077 Ponyta
+<option value="/pokedex-bw/078.shtml">078 Rapidash
+<option value="/pokedex-bw/079.shtml">079 Slowpoke
+<option value="/pokedex-bw/080.shtml">080 Slowbro
+<option value="/pokedex-bw/081.shtml">081 Magnemite
+<option value="/pokedex-bw/082.shtml">082 Magneton
+<option value="/pokedex-bw/083.shtml">083 Farfetch'd
+<option value="/pokedex-bw/084.shtml">084 Doduo
+<option value="/pokedex-bw/085.shtml">085 Dodrio
+<option value="/pokedex-bw/086.shtml">086 Seel
+<option value="/pokedex-bw/087.shtml">087 Dewgong
+<option value="/pokedex-bw/088.shtml">088 Grimer
+<option value="/pokedex-bw/089.shtml">089 Muk
+<option value="/pokedex-bw/090.shtml">090 Shellder
+<option value="/pokedex-bw/091.shtml">091 Cloyster
+<option value="/pokedex-bw/092.shtml">092 Gastly
+<option value="/pokedex-bw/093.shtml">093 Haunter
+<option value="/pokedex-bw/094.shtml">094 Gengar
+<option value="/pokedex-bw/095.shtml">095 Onix
+<option value="/pokedex-bw/096.shtml">096 Drowzee
+<option value="/pokedex-bw/097.shtml">097 Hypno
+<option value="/pokedex-bw/098.shtml">098 Krabby
+<option value="/pokedex-bw/099.shtml">099 Kingler
+<option value="/pokedex-bw/100.shtml">100 Voltorb
+<option value="/pokedex-bw/101.shtml">101 Electrode
+<option value="/pokedex-bw/102.shtml">102 Exeggcute
+<option value="/pokedex-bw/103.shtml">103 Exeggutor
+<option value="/pokedex-bw/104.shtml">104 Cubone
+<option value="/pokedex-bw/105.shtml">105 Marowak
+<option value="/pokedex-bw/106.shtml">106 Hitmonlee
+<option value="/pokedex-bw/107.shtml">107 Hitmonchan
+<option value="/pokedex-bw/108.shtml">108 Lickitung
+<option value="/pokedex-bw/109.shtml">109 Koffing
+<option value="/pokedex-bw/110.shtml">110 Weezing
+<option value="/pokedex-bw/111.shtml">111 Rhyhorn
+<option value="/pokedex-bw/112.shtml">112 Rhydon
+<option value="/pokedex-bw/113.shtml">113 Chansey
+<option value="/pokedex-bw/114.shtml">114 Tangela
+<option value="/pokedex-bw/115.shtml">115 Kangaskhan
+<option value="/pokedex-bw/116.shtml">116 Horsea
+<option value="/pokedex-bw/117.shtml">117 Seadra
+<option value="/pokedex-bw/118.shtml">118 Goldeen
+<option value="/pokedex-bw/119.shtml">119 Seaking
+<option value="/pokedex-bw/120.shtml">120 Staryu
+<option value="/pokedex-bw/121.shtml">121 Starmie
+<option value="/pokedex-bw/122.shtml">122 Mr.Mime
+<option value="/pokedex-bw/123.shtml">123 Scyther
+<option value="/pokedex-bw/124.shtml">124 Jynx
+<option value="/pokedex-bw/125.shtml">125 Electabuzz
+<option value="/pokedex-bw/126.shtml">126 Magmar
+<option value="/pokedex-bw/127.shtml">127 Pinsir
+<option value="/pokedex-bw/128.shtml">128 Tauros
+<option value="/pokedex-bw/129.shtml">129 Magikarp
+<option value="/pokedex-bw/130.shtml">130 Gyarados
+<option value="/pokedex-bw/131.shtml">131 Lapras
+<option value="/pokedex-bw/132.shtml">132 Ditto
+<option value="/pokedex-bw/133.shtml">133 Eevee
+<option value="/pokedex-bw/134.shtml">134 Vaporeon
+<option value="/pokedex-bw/135.shtml">135 Jolteon
+<option value="/pokedex-bw/136.shtml">136 Flareon
+<option value="/pokedex-bw/137.shtml">137 Porygon
+<option value="/pokedex-bw/138.shtml">138 Omanyte
+<option value="/pokedex-bw/139.shtml">139 Omastar
+<option value="/pokedex-bw/140.shtml">140 Kabuto
+<option value="/pokedex-bw/141.shtml">141 Kabutops
+<option value="/pokedex-bw/142.shtml">142 Aerodactyl
+<option value="/pokedex-bw/143.shtml">143 Snorlax
+<option value="/pokedex-bw/144.shtml">144 Articuno
+<option value="/pokedex-bw/145.shtml">145 Zapdos
+<option value="/pokedex-bw/146.shtml">146 Moltres
+<option value="/pokedex-bw/147.shtml">147 Dratini
+<option value="/pokedex-bw/148.shtml">148 Dragonair
+<option value="/pokedex-bw/149.shtml">149 Dragonite
+<option value="/pokedex-bw/150.shtml">150 Mewtwo
+<option value="/pokedex-bw/151.shtml">151 Mew
+</option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></b></option></select> </form></td>
+<td align="center" width="20%">
+<form name="nav2">
+<select name="SelectURL" onchange="document.location.href=document.nav2.SelectURL.options[document.nav2.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
+<option><b>Johto: 152 - 251
+<option value="/pokedex-bw/152.shtml">152 Chikorita
+<option value="/pokedex-bw/153.shtml">153 Bayleef
+<option value="/pokedex-bw/154.shtml">154 Meganium
+<option value="/pokedex-bw/155.shtml">155 Cyndaquil
+<option value="/pokedex-bw/156.shtml">156 Quilava
+<option value="/pokedex-bw/157.shtml">157 Typhlosion
+<option value="/pokedex-bw/158.shtml">158 Totodile
+<option value="/pokedex-bw/159.shtml">159 Croconaw
+<option value="/pokedex-bw/160.shtml">160 Feraligatr
+<option value="/pokedex-bw/161.shtml">161 Sentret
+<option value="/pokedex-bw/162.shtml">162 Furret
+<option value="/pokedex-bw/163.shtml">163 Hoothoot
+<option value="/pokedex-bw/164.shtml">164 Noctowl
+<option value="/pokedex-bw/165.shtml">165 Ledyba
+<option value="/pokedex-bw/166.shtml">166 Ledian
+<option value="/pokedex-bw/167.shtml">167 Spinarak
+<option value="/pokedex-bw/168.shtml">168 Ariados
+<option value="/pokedex-bw/169.shtml">169 Crobat
+<option value="/pokedex-bw/170.shtml">170 Chinchou
+<option value="/pokedex-bw/171.shtml">171 Lanturn
+<option value="/pokedex-bw/172.shtml">172 Pichu
+<option value="/pokedex-bw/173.shtml">173 Cleffa
+<option value="/pokedex-bw/174.shtml">174 Igglybuff
+<option value="/pokedex-bw/175.shtml">175 Togepi
+<option value="/pokedex-bw/176.shtml">176 Togetic
+<option value="/pokedex-bw/177.shtml">177 Natu
+<option value="/pokedex-bw/178.shtml">178 Xatu
+<option value="/pokedex-bw/179.shtml">179 Mareep
+<option value="/pokedex-bw/180.shtml">180 Flaaffy
+<option value="/pokedex-bw/181.shtml">181 Ampharos
+<option value="/pokedex-bw/182.shtml">182 Bellossom
+<option value="/pokedex-bw/183.shtml">183 Marill
+<option value="/pokedex-bw/184.shtml">184 Azumarill
+<option value="/pokedex-bw/185.shtml">185 Sudowoodo
+<option value="/pokedex-bw/186.shtml">186 Politoed
+<option value="/pokedex-bw/187.shtml">187 Hoppip
+<option value="/pokedex-bw/188.shtml">188 Skiploom
+<option value="/pokedex-bw/189.shtml">189 Jumpluff
+<option value="/pokedex-bw/190.shtml">190 Aipom
+<option value="/pokedex-bw/191.shtml">191 Sunkern
+<option value="/pokedex-bw/192.shtml">192 Sunflora
+<option value="/pokedex-bw/193.shtml">193 Yanma
+<option value="/pokedex-bw/194.shtml">194 Wooper
+<option value="/pokedex-bw/195.shtml">195 Quagsire
+<option value="/pokedex-bw/196.shtml">196 Espeon
+<option value="/pokedex-bw/197.shtml">197 Umbreon
+<option value="/pokedex-bw/198.shtml">198 Murkrow
+<option value="/pokedex-bw/199.shtml">199 Slowking
+<option value="/pokedex-bw/200.shtml">200 Misdreavus
+<option value="/pokedex-bw/201.shtml">201 Unown
+<option value="/pokedex-bw/202.shtml">202 Wobbuffet
+<option value="/pokedex-bw/203.shtml">203 Girafarig 
+<option value="/pokedex-bw/204.shtml">204 Pineco
+<option value="/pokedex-bw/205.shtml">205 Forretress
+<option value="/pokedex-bw/206.shtml">206 Dunsparce
+<option value="/pokedex-bw/207.shtml">207 Gligar
+<option value="/pokedex-bw/208.shtml">208 Steelix
+<option value="/pokedex-bw/209.shtml">209 Snubbull
+<option value="/pokedex-bw/210.shtml">210 Granbull
+<option value="/pokedex-bw/211.shtml">211 Qwilfish
+<option value="/pokedex-bw/212.shtml">212 Scizor
+<option value="/pokedex-bw/213.shtml">213 Shuckle
+<option value="/pokedex-bw/214.shtml">214 Heracross
+<option value="/pokedex-bw/215.shtml">215 Sneasel
+<option value="/pokedex-bw/216.shtml">216 Teddiursa
+<option value="/pokedex-bw/217.shtml">217 Ursaring
+<option value="/pokedex-bw/218.shtml">218 Slugma
+<option value="/pokedex-bw/219.shtml">219 Magcargo
+<option value="/pokedex-bw/220.shtml">220 Swinub
+<option value="/pokedex-bw/221.shtml">221 Piloswine
+<option value="/pokedex-bw/222.shtml">222 Corsola
+<option value="/pokedex-bw/223.shtml">223 Remoraid
+<option value="/pokedex-bw/224.shtml">224 Octillery
+<option value="/pokedex-bw/225.shtml">225 Delibird
+<option value="/pokedex-bw/226.shtml">226 Mantine
+<option value="/pokedex-bw/227.shtml">227 Skarmory
+<option value="/pokedex-bw/228.shtml">228 Houndour
+<option value="/pokedex-bw/229.shtml">229 Houndoom
+<option value="/pokedex-bw/230.shtml">230 Kingdra
+<option value="/pokedex-bw/231.shtml">231 Phanpy
+<option value="/pokedex-bw/232.shtml">232 Donphan
+<option value="/pokedex-bw/233.shtml">233 Porygon 2
+<option value="/pokedex-bw/234.shtml">234 Stantler
+<option value="/pokedex-bw/235.shtml">235 Smeargle
+<option value="/pokedex-bw/236.shtml">236 Tyrogue
+<option value="/pokedex-bw/237.shtml">237 Hitmontop
+<option value="/pokedex-bw/238.shtml">238 Smoochum
+<option value="/pokedex-bw/239.shtml">239 Elekid
+<option value="/pokedex-bw/240.shtml">240 Magby
+<option value="/pokedex-bw/241.shtml">241 Miltank
+<option value="/pokedex-bw/242.shtml">242 Blissey
+<option value="/pokedex-bw/243.shtml">243 Raikou
+<option value="/pokedex-bw/244.shtml">244 Entei
+<option value="/pokedex-bw/245.shtml">245 Suicune
+<option value="/pokedex-bw/246.shtml">246 Larvitar
+<option value="/pokedex-bw/247.shtml">247 Pupitar
+<option value="/pokedex-bw/248.shtml">248 Tyranitar
+<option value="/pokedex-bw/249.shtml">249 Lugia
+<option value="/pokedex-bw/250.shtml">250 Ho-oh
+<option value="/pokedex-bw/251.shtml">251 Celebi
+</option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></b></option></select> </form></td>
+<td align="center" width="20%"> <form name="nav4">
+<select name="SelectURL" onchange="document.location.href=document.nav4.SelectURL.options[document.nav4.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
+<option><b>Hoenn: 252-386
+<option value="/pokedex-bw/252.shtml">252 Treecko
+<option value="/pokedex-bw/253.shtml">253 Grovyle
+<option value="/pokedex-bw/254.shtml">254 Sceptile
+<option value="/pokedex-bw/255.shtml">255 Torchic
+<option value="/pokedex-bw/256.shtml">256 Combusken
+<option value="/pokedex-bw/257.shtml">257 Blaziken
+<option value="/pokedex-bw/258.shtml">258 Mudkip
+<option value="/pokedex-bw/259.shtml">259 Marshtomp
+<option value="/pokedex-bw/260.shtml">260 Swampert
+<option value="/pokedex-bw/261.shtml">261 Poochyena
+<option value="/pokedex-bw/262.shtml">262 Mightyena
+<option value="/pokedex-bw/263.shtml">263 Zigzagoon
+<option value="/pokedex-bw/264.shtml">264 Linoone
+<option value="/pokedex-bw/265.shtml">265 Wurmple
+<option value="/pokedex-bw/266.shtml">266 Silcoon
+<option value="/pokedex-bw/267.shtml">267 Beautifly
+<option value="/pokedex-bw/268.shtml">268 Cascoon
+<option value="/pokedex-bw/269.shtml">269 Dustox
+<option value="/pokedex-bw/270.shtml">270 Lotad
+<option value="/pokedex-bw/271.shtml">271 Lombre
+<option value="/pokedex-bw/272.shtml">272 Ludicolo
+<option value="/pokedex-bw/273.shtml">273 Seedot
+<option value="/pokedex-bw/274.shtml">274 Nuzleaf
+<option value="/pokedex-bw/275.shtml">275 Shiftry
+<option value="/pokedex-bw/276.shtml">276 Taillow
+<option value="/pokedex-bw/277.shtml">277 Swellow
+<option value="/pokedex-bw/278.shtml">278 Wingull
+<option value="/pokedex-bw/279.shtml">279 Pelipper
+<option value="/pokedex-bw/280.shtml">280 Ralts
+<option value="/pokedex-bw/281.shtml">281 Kirlia
+<option value="/pokedex-bw/282.shtml">282 Gardevoir
+<option value="/pokedex-bw/283.shtml">283 Surskit
+<option value="/pokedex-bw/284.shtml">284 Masquerain
+<option value="/pokedex-bw/285.shtml">285 Shroomish
+<option value="/pokedex-bw/286.shtml">286 Breloom
+<option value="/pokedex-bw/287.shtml">287 Slakoth
+<option value="/pokedex-bw/288.shtml">288 Vigoroth
+<option value="/pokedex-bw/289.shtml">289 Slaking
+<option value="/pokedex-bw/290.shtml">290 Nincada
+<option value="/pokedex-bw/291.shtml">291 Ninjask
+<option value="/pokedex-bw/292.shtml">292 Shedinja
+<option value="/pokedex-bw/293.shtml">293 Whismur
+<option value="/pokedex-bw/294.shtml">294 Loudred
+<option value="/pokedex-bw/295.shtml">295 Exploud
+<option value="/pokedex-bw/296.shtml">296 Makuhita
+<option value="/pokedex-bw/297.shtml">297 Hariyama
+<option value="/pokedex-bw/298.shtml">298 Azurill
+<option value="/pokedex-bw/299.shtml">299 Nosepass
+<option value="/pokedex-bw/300.shtml">300 Skitty
+<option value="/pokedex-bw/301.shtml">301 Delcatty
+<option value="/pokedex-bw/302.shtml">302 Sableye
+<option value="/pokedex-bw/303.shtml">303 Mawile
+<option value="/pokedex-bw/304.shtml">304 Aron
+<option value="/pokedex-bw/305.shtml">305 Lairon
+<option value="/pokedex-bw/306.shtml">306 Aggron
+<option value="/pokedex-bw/307.shtml">307 Meditite
+<option value="/pokedex-bw/308.shtml">308 Medicham
+<option value="/pokedex-bw/309.shtml">309 Electrike
+<option value="/pokedex-bw/310.shtml">310 Manectric 
+<option value="/pokedex-bw/311.shtml">311 Plusle
+<option value="/pokedex-bw/312.shtml">312 Minun
+<option value="/pokedex-bw/313.shtml">313 Volbeat
+<option value="/pokedex-bw/314.shtml">314 Illumise
+<option value="/pokedex-bw/315.shtml">315 Roselia
+<option value="/pokedex-bw/316.shtml">316 Gulpin
+<option value="/pokedex-bw/317.shtml">317 Swalot
+<option value="/pokedex-bw/318.shtml">318 Carvanha
+<option value="/pokedex-bw/319.shtml">319 Sharpedo
+<option value="/pokedex-bw/320.shtml">320 Wailmer
+<option value="/pokedex-bw/321.shtml">321 Wailord
+<option value="/pokedex-bw/322.shtml">322 Numel
+<option value="/pokedex-bw/323.shtml">323 Camerupt
+<option value="/pokedex-bw/324.shtml">324 Torkoal
+<option value="/pokedex-bw/325.shtml">325 Spoink
+<option value="/pokedex-bw/326.shtml">326 Grumpig
+<option value="/pokedex-bw/327.shtml">327 Spinda
+<option value="/pokedex-bw/328.shtml">328 Trapinch
+<option value="/pokedex-bw/329.shtml">329 Vibrava
+<option value="/pokedex-bw/330.shtml">330 Flygon
+<option value="/pokedex-bw/331.shtml">331 Cacnea
+<option value="/pokedex-bw/332.shtml">332 Cacturne
+<option value="/pokedex-bw/333.shtml">333 Swablu 
+<option value="/pokedex-bw/334.shtml">334 Altaria
+<option value="/pokedex-bw/335.shtml">335 Zangoose
+<option value="/pokedex-bw/336.shtml">336 Seviper
+<option value="/pokedex-bw/337.shtml">337 Lunatone
+<option value="/pokedex-bw/338.shtml">338 Solrock
+<option value="/pokedex-bw/339.shtml">339 Barboach
+<option value="/pokedex-bw/340.shtml">340 Whiscash
+<option value="/pokedex-bw/341.shtml">341 Corphish
+<option value="/pokedex-bw/342.shtml">342 Crawdaunt
+<option value="/pokedex-bw/343.shtml">343 Baltoy
+<option value="/pokedex-bw/344.shtml">344 Claydol
+<option value="/pokedex-bw/345.shtml">345 Lileep
+<option value="/pokedex-bw/346.shtml">346 Cradily
+<option value="/pokedex-bw/347.shtml">347 Anorith
+<option value="/pokedex-bw/348.shtml">348 Armaldo
+<option value="/pokedex-bw/349.shtml">349 Feebas
+<option value="/pokedex-bw/350.shtml">350 Milotic
+<option value="/pokedex-bw/351.shtml">351 Castform
+<option value="/pokedex-bw/352.shtml">352 Kecleon
+<option value="/pokedex-bw/353.shtml">353 Shuppet
+<option value="/pokedex-bw/354.shtml">354 Banette
+<option value="/pokedex-bw/355.shtml">355 Duskull
+<option value="/pokedex-bw/356.shtml">356 Dusclops
+<option value="/pokedex-bw/357.shtml">357 Tropius
+<option value="/pokedex-bw/358.shtml">358 Chimecho
+<option value="/pokedex-bw/359.shtml">359 Absol
+<option value="/pokedex-bw/360.shtml">360 Wynaut
+<option value="/pokedex-bw/361.shtml">361 Snorunt
+<option value="/pokedex-bw/362.shtml">362 Glalie
+<option value="/pokedex-bw/363.shtml">363 Spheal
+<option value="/pokedex-bw/364.shtml">364 Sealeo
+<option value="/pokedex-bw/365.shtml">365 Walrein
+<option value="/pokedex-bw/366.shtml">366 Clamperl
+<option value="/pokedex-bw/367.shtml">367 Huntail
+<option value="/pokedex-bw/368.shtml">368 Gorebyss
+<option value="/pokedex-bw/369.shtml">369 Relicanth
+<option value="/pokedex-bw/370.shtml">370 Luvdisc
+<option value="/pokedex-bw/371.shtml">371 Bagon
+<option value="/pokedex-bw/372.shtml">372 Shelgon
+<option value="/pokedex-bw/373.shtml">373 Salamence
+<option value="/pokedex-bw/374.shtml">374 Beldum
+<option value="/pokedex-bw/375.shtml">375 Metang
+<option value="/pokedex-bw/376.shtml">376 Metagross
+<option value="/pokedex-bw/377.shtml">377 Regirock
+<option value="/pokedex-bw/378.shtml">378 Regice
+<option value="/pokedex-bw/379.shtml">379 Registeel
+<option value="/pokedex-bw/380.shtml">380 Latias
+<option value="/pokedex-bw/381.shtml">381 Latios
+<option value="/pokedex-bw/382.shtml">382 Kyogre
+<option value="/pokedex-bw/383.shtml">383 Groudon
+<option value="/pokedex-bw/384.shtml">384 Rayquaza
+<option value="/pokedex-bw/385.shtml">385 Jirachi
+<option value="/pokedex-bw/386.shtml">386 Deoxys 
+</option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></b></option></select> </form></td>
+<td align="center" width="20%"> <form name="nav5">
+<select name="SelectURL" onchange="document.location.href=document.nav5.SelectURL.options[document.nav5.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
+<option><b>Sinnoh: 387-493
+<option value="/pokedex-bw/387.shtml">387 Turtwig 
+<option value="/pokedex-bw/388.shtml">388 Grotle
+<option value="/pokedex-bw/389.shtml">389 Torterra 
+<option value="/pokedex-bw/390.shtml">390 Chimchar 
+<option value="/pokedex-bw/391.shtml">391 Monferno 
+<option value="/pokedex-bw/392.shtml">392 Infernape 
+<option value="/pokedex-bw/393.shtml">393 Piplup
+<option value="/pokedex-bw/394.shtml">394 Prinplup
+<option value="/pokedex-bw/395.shtml">395 Empoleon 
+<option value="/pokedex-bw/396.shtml">396 Starly 
+<option value="/pokedex-bw/397.shtml">397 Staravia 
+<option value="/pokedex-bw/398.shtml">398 Staraptor 
+<option value="/pokedex-bw/399.shtml">399 Bidoof 
+<option value="/pokedex-bw/400.shtml">400 Bibarel 
+<option value="/pokedex-bw/401.shtml">401 Kricketot 
+<option value="/pokedex-bw/402.shtml">402 Kricketune 
+<option value="/pokedex-bw/403.shtml">403 Shinx 
+<option value="/pokedex-bw/404.shtml">404 Luxio 
+<option value="/pokedex-bw/405.shtml">405 Luxray
+<option value="/pokedex-bw/406.shtml">406 Budew
+<option value="/pokedex-bw/407.shtml">407 Roserade
+<option value="/pokedex-bw/408.shtml">408 Cranidos 
+<option value="/pokedex-bw/409.shtml">409 Rampardos 
+<option value="/pokedex-bw/410.shtml">410 Shieldon
+<option value="/pokedex-bw/411.shtml">411 Bastiodon 
+<option value="/pokedex-bw/412.shtml">412 Burmy 
+<option value="/pokedex-bw/413.shtml">413 Wormadam 
+<option value="/pokedex-bw/414.shtml">414 Mothim 
+<option value="/pokedex-bw/415.shtml">415 Combee 
+<option value="/pokedex-bw/416.shtml">416 Vespiquen 
+<option value="/pokedex-bw/417.shtml">417 Pachirisu 
+<option value="/pokedex-bw/418.shtml">418 Buizel 
+<option value="/pokedex-bw/419.shtml">419 Floatzel 
+<option value="/pokedex-bw/420.shtml">420 Cherubi 
+<option value="/pokedex-bw/421.shtml">421 Cherrim 
+<option value="/pokedex-bw/422.shtml">422 Shellos 
+<option value="/pokedex-bw/423.shtml">423 Gastrodon 
+<option value="/pokedex-bw/424.shtml">424 Ambipom 
+<option value="/pokedex-bw/425.shtml">425 Drifloon 
+<option value="/pokedex-bw/426.shtml">426 Drifblim
+<option value="/pokedex-bw/427.shtml">427 Buneary 
+<option value="/pokedex-bw/428.shtml">428 Lopunny 
+<option value="/pokedex-bw/429.shtml">429 Mismagius 
+<option value="/pokedex-bw/430.shtml">430 Honchkrow 
+<option value="/pokedex-bw/431.shtml">431 Glameow 
+<option value="/pokedex-bw/432.shtml">432 Purugly 
+<option value="/pokedex-bw/433.shtml">433 Chingling 
+<option value="/pokedex-bw/434.shtml">434 Stunky 
+<option value="/pokedex-bw/435.shtml">435 Skuntank 
+<option value="/pokedex-bw/436.shtml">436 Bronzor 
+<option value="/pokedex-bw/437.shtml">437 Bronzong 
+<option value="/pokedex-bw/438.shtml">438 Bonsly 
+<option value="/pokedex-bw/439.shtml">439 Mime Jr. 
+<option value="/pokedex-bw/440.shtml">440 Happiny 
+<option value="/pokedex-bw/441.shtml">441 Chatot 
+<option value="/pokedex-bw/442.shtml">442 Spiritomb 
+<option value="/pokedex-bw/443.shtml">443 Gible 
+<option value="/pokedex-bw/444.shtml">444 Gabite 
+<option value="/pokedex-bw/445.shtml">445 Garchomp 
+<option value="/pokedex-bw/446.shtml">446 Munchlax 
+<option value="/pokedex-bw/447.shtml">447 Riolu 
+<option value="/pokedex-bw/448.shtml">448 Lucario 
+<option value="/pokedex-bw/449.shtml">449 Hippopotas 
+<option value="/pokedex-bw/450.shtml">450 Hippowdon 
+<option value="/pokedex-bw/451.shtml">451 Skorupi
+<option value="/pokedex-bw/452.shtml">452 Drapion 
+<option value="/pokedex-bw/453.shtml">453 Croagunk 
+<option value="/pokedex-bw/454.shtml">454 Toxicroak 
+<option value="/pokedex-bw/455.shtml">455 Carnivine 
+<option value="/pokedex-bw/456.shtml">456 Finneon 
+<option value="/pokedex-bw/457.shtml">457 Lumineon 
+<option value="/pokedex-bw/458.shtml">458 Mantyke 
+<option value="/pokedex-bw/459.shtml">459 Snover 
+<option value="/pokedex-bw/460.shtml">460 Abomasnow 
+<option value="/pokedex-bw/461.shtml">461 Weavile 
+<option value="/pokedex-bw/462.shtml">462 Magnezone 
+<option value="/pokedex-bw/463.shtml">463 Lickilicky 
+<option value="/pokedex-bw/464.shtml">464 Rhyperior 
+<option value="/pokedex-bw/465.shtml">465 Tangrowth 
+<option value="/pokedex-bw/466.shtml">466 Electivire 
+<option value="/pokedex-bw/467.shtml">467 Magmortar
+<option value="/pokedex-bw/468.shtml">468 Togekiss 
+<option value="/pokedex-bw/469.shtml">469 Yanmega 
+<option value="/pokedex-bw/470.shtml">470 Leafeon 
+<option value="/pokedex-bw/471.shtml">471 Glaceon 
+<option value="/pokedex-bw/472.shtml">472 Gliscor 
+<option value="/pokedex-bw/473.shtml">473 Mamoswine 
+<option value="/pokedex-bw/474.shtml">474 Porygon-Z 
+<option value="/pokedex-bw/475.shtml">475 Gallade 
+<option value="/pokedex-bw/476.shtml">476 Probopass 
+<option value="/pokedex-bw/477.shtml">477 Dusknoir 
+<option value="/pokedex-bw/478.shtml">478 Froslass 
+<option value="/pokedex-bw/479.shtml">479 Rotom
+<option value="/pokedex-bw/480.shtml">480 Uxie 
+<option value="/pokedex-bw/481.shtml">481 Mesprit 
+<option value="/pokedex-bw/482.shtml">482 Azelf 
+<option value="/pokedex-bw/483.shtml">483 Dialga 
+<option value="/pokedex-bw/484.shtml">484 Palkia 
+<option value="/pokedex-bw/485.shtml">485 Heatran 
+<option value="/pokedex-bw/486.shtml">486 Regigigas 
+<option value="/pokedex-bw/487.shtml">487 Giratina 
+<option value="/pokedex-bw/488.shtml">488 Cresselia 
+<option value="/pokedex-bw/489.shtml">489 Phione 
+<option value="/pokedex-bw/490.shtml">490 Manaphy 
+<option value="/pokedex-bw/491.shtml">491 Darkrai 
+<option value="/pokedex-bw/492.shtml">492 Shaymin 
+<option value="/pokedex-bw/493.shtml">493 Arceus
+</option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></option></b></option></select> </form></td>
+<td align="center" width="20%"> <form name="nav6">
+<select name="SelectURL" onchange="document.location.href=document.nav6.SelectURL.options[document.nav6.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
+<option><b>Unova: 494-649
+
+<option value="/pokedex-bw/494.shtml">494 Victini</option>
+<option value="/pokedex-bw/495.shtml">495 Snivy</option>
+<option value="/pokedex-bw/496.shtml">496 Servine</option>
+<option value="/pokedex-bw/497.shtml">497 Serperior</option>
+<option value="/pokedex-bw/498.shtml">498 Tepig</option>
+<option value="/pokedex-bw/499.shtml">499 Pignite</option>
+<option value="/pokedex-bw/500.shtml">500 Emboar</option>
+<option value="/pokedex-bw/501.shtml">501 Oshawott</option>
+<option value="/pokedex-bw/502.shtml">502 Dewott</option>
+<option value="/pokedex-bw/503.shtml">503 Samurott</option>
+<option value="/pokedex-bw/504.shtml">504 Patrat</option>
+<option value="/pokedex-bw/505.shtml">505 Watchog</option>
+<option value="/pokedex-bw/506.shtml">506 Lillipup</option>
+<option value="/pokedex-bw/507.shtml">507 Herdier</option>
+<option value="/pokedex-bw/508.shtml">508 Stoutland</option>
+<option value="/pokedex-bw/509.shtml">509 Purrloin</option>
+<option value="/pokedex-bw/510.shtml">510 Liepard</option>
+<option value="/pokedex-bw/511.shtml">511 Pansage</option>
+<option value="/pokedex-bw/512.shtml">512 Simisage</option>
+<option value="/pokedex-bw/513.shtml">513 Pansear</option>
+<option value="/pokedex-bw/514.shtml">514 Simisear</option>
+<option value="/pokedex-bw/515.shtml">515 Panpour</option>
+<option value="/pokedex-bw/516.shtml">516 Simipour</option>
+<option value="/pokedex-bw/517.shtml">517 Munna</option>
+<option value="/pokedex-bw/518.shtml">518 Musharna</option>
+<option value="/pokedex-bw/519.shtml">519 Pidove</option>
+<option value="/pokedex-bw/520.shtml">520 Tranquill</option>
+<option value="/pokedex-bw/521.shtml">521 Unfezant</option>
+<option value="/pokedex-bw/522.shtml">522 Blitzle</option>
+<option value="/pokedex-bw/523.shtml">523 Zebstrika</option>
+<option value="/pokedex-bw/524.shtml">524 Roggenrola</option>
+<option value="/pokedex-bw/525.shtml">525 Boldore</option>
+<option value="/pokedex-bw/526.shtml">526 Gigalith</option>
+<option value="/pokedex-bw/527.shtml">527 Woobat</option>
+<option value="/pokedex-bw/528.shtml">528 Swoobat</option>
+<option value="/pokedex-bw/529.shtml">529 Drilbur</option>
+<option value="/pokedex-bw/530.shtml">530 Excadrill</option>
+<option value="/pokedex-bw/531.shtml">531 Audino</option>
+<option value="/pokedex-bw/532.shtml">532 Timburr</option>
+<option value="/pokedex-bw/533.shtml">533 Gurdurr</option>
+<option value="/pokedex-bw/534.shtml">534 Conkeldurr</option>
+<option value="/pokedex-bw/535.shtml">535 Tympole</option>
+<option value="/pokedex-bw/536.shtml">536 Palpitoad</option>
+<option value="/pokedex-bw/537.shtml">537 Seismitoad</option>
+<option value="/pokedex-bw/538.shtml">538 Throh</option>
+<option value="/pokedex-bw/539.shtml">539 Sawk</option>
+<option value="/pokedex-bw/540.shtml">540 Sewaddle</option>
+<option value="/pokedex-bw/541.shtml">541 Swadloon</option>
+<option value="/pokedex-bw/542.shtml">542 Leavanny</option>
+<option value="/pokedex-bw/543.shtml">543 Venipede</option>
+<option value="/pokedex-bw/544.shtml">544 Whirlipede</option>
+<option value="/pokedex-bw/545.shtml">545 Scolipede</option>
+<option value="/pokedex-bw/546.shtml">546 Cottonee</option>
+<option value="/pokedex-bw/547.shtml">547 Whimsicott</option>
+<option value="/pokedex-bw/548.shtml">548 Petilil</option>
+<option value="/pokedex-bw/549.shtml">549 Lilligant</option>
+<option value="/pokedex-bw/550.shtml">550 Basculin</option>
+<option value="/pokedex-bw/551.shtml">551 Sandile</option>
+<option value="/pokedex-bw/552.shtml">552 Krokorok</option>
+<option value="/pokedex-bw/553.shtml">553 Krookodile</option>
+<option value="/pokedex-bw/554.shtml">554 Darumaka</option>
+<option value="/pokedex-bw/555.shtml">555 Darmanitan</option>
+<option value="/pokedex-bw/556.shtml">556 Maractus</option>
+<option value="/pokedex-bw/557.shtml">557 Dwebble</option>
+<option value="/pokedex-bw/558.shtml">558 Crustle</option>
+<option value="/pokedex-bw/559.shtml">559 Scraggy</option>
+<option value="/pokedex-bw/560.shtml">560 Scrafty</option>
+<option value="/pokedex-bw/561.shtml">561 Sigilyph</option>
+<option value="/pokedex-bw/562.shtml">562 Yamask</option>
+<option value="/pokedex-bw/563.shtml">563 Cofagrigus</option>
+<option value="/pokedex-bw/564.shtml">564 Tirtouga</option>
+<option value="/pokedex-bw/565.shtml">565 Carracosta</option>
+<option value="/pokedex-bw/566.shtml">566 Archen</option>
+<option value="/pokedex-bw/567.shtml">567 Archeops</option>
+<option value="/pokedex-bw/568.shtml">568 Trubbish</option>
+<option value="/pokedex-bw/569.shtml">569 Garbodor</option>
+<option value="/pokedex-bw/570.shtml">570 Zorua</option>
+<option value="/pokedex-bw/571.shtml">571 Zoroark</option>
+<option value="/pokedex-bw/572.shtml">572 Minccino</option>
+<option value="/pokedex-bw/573.shtml">573 Cinccino</option>
+<option value="/pokedex-bw/574.shtml">574 Gothita</option>
+<option value="/pokedex-bw/575.shtml">575 Gothorita</option>
+<option value="/pokedex-bw/576.shtml">576 Gothitelle</option>
+<option value="/pokedex-bw/577.shtml">577 Solosis</option>
+<option value="/pokedex-bw/578.shtml">578 Duosion</option>
+<option value="/pokedex-bw/579.shtml">579 Reuniclus</option>
+<option value="/pokedex-bw/580.shtml">580 Ducklett</option>
+<option value="/pokedex-bw/581.shtml">581 Swanna</option>
+<option value="/pokedex-bw/582.shtml">582 Vanillite</option>
+<option value="/pokedex-bw/583.shtml">583 Vanillish</option>
+<option value="/pokedex-bw/584.shtml">584 Vanilluxe</option>
+<option value="/pokedex-bw/585.shtml">585 Deerling</option>
+<option value="/pokedex-bw/586.shtml">586 Sawsbuck</option>
+<option value="/pokedex-bw/587.shtml">587 Emolga</option>
+<option value="/pokedex-bw/588.shtml">588 Karrablast</option>
+<option value="/pokedex-bw/589.shtml">589 Escavalier</option>
+<option value="/pokedex-bw/590.shtml">590 Foongus</option>
+<option value="/pokedex-bw/591.shtml">591 Amoonguss</option>
+<option value="/pokedex-bw/592.shtml">592 Frillish</option>
+<option value="/pokedex-bw/593.shtml">593 Jellicent</option>
+<option value="/pokedex-bw/594.shtml">594 Alomomola</option>
+<option value="/pokedex-bw/595.shtml">595 Joltik</option>
+<option value="/pokedex-bw/596.shtml">596 Galvantula</option>
+<option value="/pokedex-bw/597.shtml">597 Ferroseed</option>
+<option value="/pokedex-bw/598.shtml">598 Ferrothorn</option>
+<option value="/pokedex-bw/599.shtml">599 Klink</option>
+<option value="/pokedex-bw/600.shtml">600 Klang</option>
+<option value="/pokedex-bw/601.shtml">601 Klinklang</option>
+<option value="/pokedex-bw/602.shtml">602 Tynamo</option>
+<option value="/pokedex-bw/603.shtml">603 Eelektrik</option>
+<option value="/pokedex-bw/604.shtml">604 Eelektross</option>
+<option value="/pokedex-bw/605.shtml">605 Elgyem</option>
+<option value="/pokedex-bw/606.shtml">606 Beheeyem</option>
+<option value="/pokedex-bw/607.shtml">607 Litwick</option>
+<option value="/pokedex-bw/608.shtml">608 Lampent</option>
+<option value="/pokedex-bw/609.shtml">609 Chandelure</option>
+<option value="/pokedex-bw/610.shtml">610 Axew</option>
+<option value="/pokedex-bw/611.shtml">611 Fraxure</option>
+<option value="/pokedex-bw/612.shtml">612 Haxorus</option>
+<option value="/pokedex-bw/613.shtml">613 Cubchoo</option>
+<option value="/pokedex-bw/614.shtml">614 Beartic</option>
+<option value="/pokedex-bw/615.shtml">615 Cryogonal</option>
+<option value="/pokedex-bw/616.shtml">616 Shelmet</option>
+<option value="/pokedex-bw/617.shtml">617 Accelgor</option>
+<option value="/pokedex-bw/618.shtml">618 Stunfisk</option>
+<option value="/pokedex-bw/619.shtml">619 Mienfoo</option>
+<option value="/pokedex-bw/620.shtml">620 Mienshao</option>
+<option value="/pokedex-bw/621.shtml">621 Druddigon</option>
+<option value="/pokedex-bw/622.shtml">622 Golett</option>
+<option value="/pokedex-bw/623.shtml">623 Golurk</option>
+<option value="/pokedex-bw/624.shtml">624 Pawniard</option>
+<option value="/pokedex-bw/625.shtml">625 Bisharp</option>
+<option value="/pokedex-bw/626.shtml">626 Bouffalant</option>
+<option value="/pokedex-bw/627.shtml">627 Rufflet</option>
+<option value="/pokedex-bw/628.shtml">628 Braviary</option>
+<option value="/pokedex-bw/629.shtml">629 Vullaby</option>
+<option value="/pokedex-bw/630.shtml">630 Mandibuzz</option>
+<option value="/pokedex-bw/631.shtml">631 Heatmor</option>
+<option value="/pokedex-bw/632.shtml">632 Durant</option>
+<option value="/pokedex-bw/633.shtml">633 Deino</option>
+<option value="/pokedex-bw/634.shtml">634 Zweilous</option>
+<option value="/pokedex-bw/635.shtml">635 Hydreigon</option>
+<option value="/pokedex-bw/636.shtml">636 Larvesta</option>
+<option value="/pokedex-bw/637.shtml">637 Volcarona</option>
+<option value="/pokedex-bw/638.shtml">638 Cobalion</option>
+<option value="/pokedex-bw/639.shtml">639 Terrakion</option>
+<option value="/pokedex-bw/640.shtml">640 Virizion</option>
+<option value="/pokedex-bw/641.shtml">641 Tornadus</option>
+<option value="/pokedex-bw/642.shtml">642 Thundurus</option>
+<option value="/pokedex-bw/643.shtml">643 Reshiram</option>
+<option value="/pokedex-bw/644.shtml">644 Zekrom</option>
+<option value="/pokedex-bw/645.shtml">645 Landorus</option>
+<option value="/pokedex-bw/646.shtml">646 Kyurem</option>
+<option value="/pokedex-bw/647.shtml">647 Keldeo</option>
+<option value="/pokedex-bw/648.shtml">648 Meloetta</option>
+<option value="/pokedex-bw/649.shtml">649 Genesect</option>
+</b></option></select> </form></td>
+</tr></table>
+<div align="center"><table class="dextab">
+<tr>
+<td width="65%"><table border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td align="center" width="32"><img src="/pokedex-bw/icon/343.png"/></td>
+<td><font size="4"><b> #343 Baltoy</b></font></td></tr></table></td>
+<td class="footop"><a href="#general">General</a></td>
+<td class="footop"><a href="#location">Location</a></td>
+<td class="footop"><a href="#attacks">Attacks</a></td>
+<td class="footop"><a href="#stats">Stats</a></td>
+<td class="footop"><a href="egg/343.shtml">Egg Moves</a></td> <td class="footop"><a href="/spindex-bw/343.shtml">SpinOff Dex</a></td>
+</tr>
+</table>
+<table class="dextab">
+<tr> <td class="pkmn" width="16%"><a href="/pokedex-swsh/baltoy/">Gen VIII Dex</a></td>
+<td class="pkmn" width="16%"><a href="/pokedex-sm/343.shtml">Gen VII Dex</a></td>
+<td class="pkmn" width="16%"><a href="/pokedex-xy/343.shtml">Gen VI Dex</a></td>
+<td class="curr" width="16%"><a href="/pokedex-bw/343.shtml">Gen V Dex</a></td>
+<td class="pkmn" width="16%"><a href="/pokedex-dp/343.shtml">Gen IV Dex</a></td> <td class="pkmn" width="16%"><a href="/pokedex-rs/343.shtml">Gen III Dex</a></td> </tr></table><p><table class="dextable">
+<tr>
+<td class="foo">Images</td>
+</tr>
+<tr>
+<td align="center"><table align="center"> <tr>
+<td align="center" width="50%">Normal Sprite</td>
+<td align="center" width="50%">Shiny Sprite</td>
+</tr> <tr>
+<td align="center" class="pkmn"><img src="/blackwhite/pokemon/343.png"/></td>
+<td align="center" class="pkmn"><img src="/Shiny/BW/343.png"/></td>
+</tr></table>
+</td>
+</tr>
+</table>
+<a name="general"></a><table class="dextable">
+<tr>
+<td class="foo">Name</td>
+<td class="foo">Other Names</td>
+<td class="foo">No.</td>
+<td class="foo">Gender Ratio</td>
+<td class="foo">Type</td>
+</tr>
+<tr>
+<td class="fooinfo">Baltoy</td>
+<td class="fooinfo"><table cellpadding="0" cellspacing="0" width="120">
+<tr> <td><b>Japan</b>: </td><td>Yajiron<br/>ヤジロン</td></tr>
+<tr> <td><b>French</b>: </td><td>Balbuto</td></tr>
+<tr> <td><b>German</b>: </td><td>Puppance</td></tr>
+<tr> <td><b>Korean</b>: </td><td>오뚝군</td></tr>
+</table></td>
+<td class="fooinfo"><table cellpadding="0" cellspacing="0" width="120"><tr> <td><b>National</b>: </td><td>#343</td></tr>
+<tr><td><b>BW Unova</b>: </td><td>#---</td></tr>
+<tr><td><b>B2W2 Unova</b>: </td><td>#169</td></tr></table></td>
+<td class="fooinfo">Baltoy is Genderless</td>
+<td align="center" class="fooinfo"><a href="/pokedex-bw/ground.shtml"><img border="0" src="/pokedex-dp/type/ground.gif"/></a> <a href="/pokedex-bw/psychic.shtml"><img border="0" src="/pokedex-dp/type/psychic.gif"/></a></td>
+</tr> <tr>
+<td align="left" class="fooleft" colspan="5"><b>Abilities</b>: <a href="/abilitydex/levitate.shtml"><b>Levitate</b></a> </td>
+</tr>
+<tr>
+<td align="left" class="fooinfo" colspan="5">
+<a href="/abilitydex/levitate.shtml"><b>Levitate</b></a>: Damage dealing Ground-type moves have no effect on this Pokémon. Cannot be trapped by Arena Trap ability. Takes no damage from Spikes. </td>
+</tr>
+<tr>
+<td class="foo">Classification</td>
+<td class="foo">Height</td>
+<td class="foo">Weight</td>
+<td class="foo">Capture Rate</td>
+<td class="foo">Base Egg Steps</td>
+</tr>
+<tr>
+<td class="fooinfo">Clay Doll Pokémon</td>
+<td class="fooinfo">1’08”<br/>
+			0.5m</td>
+<td class="fooinfo">47.4lbs<br/>
+			21.5kg</td>
+<td class="fooinfo">255</td>
+<td class="fooinfo">5,120</td>
+</tr>
+<tr>
+<td class="foo">Experience Growth</td>
+<td class="foo">Base Happiness</td>
+<td class="foo">Effort Values Earned</td>
+<td class="foo">Flee Flag</td><td class="foo">Entree Forest Level</td>
+</tr>
+<tr>
+<td class="fooinfo">1,000,000 Points<br/>Medium Fast</td>
+<td class="fooinfo">70</td>
+<td class="fooinfo">1 Sp. Defense Point(s)<br/></td>
+<td class="fooinfo">0</td>
+<td class="fooinfo">Level 10</td>
+</tr>
+</table>
+<table class="dextable">
+<tr>
+<td class="foo" colspan="17">
+		Damage Taken
+		</td>
+</tr>
+<tr> <td class="footype">
+<a href="/attackdex-bw/normal.shtml"><img border="0" src="/games/type/normal2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/fire.shtml"><img border="0" src="/games/type/fire2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/water.shtml"><img border="0" src="/games/type/water2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/electric.shtml"><img border="0" src="/games/type/electric2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/grass.shtml"><img border="0" src="/games/type/grass2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/ice.shtml"><img border="0" src="/games/type/ice2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/fighting.shtml"><img border="0" src="/games/type/fighting2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/poison.shtml"><img border="0" src="/games/type/poison2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/ground.shtml"><img border="0" src="/games/type/ground2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/flying.shtml"><img border="0" src="/games/type/flying2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/psychict.shtml"><img border="0" src="/games/type/psychic2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/bug.shtml"><img border="0" src="/games/type/bug2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/rock.shtml"><img border="0" src="/games/type/rock2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/ghost.shtml"><img border="0" src="/games/type/ghost2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/dragon.shtml"><img border="0" src="/games/type/dragon2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/dark.shtml"><img border="0" src="/games/type/dark2.gif"/></a>
+</td>
+<td class="footype">
+<a href="/attackdex-bw/steel.shtml"><img border="0" src="/games/type/steel2.gif"/></a>
+</td>
+</tr><tr>
+<td class="footype">*1</td>
+<td class="footype">*1</td>
+<td class="footype">*2</td>
+<td class="footype">*0</td>
+<td class="footype">*2</td>
+<td class="footype">*2</td>
+<td class="footype">*0.5</td>
+<td class="footype">*0.5</td>
+<td class="footype">*1</td>
+<td class="footype">*1</td>
+<td class="footype">*0.5</td>
+<td class="footype">*2</td>
+<td class="footype">*0.5</td>
+<td class="footype">*2</td>
+<td class="footype">*1</td>
+<td class="footype">*2</td>
+<td class="footype">*1</td>
+</tr>
+</table>
+<table class="dextable">
+<tr>
+<td class="footwo">Wild Hold Item</td>
+<td class="footwo">Egg Groups</td>
+</tr>
+<tr>
+<td align="center" class="fooinfo"></td>
+<td align="center" class="fooinfo"><table class="dexitem"><tr><td><form name="breed"><select name="SelectURL" onchange="document.location.href=this.options[this.selectedIndex].value" style="color:#000000; font-size: 1em; background:#507C36">
+<option value="/pokedex-bw/egg/mineral.shtml">Mineral</option><option value="/pokedex-bw/132.shtml">Ditto</option></select></form></td><td><a href="/pokedex-bw/egg/mineral.shtml">Mineral</a></td></tr></table></td>
+</tr>
+</table><table class="dextable">
+<tr>
+<td class="fooevo">Evolutionary Chain</td>
+</tr>
+<tr>
+<td align="center" class="fooinfo"><table class="evochain">
+<tr><td class="pkmn"><a href="/pokedex-bw/343.shtml"><img border="0" src="/pokedex-bw/evo/343.png"/></a></td>
+<td><img src="evoicon/l36.png" title="Level "/></td>
+<td class="pkmn"><a href="/pokedex-bw/344.shtml"><img border="0" src="/pokedex-bw/evo/344.png"/></a></td></tr></table></td>
+</tr>
+</table>
+<a name="location"></a><table class="dextable">
+<tr>
+<td class="fooevo" colspan="3">Locations</td>
+</tr>
+<tr>
+<td class="fooblack">Black</td>
+<td class="fooinfo">Breed Claydol</td>
+</tr>
+<tr>
+<td class="foowhite">White</td>
+<td class="fooinfo">Breed Claydol</td>
+</tr> <tr>
+<td class="fooblack">Black 2</td>
+<td class="fooinfo">Relic Castle</td><td align="center" class="foodet"><a href="location/343.shtml#black2">Details</a></td>
+</tr>
+<tr>
+<td class="foowhite">White 2</td>
+<td class="fooinfo">Relic Castle</td><td align="center" class="foodet"><a href="location/343.shtml#white2">Details</a></td>
+</tr> <tr>
+<td class="dw">Dream World</td>
+<td class="fooinfo">Icy Cave - <i>Beginning</i></td>
+<td align="center" class="foodet"><a href="/black2white2/dreamworldareas.shtml">Details</a></td>
+</tr> <tr>
+<td class="fooblack">Trainer Locations</td><td class="fooinfo"> </td>
+<td align="center" class="foodet"><a href="trainers/343.shtml">Details</a></td>
+</tr></table><br/><a name="location"></a><table class="dextable">
+<tr>
+<td class="fooevo" colspan="3">Flavor Text</td>
+</tr><tr>
+<td class="fooblack">Black</td>
+<td class="fooinfo" rowspan="2">It moves by spinning on its foot. It is a rare Pokémon that was discovered in ancient ruins.</td>
+</tr><tr>
+<td class="foowhite">White</td>
+</tr><tr>
+<td class="fooblack">Black 2</td>
+<td class="fooinfo" rowspan="2">Discovered in ancient ruins, it moves by spinning around and forms a group when it finds others.</td>
+</tr><tr>
+<td class="foowhite">White 2</td>
+</tr></table><br/><a name="attacks"></a><table class="dextable"><tr><td class="fooevo" colspan="10">Black/White Level Up</td></tr><tr><th class="attheader">Level</th><th class="attheader">Attack Name</th><th class="attheader">Type</th><th class="attheader">Cat.</th><th class="attheader">Att.</th><th class="attheader">Acc.</th><th class="attheader">PP</th><th class="attheader">Effect %</th></tr><tr>
+<td class="fooinfo" rowspan="2">—</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/confusion.shtml">Confusion</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">25</td>
+<td align="center" class="fooinfo">10</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is hit by a weak telekinetic force. It may also leave the target confused.</td></tr><tr>
+<td class="fooinfo" rowspan="2">4</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/harden.shtml">Harden</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user stiffens all the muscles in its body to raise its Defense stat.</td></tr><tr>
+<td class="fooinfo" rowspan="2">7</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rapidspin.shtml">Rapid Spin</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">40</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A spin attack that can also eliminate such moves as Bind, Wrap, Leech Seed, and Spikes.</td></tr><tr>
+<td class="fooinfo" rowspan="2">11</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/mud-slap.shtml">Mud-slap</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user hurls mud in the target's face to inflict damage and lower its accuracy.</td></tr><tr>
+<td class="fooinfo" rowspan="2">15</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/psybeam.shtml">Psybeam</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">65</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">10</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is attacked with a peculiar ray. It may also cause confusion.</td></tr><tr>
+<td class="fooinfo" rowspan="2">18</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rocktomb.shtml">Rock Tomb</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">Boulders are hurled at the target. It also lowers the target's Speed by preventing its movement.</td></tr><tr>
+<td class="fooinfo" rowspan="2">21</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/selfdestruct.shtml">Selfdestruct</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">200</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks everything around it by causing an explosion. The user faints upon using this move.</td></tr><tr>
+<td class="fooinfo" rowspan="2">26</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/ancientpower.shtml">Ancientpower</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">60</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks with a prehistoric power. It may also raise all the user's stats at once.</td></tr><tr>
+<td class="fooinfo" rowspan="2">31</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/powertrick.shtml">Power Trick</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to switch its Attack with its Defense stat.</td></tr><tr>
+<td class="fooinfo" rowspan="2">34</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/sandstorm.shtml">Sandstorm</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A five-turn sandstorm is summoned to hurt all combatants except the Rock, Ground, and Steel types.</td></tr><tr>
+<td class="fooinfo" rowspan="2">37</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/cosmicpower.shtml">Cosmic Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user absorbs a mystical power from space to raise its Defense and Sp. Def stats.</td></tr><tr>
+<td class="fooinfo" rowspan="2">43</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/extrasensory.shtml">Extrasensory</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks with an odd, unseeable power. It may also make the target flinch.</td></tr><tr>
+<td class="fooinfo" rowspan="2">48</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/guardsplit.shtml">Guard Split</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to average its Defense and Sp. Def stats with those of its target's.</td></tr><tr>
+<td class="fooinfo" rowspan="2">48</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/powersplit.shtml">Power Split </a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to average its Attack and Sp. Atk stats with those of the target's.</td></tr><tr>
+<td class="fooinfo" rowspan="2">51</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/earthpower.shtml">Earth Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user makes the ground under the target erupt with power. It may also lower the target's Sp. Def.</td></tr><tr>
+<td class="fooinfo" rowspan="2">54</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/healblock.shtml">Heal Block</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">For five turns, the user prevents the opposing team from using any moves, Abilities, or held items that recover HP.</td></tr><tr>
+<td class="fooinfo" rowspan="2">60</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/explosion.shtml">Explosion</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">250</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user explodes to inflict damage on those around it. The user faints upon using this move.</td></tr></table><a name="attacks"></a><table class="dextable"><tr><td class="fooevo" colspan="10">Black 2/White 2 Level Up</td></tr><tr><th class="attheader">Level</th><th class="attheader">Attack Name</th><th class="attheader">Type</th><th class="attheader">Cat.</th><th class="attheader">Att.</th><th class="attheader">Acc.</th><th class="attheader">PP</th><th class="attheader">Effect %</th></tr><tr>
+<td class="fooinfo" rowspan="2">—</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/harden.shtml">Harden</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user stiffens all the muscles in its body to raise its Defense stat.</td></tr><tr>
+<td class="fooinfo" rowspan="2">—</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/confusion.shtml">Confusion</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">25</td>
+<td align="center" class="fooinfo">10</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is hit by a weak telekinetic force. It may also leave the target confused.</td></tr><tr>
+<td class="fooinfo" rowspan="2">4</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rapidspin.shtml">Rapid Spin</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">40</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A spin attack that can also eliminate such moves as Bind, Wrap, Leech Seed, and Spikes.</td></tr><tr>
+<td class="fooinfo" rowspan="2">7</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/mud-slap.shtml">Mud-slap</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user hurls mud in the target's face to inflict damage and lower its accuracy.</td></tr><tr>
+<td class="fooinfo" rowspan="2">10</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rocktomb.shtml">Rock Tomb</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">Boulders are hurled at the target. It also lowers the target's Speed by preventing its movement.</td></tr><tr>
+<td class="fooinfo" rowspan="2">13</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/psybeam.shtml">Psybeam</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">65</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">10</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is attacked with a peculiar ray. It may also cause confusion.</td></tr><tr>
+<td class="fooinfo" rowspan="2">17</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/powertrick.shtml">Power Trick</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to switch its Attack with its Defense stat.</td></tr><tr>
+<td class="fooinfo" rowspan="2">21</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/ancientpower.shtml">Ancientpower</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">60</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks with a prehistoric power. It may also raise all the user's stats at once.</td></tr><tr>
+<td class="fooinfo" rowspan="2">25</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/selfdestruct.shtml">Selfdestruct</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">200</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks everything around it by causing an explosion. The user faints upon using this move.</td></tr><tr>
+<td class="fooinfo" rowspan="2">28</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/extrasensory.shtml">Extrasensory</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks with an odd, unseeable power. It may also make the target flinch.</td></tr><tr>
+<td class="fooinfo" rowspan="2">31</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/cosmicpower.shtml">Cosmic Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user absorbs a mystical power from space to raise its Defense and Sp. Def stats.</td></tr><tr>
+<td class="fooinfo" rowspan="2">34</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/guardsplit.shtml">Guard Split</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to average its Defense and Sp. Def stats with those of its target's.</td></tr><tr>
+<td class="fooinfo" rowspan="2">34</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/powersplit.shtml">Power Split </a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user employs its psychic power to average its Attack and Sp. Atk stats with those of the target's.</td></tr><tr>
+<td class="fooinfo" rowspan="2">37</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/earthpower.shtml">Earth Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user makes the ground under the target erupt with power. It may also lower the target's Sp. Def.</td></tr><tr>
+<td class="fooinfo" rowspan="2">41</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/sandstorm.shtml">Sandstorm</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A five-turn sandstorm is summoned to hurt all combatants except the Rock, Ground, and Steel types.</td></tr><tr>
+<td class="fooinfo" rowspan="2">45</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/healblock.shtml">Heal Block</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">For five turns, the user prevents the opposing team from using any moves, Abilities, or held items that recover HP.</td></tr><tr>
+<td class="fooinfo" rowspan="2">49</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/explosion.shtml">Explosion</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">250</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user explodes to inflict damage on those around it. The user faints upon using this move.</td></tr></table><table class="dextable"><tr><td class="fooevo" colspan="10">TM &amp; HM Attacks</td></tr><tr><th class="attheader">TM/HM #</th><th class="attheader">Attack Name</th><th class="attheader">Type</th><th class="attheader">Cat.</th><th class="attheader">Att.</th><th class="attheader">Acc.</th><th class="attheader">PP</th><th class="attheader">Effect %</th></tr><tr><td class="fooinfo" rowspan="2">TM03</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/psyshock.shtml">Psyshock</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user materializes an odd psychic wave to attack the target. This attack does physical damage.</td></tr><tr><td class="fooinfo" rowspan="2">TM04</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/calmmind.shtml">Calm Mind</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user quietly focuses its mind and calms its spirit to raise its Sp. Atk and Sp. Def stats.</td></tr><tr><td class="fooinfo" rowspan="2">TM06</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/toxic.shtml">Toxic</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/poison.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A move that leaves the target badly poisoned. Its poison damage worsens every turn.</td></tr><tr><td class="fooinfo" rowspan="2">TM10</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/hiddenpower.shtml">Hidden Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A unique attack that varies in type and intensity depending on the Pokémon using it.</td></tr><tr><td class="fooinfo" rowspan="2">TM11</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/sunnyday.shtml">Sunny Day</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/fire.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user intensifies the sun for five turns, powering up Fire-type moves.</td></tr><tr><td class="fooinfo" rowspan="2">TM13</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/icebeam.shtml">Ice Beam</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ice.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">95</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">10</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is struck with an icy-cold beam of energy. It may also freeze the target solid.</td></tr><tr><td class="fooinfo" rowspan="2">TM16</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/lightscreen.shtml">Light Screen</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A wondrous wall of light is put up to suppress damage from special attacks for five turns.</td></tr><tr><td class="fooinfo" rowspan="2">TM17</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/protect.shtml">Protect</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">It enables the user to evade all attacks. Its chance of failing rises if it is used in succession.</td></tr><tr><td class="fooinfo" rowspan="2">TM18</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/raindance.shtml">Rain Dance</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/water.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user summons a heavy rain that falls for five turns, powering up Water-type moves.</td></tr><tr><td class="fooinfo" rowspan="2">TM19</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/telekinesis.shtml">Telekinesis</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user makes the target float with its psychic power. The target is easier to hit for three turns.</td></tr><tr><td class="fooinfo" rowspan="2">TM20</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/safeguard.shtml">Safeguard</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">25</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user creates a protective field that prevents status problems for five turns.</td></tr><tr><td class="fooinfo" rowspan="2">TM21</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/frustration.shtml">Frustration</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A full-power attack that grows more powerful the less the user likes its Trainer.</td></tr><tr><td class="fooinfo" rowspan="2">TM22</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/solarbeam.shtml">Solarbeam</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/grass.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">120</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A two-turn attack. The user gathers light, then blasts a bundled beam on the second turn.</td></tr><tr><td class="fooinfo" rowspan="2">TM23</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/smackdown.shtml">Smack Down</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">100</td></tr>
+<tr><td class="fooinfo" colspan="8">The user throws a stone or projectile to attack an opponent. A flying Pokémon will fall to the ground when hit.</td></tr><tr><td class="fooinfo" rowspan="2">TM26</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/earthquake.shtml">Earthquake</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user sets off an earthquake that strikes those around it.</td></tr><tr><td class="fooinfo" rowspan="2">TM27</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/return.shtml">Return</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A full-power attack that grows more powerful the more the user likes its Trainer.</td></tr><tr><td class="fooinfo" rowspan="2">TM28</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/dig.shtml">Dig</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user burrows, then attacks on the second turn. It can also be used to exit dungeons.</td></tr><tr><td class="fooinfo" rowspan="2">TM29</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/psychic.shtml">Psychic</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The target is hit by a strong telekinetic force. It may also reduce the target's Sp. Def stat.</td></tr><tr><td class="fooinfo" rowspan="2">TM30</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/shadowball.shtml">Shadow Ball</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ghost.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user hurls a shadowy blob at the target. It may also lower the target's Sp. Def stat.</td></tr><tr><td class="fooinfo" rowspan="2">TM32</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/doubleteam.shtml">Double Team</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">By moving rapidly, the user makes illusory copies of itself to raise its evasiveness.</td></tr><tr><td class="fooinfo" rowspan="2">TM33</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/reflect.shtml">Reflect</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A wondrous wall of light is put up to suppress damage from physical attacks for five turns.</td></tr><tr><td class="fooinfo" rowspan="2">TM37</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/sandstorm.shtml">Sandstorm</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">A five-turn sandstorm is summoned to hurt all combatants except the Rock, Ground, and Steel types.</td></tr><tr><td class="fooinfo" rowspan="2">TM39</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rocktomb.shtml">Rock Tomb</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">80</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">Boulders are hurled at the target. It also lowers the target's Speed by preventing its movement.</td></tr><tr><td class="fooinfo" rowspan="2">TM42</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/facade.shtml">Facade</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">70</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">An attack move that doubles its power if the user is poisoned, burned, or has paralysis.</td></tr><tr><td class="fooinfo" rowspan="2">TM44</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rest.shtml">Rest</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user goes to sleep for two turns. It fully restores the user's HP and heals any status problem.</td></tr><tr><td class="fooinfo" rowspan="2">TM48</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/round.shtml">Round</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">60</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks the target with a song. Others can join in the Round and make the attack do greater damage.</td></tr><tr><td class="fooinfo" rowspan="2">TM51</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/allyswitch.shtml">Ally Switch</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user teleports using a strange power and switches its place with one of its allies.</td></tr><tr><td class="fooinfo" rowspan="2">TM57</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/chargebeam.shtml">Charge Beam</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/electric.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">50</td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user attacks with an electric charge. The user may use any remaining electricity to raise its Sp. Atk stat.</td></tr><tr><td class="fooinfo" rowspan="2">TM64</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/explosion.shtml">Explosion</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">250</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user explodes to inflict damage on those around it. The user faints upon using this move.</td></tr><tr><td class="fooinfo" rowspan="2">TM69</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rockpolish.shtml">Rock Polish</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user polishes its body to reduce drag. It can sharply raise the Speed stat.</td></tr><tr><td class="fooinfo" rowspan="2">TM70</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/flash.shtml">Flash</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user flashes a bright light that cuts the target's accuracy. It can also be used to illuminate caves.</td></tr><tr><td class="fooinfo" rowspan="2">TM74</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/gyroball.shtml">Gyro Ball</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/steel.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user tackles the target with a high-speed spin. The slower the user, the greater the damage.</td></tr><tr><td class="fooinfo" rowspan="2">TM77</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/psychup.shtml">Psych Up</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user hypnotizes itself into copying any stat change made by the target.</td></tr><tr><td class="fooinfo" rowspan="2">TM78</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/bulldoze.shtml">Bulldoze</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/ground.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">60</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user stomps down on the ground and attacks everything in the area. Hit Pokémon's Speed stat is reduced.</td></tr><tr><td class="fooinfo" rowspan="2">TM80</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/rockslide.shtml">Rock Slide</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/rock.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">75</td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">Large boulders are hurled at the opposing team to inflict damage. It may also make the targets flinch.</td></tr><tr><td class="fooinfo" rowspan="2">TM85</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/dreameater.shtml">Dream Eater</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user eats the dreams of a sleeping target. It absorbs half the damage caused to heal the user's HP.</td></tr><tr><td class="fooinfo" rowspan="2">TM86</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/grassknot.shtml">Grass Knot</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/grass.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user snares the target with grass and trips it. The heavier the target, the greater the damage.</td></tr><tr><td class="fooinfo" rowspan="2">TM87</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/swagger.shtml">Swagger</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">90</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user enrages and confuses the target. However, it also sharply raises the target's Attack stat.</td></tr><tr><td class="fooinfo" rowspan="2">TM90</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/substitute.shtml">Substitute</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user makes a copy of itself using some of its HP. The copy serves as the user's decoy.</td></tr><tr><td class="fooinfo" rowspan="2">TM92</td>
+<td class="fooinfo" rowspan="2"><a href="/attackdex-bw/trickroom.shtml">Trick Room</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/psychic.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">5</td>
+<td align="center" class="fooinfo">--</td></tr>
+<tr><td class="fooinfo" colspan="8">The user creates a bizarre area in which slower Pokémon get to move first for five turns.</td></tr></table><table class="dextable"><thead><tr><td class="fooevo" colspan="9">Black 2/White 2 Move Tutor Attacks</td></tr><tr><th class="attheader">Attack Name</th><th class="attheader">Type</th><th class="attheader">Cat.</th><th class="attheader">Att.</th><th class="attheader">Acc.</th><th class="attheader">PP</th><th class="attheader">Effect %</th></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/drillrun.shtml">Drill Run</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/ground.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td><td align="center" class="fooinfo">80</td><td align="center" class="fooinfo">95</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user crashes into its target while rotating its body like a drill. Critical hits land more easily.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/earthpower.shtml">Earth Power</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/ground.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td><td align="center" class="fooinfo">90</td><td align="center" class="fooinfo">100</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user makes the ground under the target erupt with power. It may also lower the target's Sp. Def.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/gravity.shtml">Gravity</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">5</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">Gravity is intensified for five turns, making moves involving flying unusable and negating Levitate.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/magiccoat.shtml">Magic Coat</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">15</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">A barrier reflects back to the target moves like Leech Seed and moves that damage status.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/recycle.shtml">Recycle</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/normal.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user recycles a held item that has been used in battle so it can be used again.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/signalbeam.shtml">Signal Beam</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/bug.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td><td align="center" class="fooinfo">75</td><td align="center" class="fooinfo">100</td><td align="center" class="fooinfo">15</td><td align="center" class="fooinfo">10</td></tr><tr><td class="fooinfo" colspan="8">The user attacks with a sinister beam of light. It may also confuse the target.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/skillswap.shtml">Skill Swap</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user employs its psychic power to exchange Abilities with the target.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/sleeptalk.shtml">Sleep Talk</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/normal.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">While it is asleep, the user randomly uses one of the moves it knows.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/snore.shtml">Snore</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/normal.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/special.png"/></td><td align="center" class="fooinfo">40</td><td align="center" class="fooinfo">100</td><td align="center" class="fooinfo">15</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">An attack that can be used only if the user is asleep. The harsh noise may also make the target flinch.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/stealthrock.shtml">Stealth Rock</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/rock.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">20</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user lays a trap of levitating stones around the opponent's team. The trap hurts opponents that switch into battle.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/trick.shtml">Trick</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">100</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user catches the target off guard and swaps its held item with its own.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/wonderroom.shtml">Wonder Room</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">--</td><td align="center" class="fooinfo">10</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user creates a bizarre area in which Pokémon's Defense and Sp. Def stats are swapped for five turns.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/zenheadbutt.shtml">Zen Headbutt</a></td><td align="center" class="fooinfo"><img src="/pokedex-rs/type/psychic.gif"/></td><td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td><td align="center" class="fooinfo">80</td><td align="center" class="fooinfo">90</td><td align="center" class="fooinfo">15</td><td align="center" class="fooinfo">--</td></tr><tr><td class="fooinfo" colspan="8">The user focuses its willpower to its head and attacks the target. It may also make the target flinch.</td></tr></thead></table><table class="dextable"><tr><td class="fooevo" colspan="10">Gen III &amp; IV Only Moves <a href="/pokedex-dp/343.shtml"><font size="1"><i>(Details)</i></font></a></td></tr><tr><th class="attheader">Attack Name</th><th class="attheader">Type</th><th class="attheader">Cat.</th><th class="attheader">Att.</th><th class="attheader">Acc.</th><th class="attheader">PP</th><th class="attheader">Effect %</th><th class="attheader" colspan="3">Method</th></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/secretpower.shtml">Secret Power</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">70</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">30</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Gen IV TM43</td></tr>
+<tr><td class="fooinfo" colspan="6">The user attacks the target with a secret power. Its added effects vary depending on the user's environment.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/endure.shtml">Endure</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Gen IV TM58</td></tr>
+<tr><td class="fooinfo" colspan="6">The user endures any attack with at least 1 HP. Its chance of failing rises if it is used in succession.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/naturalgift.shtml">Natural Gift</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">??</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Gen IV TM83</td></tr>
+<tr><td class="fooinfo" colspan="6">The user draws power to attack by using its held Berry. The Berry determines its type and power.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/headbutt.shtml">Headbutt</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">70</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Move Tutor - HGSS</td></tr>
+<tr><td class="fooinfo" colspan="6">The user sticks out its head and attacks by charging straight into the target. It may also make the target flinch.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/double-edge.shtml">Double-edge</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/physical.png"/></td>
+<td align="center" class="fooinfo">120</td>
+<td align="center" class="fooinfo">100</td>
+<td align="center" class="fooinfo">15</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Move Tutor - FRLG</td></tr>
+<tr><td class="fooinfo" colspan="6">A reckless, life-risking tackle. It also damages the user by a fairly large amount, however.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/mimic.shtml">Mimic</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">10</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">Move Tutor - FRLG</td></tr>
+<tr><td class="fooinfo" colspan="6">The user copies the target's last move. The move can be used during battle until the Pokémon is switched out.</td></tr><tr><td class="fooinfo" rowspan="2"><a href="/attackdex-bw/refresh.shtml">Refresh</a></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/normal.gif"/></td>
+<td align="center" class="fooinfo"><img src="/pokedex-dp/type/other.png"/></td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo">20</td>
+<td align="center" class="fooinfo">--</td>
+<td align="center" class="fooinfo" colspan="3" rowspan="2">XD Purification</td></tr>
+<tr><td class="fooinfo" colspan="6">The user rests to cure itself of a poisoning, burn, or paralysis.</td></tr></table><a name="stats"></a><table class="dextable"><tr>
+<td class="fooevo" colspan="8"><b>Stats</b></td></tr><tr>
+<td colspan="2" width="14%"> </td>
+<td align="center" class="fooevo">HP</td>
+<td align="center" class="fooevo">Attack</td>
+<td align="center" class="fooevo">Defense</td>
+<td align="center" class="fooevo">Sp. Attack</td>
+<td align="center" class="fooevo">Sp. Defense</td>
+<td align="center" class="fooevo">Speed</td></tr>
+<tr><td class="fooinfo" colspan="2" width="14%">Base Stats</td>
+<td align="center" class="fooinfo">40</td>
+<td align="center" class="fooinfo">40</td>
+<td align="center" class="fooinfo">55</td>
+<td align="center" class="fooinfo">40</td>
+<td align="center" class="fooinfo">70</td>
+<td align="center" class="fooinfo">55</td></tr>
+<tr><td class="foohin" rowspan="2" width="14%">Max Stats<br/><i>Hindering Nature</i></td>
+<td class="foohin">Lv. 50</td>
+<td align="center" class="foohin">100 - 147</td>
+<td align="center" class="foohin">40 - 82</td>
+<td align="center" class="foohin">54 - 96</td>
+<td align="center" class="foohin">40 - 82</td>
+<td align="center" class="foohin">67 - 109</td>
+<td align="center" class="foohin">54 - 96</td></tr>
+<tr><td class="foohin">Lv. 100</td>
+<td align="center" class="foohin">190 - 284</td>
+<td align="center" class="foohin">76 - 161</td>
+<td align="center" class="foohin">103 - 188</td>
+<td align="center" class="foohin">76 - 161</td>
+<td align="center" class="foohin">130 - 215</td>
+<td align="center" class="foohin">103 - 188</td></tr>
+<tr><td class="fooinfo" rowspan="2" width="14%">Max Stats<br/><i>Neutral Nature</i></td>
+<td class="fooinfo">Lv. 50</td>
+<td align="center" class="fooinfo">100 - 147</td>
+<td align="center" class="fooinfo">45 - 92</td>
+<td align="center" class="fooinfo">60 - 107</td>
+<td align="center" class="fooinfo">45 - 92</td>
+<td align="center" class="fooinfo">75 - 122</td>
+<td align="center" class="fooinfo">60 - 107</td></tr>
+<tr><td class="fooinfo">Lv. 100</td>
+<td align="center" class="fooinfo">190 - 284</td>
+<td align="center" class="fooinfo">85 - 179</td>
+<td align="center" class="fooinfo">115 - 209</td>
+<td align="center" class="fooinfo">85 - 179</td>
+<td align="center" class="fooinfo">145 - 239</td>
+<td align="center" class="fooinfo">115 - 209</td></tr>
+<tr><td class="fooben" rowspan="2" width="14%">Max Stats<br/><i>Beneficial Nature</i></td>
+<td class="fooben">Lv. 50</td>
+<td align="center" class="fooben">100 - 147</td>
+<td align="center" class="fooben">49 - 101</td>
+<td align="center" class="fooben">66 - 117</td>
+<td align="center" class="fooben">49 - 101</td>
+<td align="center" class="fooben">82 - 134</td>
+<td align="center" class="fooben">66 - 117</td></tr>
+<tr><td class="fooben">Lv. 100</td>
+<td align="center" class="fooben">190 - 284</td>
+<td align="center" class="fooben">93 - 196</td>
+<td align="center" class="fooben">126 - 229</td>
+<td align="center" class="fooben">93 - 196</td>
+<td align="center" class="fooben">159 - 262</td>
+<td align="center" class="fooben">126 - 229</td></tr>
+</table><p>
+<table border="0" cellpadding="4" width="100%">
+<tr>
+<td align="left" width="50%">
+<table border="0">
+<tr>
+<td width="left">
+		&lt;--- 
+		</td>
+<td>
+<a href="/pokedex-bw/342.shtml"><img border="0" src="/pokedex-bw/icon/342.png"/></a>
+</td>
+<td align="center">
+<a href="/pokedex-bw/342.shtml">#342<br/>Crawdaunt
+		</a></td>
+</tr>
+</table>
+</td>
+<td align="right" width="50%">
+<table border="0">
+<tr>
+<td align="center">
+<a href="/pokedex-bw/344.shtml">#344<br/>Claydol
+		</a></td>
+<td>
+<a href="/pokedex-bw/344.shtml"><img border="0" src="/pokedex-bw/icon/344.png"/></a>
+</td>
+<td width="right">
+		---&gt; 
+		</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</p></p></div></div></main></div><!-- END id="content" -->
+<aside id="rbar">
+<div class="navheader">Picture</div><br/><table cellpadding="0" cellspacing="0" class="art" width="140"><tr><td align="center"><img src="/art/th/343.png"/></td></tr></table>
+<table class="tooltab" width="140"><tr><td class="tooltabhead" width="50%">Name</td><td class="tooltabhead">Jp. Name</td></tr><tr><td class="tooltabcon">Baltoy</td><td class="tooltabcon">Yajiron<br/>ヤジロン</td></tr></table>
+<table class="tooltab" width="140"><tr><td class="tooltabhead" width="50%">Gender</td><td class="tooltabhead">Type</td></tr><tr><td class="tooltabcon">Baltoy is Genderless</td><td class="tooltabcon"><a href="/pokedex-xy/ground.shtml"><img border="0" src="/pokedex-bw/type/ground.gif"/></a> <a href="/pokedex-xy/psychic.shtml"><img border="0" src="/pokedex-bw/type/psychic.gif"/></a></td></tr></table>
+<table class="tooltab" width="140"><tr><td class="tooltabhead" width="50%">Classification</td></tr><tr><td class="tooltabcon">Clay Doll Pokémon</td></tr></table>
+<table class="tooltab" width="140"><tr><td class="tooltabhead" width="50%">Height</td><td class="tooltabhead">Weight</td></tr><tr><td class="tooltabcon">1’08”<br/>
+			0.5m</td><td class="tooltabcon">47.4lbs<br/>
+			21.5kg</td></tr></table>
+<br/>
+<div class="alterdex"><br/><a href="/pokedex-xy/343.shtml"><b>Pokédex</b></a><br/></div>
+<div class="alterdex"><br/><a href="/events/dex/343.shtml"><b>Events</b></a><br/></div>
+<div class="alterdex"><br/><a href="/anime/dex/343.shtml"><b>Anime Appearances</b></a><br/></div>
+<div class="alterdex"><br/><a href="/card/dex/343.shtml"><b>Cards</b></a><br/></div>
+<div class="alterdex"><br/><a href="/manga/dex/343.shtml"><b>Manga Appearances</b></a><br/></div>
+<table class="tooltab" width="140">
+<tr><td class="tooltabhead" width="34">Prev.</td><td width="99%"> </td><td class="tooltabhead" width="32">Next</td></tr>
+<tr><td class="tooltabcon" width="34"><a href="342.shtml"><img border="0" src="/pokedex-xy/icon/342.png"/></a></td><td width="99%"> </td><td class="tooltabcon" width="32"><a href="344.shtml"><img border="0" src="/pokedex-xy/icon/344.png"/></a></td></tr></table>
+</aside></div>
+
+<!-- END id="wrapper" -->
+<footer id="footer">
+<div class="copyright">
+<a alt="Top of Page" class="totop" href="#top" title="Top of Page"></a>
+
+		All Content is © Copyright of Serebii.net 1999-2021. |
+		<a href="/privacy.shtml">Privacy Policy</a> |
+		<a class="nn-cmp-show" href="#">Manage Cookie Settings</a><br/>
+		Pokémon and All Respective Names are Trademark &amp; © of Nintendo 1996-2021
+	</div>
+<div style="height:102px">
+<div id="nn_lb2"></div><div id="nn_mobile_lb2"></div>
+</div>
+</footer>
+</body>
+</html>
