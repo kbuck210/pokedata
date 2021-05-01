@@ -3,8 +3,11 @@ import os.path
 from os import path
 from bs4 import BeautifulSoup
 
-# Downloaded HTML Directory
-dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
+# Downloaded HTML Directory (mac then windows)
+# dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
+# dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/PokeRefDbNew.db'
+dataDir = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\DexPages\\'
+dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\PokeRefDbNew.db'
 
 # =================
 # TABLE: Ability
@@ -108,7 +111,7 @@ DELETE_TYPE = 'DELETE FROM Type WHERE typeId=?'
 SELECT_TYPE_BY_NAME = 'SELECT * FROM Type WHERE typeName=?'
 
 # Connect to database
-con = sqlite3.connect('/Users/kbuck/Documents/MacDeveloper/Python Scraping/PokeRefDbNew.db')
+con = sqlite3.connect(dbPath)
 
 # ============================
 # Default Initialization
@@ -320,3 +323,107 @@ def getPokeName( soup, dexId ):
 
     return name
 
+# ====================
+# Insert/Update to the PokemonForms table based on the HTML
+def updatePokemonForms( soup, dexId ):
+    allTables = getAllTables(soup)
+    statTables = getStatTables( allTables )
+
+    # FIELDS
+    # formName (default Base)
+    formNames = getFormNames( statTables )
+    
+    # gender (genderless = 0, male = 1, female = 2)
+    # sprite
+    # icon
+    # shinySprite
+    # height
+    # weight
+    
+    # baseHp
+    # baseAtk
+    # baseDef
+    # baseSpatk
+    # baseSpdef
+    # baseSpeed
+    formStats = {}
+    for formName in formNames:
+        formStats = getBaseStats( formStats, formName, statTables )
+    
+    # can_dmax
+    # has_gmax
+    # legendary
+    # sub_legend
+    # mythic
+    # type1
+    # type2
+    # ability1
+    # ability2
+    # abilityH
+    # pokeId
+
+    # get the Type data
+    types = getPokeTypeStrings( allTables )
+
+    
+
+def getAllTables( soup ):
+    return soup.find_all('table', class_='dextable')
+
+def getPokeTypeStrings( allTables ):
+    # table with types is 2nd table
+    types = []
+    for img in allTables[1].find_all('img', class_='typeimg'):
+        types.append(img['alt'].split('-')[0])
+
+def getStatTables( allTables ):
+    statTables = []
+    for table in allTables:
+        headers = table.find_all('h2')
+        if headers is None:
+            headers = table.find_all('b')
+        for title in headers:
+            if title.text.startswith('Stats'):
+                statTables.append(table)
+    return statTables
+
+def getFormNames( statTables ):
+    forms = []
+    for table in statTables:
+        header = table.find('h2')
+        if header is None:
+            header = statTable.find('b')
+        if header is not None:
+            forms.append(header.text)
+    for i in range(0, len(forms)):
+        forms[i] = translateFormName( forms[i] )
+    return forms
+
+def translateFormName( headerText ):
+    if headerText.strip() == 'Stats':
+        return 'Base'
+    else:
+        toks = headerText.split('-')
+        return toks[len(toks)-1].strip()
+
+def getBaseStats( formStats, formName, statTables ):
+    # find the stat table for the specified form
+    for i in range(0, len(statTables)):
+        table = statTables[i]
+        allRows = table.find_all('tr')
+        header = allRows[0].find('h2')
+        if header is None:
+            header = allRows[0].find('b')
+        if header is not None and formName == translateFormName(header.text):
+            baseRow = allRows[2]
+            statRows = baseRow.find_all('td')
+            baseStats = {}
+            baseStats['baseHp'] = statRows[1].text
+            baseStats['baseAtk'] = statRows[2].text
+            baseStats['baseDef'] = statRows[3].text
+            baseStats['baseSpatk'] = statRows[4].text
+            baseStats['baseSpdef'] = statRows[5].text
+            baseStats['baseSpeed'] = statRows[6].text
+        formStats[formName] = baseStats
+
+    return formStats
