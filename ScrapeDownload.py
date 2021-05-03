@@ -137,6 +137,30 @@ def cyclePokemon():
 
     return
 
+def getGen8Nidos():
+    male = 'nidoranm/'
+    female = 'nidoranf/'
+    maleUrl = base_url + gen8 + male
+    femaleUrl = base_url + gen8 + female
+
+    malePage = requests.get(maleUrl)
+    femalePage = requests.get(femaleUrl)
+
+    if malePage.status_code == 200:
+        maleOut = gen8out + '032.html'
+        soup = BeautifulSoup(malePage.content, 'html.parser')
+        try:
+            with open(maleOut, 'w', encoding='utf-8') as f:
+                f.write(str(soup))
+        except IOError as e:
+            print('Failed to write ' + maleOut)
+
+    if femalePage.status_code == 200:
+        femaleOut = gen8out + '029.html'
+        soup = BeautifulSoup(femalePage.content, 'html.parser')
+        with open(femaleOut, 'w', encoding='utf-8') as f:
+            f.write(str(soup))
+
 def getDexEntry( genUrl, genOut, dexIdStr ):
     url = base_url + genUrl + dexIdStr + '.shtml'
 

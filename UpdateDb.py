@@ -3,11 +3,14 @@ import os.path
 from os import path
 from bs4 import BeautifulSoup
 
-# Downloaded HTML Directory (mac then windows)
-# dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
-# dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/PokeRefDbNew.db'
-dataDir = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\DexPages\\'
-dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\PokeRefDbNew.db'
+# Downloaded HTML Directory & DB Path (check mac then windows)
+dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
+if not path.exists(dataDir):
+    dataDir = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\DexPages\\'
+
+dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/PokeRefDbNew.db'
+if not path.exists(dbPath):
+    dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\PokeRefDbNew.db'
 
 # =================
 # TABLE: Ability
@@ -325,56 +328,120 @@ def getPokeName( soup, dexId ):
 
 # ====================
 # Insert/Update to the PokemonForms table based on the HTML
-def updatePokemonForms( soup, dexId ):
+def updatePokemonForms( soup, pokeName, dexId ):
     allTables = getAllTables(soup)
     statTables = getStatTables( allTables )
 
     # FIELDS
     # formName (default Base)
     formNames = getFormNames( statTables )
-    
-    # gender (genderless = 0, male = 1, female = 2)
-    # sprite
-    # icon
-    # shinySprite
-    # height
-    # weight
-    
-    # baseHp
-    # baseAtk
-    # baseDef
-    # baseSpatk
-    # baseSpdef
-    # baseSpeed
-    formStats = {}
+
     for formName in formNames:
-        formStats = getBaseStats( formStats, formName, statTables )
-    
-    # can_dmax
-    # has_gmax
-    # legendary
-    # sub_legend
-    # mythic
-    # type1
-    # type2
-    # ability1
-    # ability2
-    # abilityH
-    # pokeId
+        # base form
+        isBase = formName == 'Base'
+        
+        # gender (genderless = 0, gendered = 1, male-only = 2, female-only = 3)
+        gender = getGender( allTables )
 
-    # get the Type data
-    types = getPokeTypeStrings( allTables )
+        # icon
+        # shinySprite
+        # sprite (handle multi-forms manually)
+        if len(formNames) < 2:
+            sprite = 'sp_' + dexId + '.png'
+            shiny = 'sh_' + dexId + '.png'
+            icon = 'ic_' + dexId + '.png'
+        else:
+            # TODO handle multi-form
 
+        # height
+        # weight
+        
+        # baseHp
+        # baseAtk
+        # baseDef
+        # baseSpatk
+        # baseSpdef
+        # baseSpeed
+        formStats = {}
+        for formName in formNames:
+            formStats = getBaseStats( formStats, formName, statTables )
+        
+        # can_dmax
+        # has_gmax
+        # legendary
+        # sub_legend
+        # mythic
+        
+        # type1
+        # type2
+        formTypes = getPokeFormTypes(pokeName, formName, allTables)
+        # check result to see if formName needs to be updated from base
+        formKey = list(formTypes.keys())[0]
+        if formName == 'Base' and formKey != 'Base':
+            formName = formKey
+        
+        # ability1
+        # ability2
+        # abilityH
+        # pokeId
     
 
 def getAllTables( soup ):
     return soup.find_all('table', class_='dextable')
 
-def getPokeTypeStrings( allTables ):
-    # table with types is 2nd table
+def getGender( allTables ):
+    # table with gender is 2nd table, 2nd row
+    gendRow = allTables[1].find_all('tr')[1]
+    gendCol = gendRow.find_all('td', class_='fooinfo')[3]
+    # Genderless pokemon have no table definition
+    gendPers = gendCol.find_all('tr')
+    if len(gendPers) == 0:
+        return 0
+    else:
+        # get the percentage for male & female
+        malePer = int(gendPers[0].find_all('td')[1].text.split('.')[0].split('%')[0])
+        femalePer = int(gendPers[1].find_all('td')[1].text.split('.')[0].split('%')[0])
+        
+        if malePer == 100:
+            return 2
+        elif femalePer == 100:
+            return 3
+        else:
+            return 1
+    
+
+def getPokeFormTypes( pokeName, formName, allTables ):
+    # table with types is 2nd table, 2nd row
+    typeRow = allTables[1].find_all('tr')[1]
+    typeCol = typeRow.find('td', class_='cen')
+    # if multiple forms, will structure with table, each tr is for a form
+    # otherwise there is no table just the img links
+    formTypes = typeCol.find_all('tr')
     types = []
-    for img in allTables[1].find_all('img', class_='typeimg'):
-        types.append(img['alt'].split('-')[0])
+    if len(formTypes) > 0:
+        for i in range(0, len(formTypes)):
+            formData = formTypes[i].find_all('td')
+            foundName = formData[0].text
+            # check if found name matches specified form name
+            if (formName == 'Base' and foundName == pokeName) or formName == foundName:
+                # found the types for the specified form
+                for img in formData[1].find_all('img', class_='typeimg'):
+                    toks = img['src'].split('/')
+                    types.append(toks[len(toks)-1].split('.')[0])
+            elif formName == 'Base' and i == 0:
+                # found the base form, but form needs name updated
+                formName = foundName
+                for img in formData[1].find_all('img', class_='typeimg'):
+                    toks = img['src'].split('/')
+                    types.append(toks[len(toks)-1].split('.')[0])
+    else:
+        # no form type rows, get img direct from typeCol
+        for img in typeCol.find_all('img', class_='typeimg'):
+            toks = img['src'].split('/')
+            types.append(toks[len(toks)-1].split('.')[0])
+
+    # return as mapped object to update the form name where required
+    return { formName: types } 
 
 def getStatTables( allTables ):
     statTables = []
