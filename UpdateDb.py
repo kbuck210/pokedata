@@ -1,3 +1,5 @@
+import re
+import requests
 import sqlite3
 import os.path
 from os import path
@@ -16,6 +18,7 @@ if not path.exists(dbPath):
 # TABLE: Ability
 INSERT_ABILITY = 'INSERT INTO Ability(abName,abDesc,abDetails) VALUES (?,?,?)'
 UPDATE_ABILITY = 'UPDATE Ability SET abName=?, abDesc=?, abDetails=? WHERE abId=?'
+SELECT_AB_BY_NAME = 'SELECT * FROM Ability WHERE abName=? COLLATE NOCASE'
 # =================
 # TABLE: Attack
 INSERT_ATTACK = 'INSERT INTO Attack(atkName) VALUES (?)'
@@ -83,6 +86,10 @@ UPDATE_POKE_FORM = """UPDATE PokemonForm SET formName=?, gender=?,
                         has_gmax=?,legendary=?,sub_legend=?,mythic=?,
                         type1=?,type2=?,ability1=?,ability2=?,abilityH=?,pokeId=?
                     WHERE pokeFormId=?"""
+SELECT_PFORM_BY_DEX_FORM = """SELECT * FROM PokemonForm
+                            WHERE formName=?
+                            AND pokeId=
+                            (SELECT pokeId FROM Pokemon WHERE nat_id=?)"""
 # =================
 # TABLE: PokemonInDex
 INSERT_POKEINDEX = 'INSERT INTO PokemonInDex(genId,pokeFormId) VALUES (?,?)'
@@ -111,10 +118,13 @@ DELETE_TEAM_POKE = 'DELETE FROM TeamPokemon WHERE teamPokeId=?'
 # TABLE: Type
 INSERT_TYPE = 'INSERT INTO Type(typeName) VALUES (?)'
 DELETE_TYPE = 'DELETE FROM Type WHERE typeId=?'
-SELECT_TYPE_BY_NAME = 'SELECT * FROM Type WHERE typeName=?'
+SELECT_TYPE_BY_NAME = 'SELECT * FROM Type WHERE typeName=? COLLATE NOCASE'
 
 # Connect to database
 con = sqlite3.connect(dbPath)
+
+# Placeholder for legendary pokemon tables (only initiate 1 request)
+legTables = []
 
 # ============================
 # Default Initialization
@@ -250,6 +260,8 @@ def buildTypes():
 # ==============================
 # Process the HTML files to insert/update the DB
 def processHtmls():
+    legTables = getLegendTables()
+    
     # Loop over each generation, looking for pokemon instances if they exist
     for gen in range(1,9):
         genDir = dataDir + 'Gen' + str(gen) + '/'
@@ -336,7 +348,10 @@ def updatePokemonForms( soup, pokeName, dexId ):
     # formName (default Base)
     formNames = getFormNames( statTables )
 
-    for formName in formNames:
+    # use indexed loop to use index for unnamed form columns
+    for formIndex in range(0, len(formNames)):
+        formName = formNames[formIndex]
+        
         # base form
         isBase = formName == 'Base'
         
@@ -345,16 +360,20 @@ def updatePokemonForms( soup, pokeName, dexId ):
 
         # icon
         # shinySprite
-        # sprite (handle multi-forms manually)
+        # sprite (need to refactor multiforms)
         if len(formNames) < 2:
             sprite = 'sp_' + dexId + '.png'
             shiny = 'sh_' + dexId + '.png'
             icon = 'ic_' + dexId + '.png'
         else:
-            # TODO handle multi-form
+            sprite = 'sp_' + dexId + '_' + formName + '.png'
+            shiny = 'sh_' + dexId + '_' + formName + '.png'
+            icon = 'ic_' + dexId + '_' + formName + '.png'
 
         # height
+        height = getHeight(formIndex, len(formNames), allTables)
         # weight
+        weight = getWeight(formIndex, len(formNames), allTables)
         
         # baseHp
         # baseAtk
@@ -365,29 +384,110 @@ def updatePokemonForms( soup, pokeName, dexId ):
         formStats = {}
         for formName in formNames:
             formStats = getBaseStats( formStats, formName, statTables )
+        baseHp = formStats[formName]['baseHp']
+        baseAtk = formStats[formName]['baseAtk']
+        baseDef = formStats[formName]['baseDef']
+        baseSpatk = formStats[formName]['baseSpatk']
+        baseSpdef = formStats[formName]['baseSpdef']
+        baseSpeed = formStats[formName]['baseSpeed']
+
+        # EVs earned
+        evsEarned = getEVsEarned( allTables )
         
         # can_dmax
-        # has_gmax
-        # legendary
-        # sub_legend
-        # mythic
+        can_dmax = getCanDmax( allTables )
         
-        # type1
-        # type2
+        # has_gmax
+        has_gmax = getHasGmax( allTables )
+
+        # sub_legend
+        # legendary
+        # mythic
+        sub_legend = getIsLegend( pokeName, legTables[0] )
+        legendary = getIsLegend( pokeName, legTables[1] )
+        mythic = getIsLegend( pokeName, legTables[2] )
+        
+        # type1 name
+        # type2 name
         formTypes = getPokeFormTypes(pokeName, formName, allTables)
         # check result to see if formName needs to be updated from base
         formKey = list(formTypes.keys())[0]
         if formName == 'Base' and formKey != 'Base':
             formName = formKey
+        # lookup type ids:
+        cur = con.cursor()
+        cur.execute(SELECT_TYPE_BY_NAME,[formTypes[formName][0]])
+        type1 = cur.fetchone()[0]
+        type2 = None
+        if len(formTypes[formName]) > 1:
+            cur.execute(SELECT_TYPE_BY_NAME,[formTypes[formName][1]])
+            type2 = cur.fetchone()[0]
         
-        # ability1
-        # ability2
-        # abilityH
+        # ability1 name
+        # ability2 name
+        # abilityH name
+        abilities = getFormAbilities( formName, isBase, allTables )
+        cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
+        ability1 = cur.fetchone()
+        cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
+        ability2 = cur.fetchone()
+        cur.execute(SELECT_AB_BY_NAME,[abilities[2]])
+        abilityH = cur.fetchone()
+        
         # pokeId
-    
+        cur.execute(SELECT_POKE_BY_NATID,[dexId])
+        poke = cur.fetchone();
+        pokeId = poke[0] if poke is not None else None
+
+        ## DB UPDATE ##
+        cur.execute(SELECT_PFORM_BY_DEX_FORM,[formName,dexId])
+        pokeForm = cur.fetchone()
+        # If it doesn't exist, insert
+        if pokeForm is None:
+            cur.execute(INSERT_POKE_FORM,[formName,gender,
+                                          sprite, icon, shiny,
+                                          height, weight, baseHp, baseAtk, baseDef,
+                                          baseSpatk, baseSpdef, baseSpeed, can_dmax,
+                                          has_gmax, legendary, sub_legend, mythic,
+                                          type1, type2, ability1, ability2, abilityH, pokeId])
+        # Otherwise update
+        # else:
+            
 
 def getAllTables( soup ):
     return soup.find_all('table', class_='dextable')
+
+def getStatTables( allTables ):
+    statTables = []
+    for table in allTables:
+        headers = table.find_all('h2')
+        bolds = table.find_all('b')
+        for title in headers:
+            if title.text.startswith('Stats'):
+                statTables.append(table)
+        for title in bolds:
+            if title.text.startswith('Stats'):
+                statTables.append(table)
+    return statTables
+
+def getFormNames( statTables ):
+    forms = []
+    for table in statTables:
+        header = table.find('h2')
+        if header is None:
+            header = table.find('b')
+        if header is not None:
+            forms.append(header.text)
+    for i in range(0, len(forms)):
+        forms[i] = translateFormName( forms[i] )
+    return forms
+
+def translateFormName( headerText ):
+    if headerText.strip() == 'Stats':
+        return 'Base'
+    else:
+        toks = headerText.split('-')
+        return toks[len(toks)-1].strip()
 
 def getGender( allTables ):
     # table with gender is 2nd table, 2nd row
@@ -408,7 +508,116 @@ def getGender( allTables ):
             return 3
         else:
             return 1
-    
+
+def getHeight( formIndex, numForms, allTables ):
+    # table with height/weight is 2nd table, 4th row
+    heightRow = allTables[1].find_all('tr', recursive=False)[3]
+    heightCol = heightRow.find_all('td', class_='fooinfo')[1]
+    height = heightCol.text
+    # validate format
+    if len(height.replace('/','').split()) % numForms == 0:
+        return height.replace('/','').split()[formIndex]
+    else:
+        return None
+
+def getWeight( formIndex, numForms, allTables ):
+    # table with height/weight is 2nd table, 4th row
+    weightRow = allTables[1].find_all('tr', recursive=False)[3]
+    weightCol = weightRow.find_all('td', class_='fooinfo')[2]
+    weight = weightCol.text
+    # validate format
+    if len(weight.replace('/','').split()) % numForms == 0:
+        return weight.replace('/','').split()[formIndex]
+    else:
+        return None    
+
+def getBaseStats( formStats, formName, statTables ):
+    # find the stat table for the specified form
+    for i in range(0, len(statTables)):
+        table = statTables[i]
+        allRows = table.find_all('tr')
+        header = allRows[0].find('h2')
+        if header is None:
+            header = allRows[0].find('b')
+        if header is not None and formName == translateFormName(header.text):
+            baseRow = allRows[2]
+            statRows = baseRow.find_all('td')
+            baseStats = {}
+            baseStats['baseHp'] = statRows[1].text
+            baseStats['baseAtk'] = statRows[2].text
+            baseStats['baseDef'] = statRows[3].text
+            baseStats['baseSpatk'] = statRows[4].text
+            baseStats['baseSpdef'] = statRows[5].text
+            baseStats['baseSpeed'] = statRows[6].text
+        formStats[formName] = baseStats
+
+    return formStats
+
+def getEVsEarned( formName, allTables ):
+    # table with EVs is 3rd table, 4th row
+    evRow = allTables[2].find_all('tr', recursive=False)[3]
+    evCol = evRow.find_all('td', class_='fooinfo')[2]
+    evs = evCol.text.split('Point(s)')
+    # slice empty split
+    evs = evs[:len(evs)-1]
+    # check whether only one set of EVs provided
+    if len(evs) == 1:
+        toks = evs[0].strip().split(' ', 1)
+        val = toks[0]
+        stat = translateStatString(toks[1])
+        return val + ' ' + stat
+    # if multiple, return evs for form
+    else:
+        for form in evs:
+            m = re.search(r'\d', form)
+            if m and formName == form[:m.start()]:
+                toks = form[m.start():].strip().split(' ', 1)
+                val = toks[0]
+                stat = translateStatString(toks[1])
+                return val + ' ' + stat
+        return None
+
+def translateStatString( stat ):
+    if stat.endswith('Sp. Attack'):
+        return 'SpAtk'
+    elif stat.endswith('Sp. Defense'):
+        return 'SpDef'
+    elif stat.endswith('Attack'):
+        return 'Atk'
+    elif stat.endswith('Defense'):
+        return 'Def'
+    else:
+        return stat
+
+def getCanDmax( allTables ):
+    # table with Dmax designator is 3rd table, 4th row
+    dmaxRow = allTables[2].find_all('tr', recursive=False)[3]
+    dmaxCol = dmaxRow.find_all('td', class_='fooinfo')[3]
+    return not dmaxCol.text.strip().endswith('cannot Dynamax')
+
+def getHasGmax( allTables ):
+    # look for table with header with 'gigantimax' (usually last table)
+    for table in reversed(allTables):
+        header = table.find('h2')
+        if header is None:
+            header = table.find('b')
+        if header is not None and header.text.strip().startswith('Gigantamax'):
+            return True
+    return False
+
+def getLegendTables():
+    url = 'https://www.serebii.net/pokemon/legendary.shtml'
+    page = requests.get(url)
+    lsoup = BeautifulSoup(page.content, 'html.parser')
+    return lsoup.find_all('table', class_='trainer')
+
+def getIsLegend( pokeName, legTable ):
+    legs = []
+    for poke in legTable.find_all('a'):
+        href = poke['href'].split('/')[1]
+        if not href.startswith('abilitydex') and poke.text and poke.text not in legs:
+            legs.append(poke.text)
+    return pokeName.upper() in (leg.upper() for leg in legs)
 
 def getPokeFormTypes( pokeName, formName, allTables ):
     # table with types is 2nd table, 2nd row
@@ -441,56 +650,53 @@ def getPokeFormTypes( pokeName, formName, allTables ):
             types.append(toks[len(toks)-1].split('.')[0])
 
     # return as mapped object to update the form name where required
-    return { formName: types } 
+    return { formName: types }
 
-def getStatTables( allTables ):
-    statTables = []
-    for table in allTables:
-        headers = table.find_all('h2')
-        if headers is None:
-            headers = table.find_all('b')
-        for title in headers:
-            if title.text.startswith('Stats'):
-                statTables.append(table)
-    return statTables
+def getFormAbilities( formName, isBase, allTables ):
+    # Abilities table is 3rd table, 2nd row
+    abRow = allTables[2].find_all('tr')[1]
+    allAbs = abRow.find('td').find_all('b')
+    ability1 = None
+    ability2 = None
+    abilityH = None
+    # Base forms don't have lead title
+    foundForm = True if isBase else formName == 'Base'
+    # Check whether multiforms use same abilities
+    singleSet = True
+    for i in range(0, len(allAbs)):
+        ab = allAbs[i].text.strip()
+        # Check for alternate form ability designation
+        if ab != 'Hidden Ability' and (ab.endswith('Abilities') or ab.endswith('Ability')):
+            singleSet = False
 
-def getFormNames( statTables ):
-    forms = []
-    for table in statTables:
-        header = table.find('h2')
-        if header is None:
-            header = statTable.find('b')
-        if header is not None:
-            forms.append(header.text)
-    for i in range(0, len(forms)):
-        forms[i] = translateFormName( forms[i] )
-    return forms
+    # Reset foundForm if singleSet
+    if not foundForm and singleSet:
+        foundForm = True
+    
+    for i in range(0, len(allAbs)):
+        ab = allAbs[i].text
+        # First check hidden ability so that can use 'ability' as descriminator
+        if foundForm and ab.strip() == 'Hidden Ability':
+            abilityH = allAbs[i+1].text
+            break
+        # Next check if it is a form change line, then check if is specified form
+        elif ab.strip().endswith('Abilities') or ab.strip().endswith('Ability'):
+            form = ab.strip().rsplit(' ',1)[0]
+            foundForm = form == formName
+        # If working with specified form set ability 1 if not already set
+        elif foundForm and ability1 == None:
+            ability1 = allAbs[i].text
+        # If working with found form and ability 1 is set, set ability 2
+        elif foundForm:
+            ability2 = allAbs[i].text
 
-def translateFormName( headerText ):
-    if headerText.strip() == 'Stats':
-        return 'Base'
-    else:
-        toks = headerText.split('-')
-        return toks[len(toks)-1].strip()
+    return (ability1, ability2, abilityH)
 
-def getBaseStats( formStats, formName, statTables ):
-    # find the stat table for the specified form
-    for i in range(0, len(statTables)):
-        table = statTables[i]
-        allRows = table.find_all('tr')
-        header = allRows[0].find('h2')
-        if header is None:
-            header = allRows[0].find('b')
-        if header is not None and formName == translateFormName(header.text):
-            baseRow = allRows[2]
-            statRows = baseRow.find_all('td')
-            baseStats = {}
-            baseStats['baseHp'] = statRows[1].text
-            baseStats['baseAtk'] = statRows[2].text
-            baseStats['baseDef'] = statRows[3].text
-            baseStats['baseSpatk'] = statRows[4].text
-            baseStats['baseSpdef'] = statRows[5].text
-            baseStats['baseSpeed'] = statRows[6].text
-        formStats[formName] = baseStats
-
-    return formStats
+#############
+# Test runner
+def initTests( genHtml ):
+    html = dataDir + genHtml
+    with open(html,'r',encoding='utf-8') as f:
+        content = f.read()
+        soup = BeautifulSoup(content, 'html.parser')
+    return getAllTables(soup)
