@@ -126,6 +126,11 @@ con = sqlite3.connect(dbPath)
 # Placeholder for legendary pokemon tables (only initiate 1 request)
 legTables = []
 
+# Tables instantiated every time (pre-declared for testing
+allTables = []
+statTables = []
+megaTables = []
+
 # ============================
 # Default Initialization
 def initialize():
@@ -343,10 +348,11 @@ def getPokeName( soup, dexId ):
 def updatePokemonForms( soup, pokeName, dexId ):
     allTables = getAllTables(soup)
     statTables = getStatTables( allTables )
+    megaTables = getMegaTables( pokeName, allTables )
 
     # FIELDS
     # formName (default Base)
-    formNames = getFormNames( statTables )
+    formNames = getFormNames( statTables, megaTables )
 
     # use indexed loop to use index for unnamed form columns
     for formIndex in range(0, len(formNames)):
@@ -354,6 +360,8 @@ def updatePokemonForms( soup, pokeName, dexId ):
         
         # base form
         isBase = formName == 'Base'
+        # mega form
+        isMega = formName.startsWith('Mega Evolution')
         
         # gender (genderless = 0, gendered = 1, male-only = 2, female-only = 3)
         gender = getGender( allTables )
@@ -366,14 +374,21 @@ def updatePokemonForms( soup, pokeName, dexId ):
             shiny = 'sh_' + dexId + '.png'
             icon = 'ic_' + dexId + '.png'
         else:
-            sprite = 'sp_' + dexId + '_' + formName + '.png'
-            shiny = 'sh_' + dexId + '_' + formName + '.png'
-            icon = 'ic_' + dexId + '_' + formName + '.png'
+            suffix = formName if not isMega else 'mega'
+            sprite = 'sp_' + dexId + '_' + suffix + '.png'
+            shiny = 'sh_' + dexId + '_' + suffix + '.png'
+            icon = 'ic_' + dexId + '_' + suffix + '.png'
 
         # height
-        height = getHeight(formIndex, len(formNames), allTables)
+        if not isMega:
+            height = getHeight(formIndex, len(formNames), allTables)
+        else:
+            height = getMegaHeight(formName, megaTables)
         # weight
-        weight = getWeight(formIndex, len(formNames), allTables)
+        if not isMega:
+            weight = getWeight(formIndex, len(formNames), allTables)
+        else:
+            weight = getMegaWeight(formName, megaTables)
         
         # baseHp
         # baseAtk
@@ -381,9 +396,12 @@ def updatePokemonForms( soup, pokeName, dexId ):
         # baseSpatk
         # baseSpdef
         # baseSpeed
-        formStats = {}
-        for formName in formNames:
-            formStats = getBaseStats( formStats, formName, statTables )
+        if not isMega:
+            formStats = {}
+            for formName in formNames:
+                formStats = getBaseStats( formStats, formName, statTables )
+        else:
+            formStats = getMegaStats(formName, megaTables)
         baseHp = formStats[formName]['baseHp']
         baseAtk = formStats[formName]['baseAtk']
         baseDef = formStats[formName]['baseDef']
@@ -395,10 +413,10 @@ def updatePokemonForms( soup, pokeName, dexId ):
         evsEarned = getEVsEarned( allTables )
         
         # can_dmax
-        can_dmax = getCanDmax( allTables )
+        can_dmax = getCanDmax( allTables ) if not isMega else False
         
         # has_gmax
-        has_gmax = getHasGmax( allTables )
+        has_gmax = getHasGmax( allTables ) if not isMega else False
 
         # sub_legend
         # legendary
@@ -409,7 +427,10 @@ def updatePokemonForms( soup, pokeName, dexId ):
         
         # type1 name
         # type2 name
-        formTypes = getPokeFormTypes(pokeName, formName, allTables)
+        if not isMega:
+            formTypes = getPokeFormTypes(pokeName, formName, allTables)
+        else:
+            formTypes = getMegaTypes(formName, megaTables)
         # check result to see if formName needs to be updated from base
         formKey = list(formTypes.keys())[0]
         if formName == 'Base' and formKey != 'Base':
@@ -426,7 +447,10 @@ def updatePokemonForms( soup, pokeName, dexId ):
         # ability1 name
         # ability2 name
         # abilityH name
-        abilities = getFormAbilities( formName, isBase, allTables )
+        if not isMega:
+            abilities = getFormAbilities( formName, isBase, allTables )
+        else:
+            abilities = getMegaAbilities( formName, megaTables )
         cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
         ability1 = cur.fetchone()
         cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
@@ -452,6 +476,7 @@ def updatePokemonForms( soup, pokeName, dexId ):
                                           type1, type2, ability1, ability2, abilityH, pokeId])
         # Otherwise update
         # else:
+
             
 
 def getAllTables( soup ):
@@ -463,23 +488,50 @@ def getStatTables( allTables ):
         headers = table.find_all('h2')
         bolds = table.find_all('b')
         for title in headers:
-            if title.text.startswith('Stats'):
+            if not 'Mega Evolution' in title.text and title.text.startswith('Stats'):
                 statTables.append(table)
         for title in bolds:
-            if title.text.startswith('Stats'):
+            if not 'Mega Evolution' in title.text and title.text.startswith('Stats'):
                 statTables.append(table)
     return statTables
 
-def getFormNames( statTables ):
+def getMegaTables( pokeName, allTables ):
+    megaTables = []
+    for i in range(0, len(allTables)):
+        bolds = allTables[i].find_all('b')
+        for bold in bolds:
+            if bold.text and bold.text.startswith('Mega Evolution'):
+                megaName = bold.text.replace('Evolution', pokeName)
+                # Spread formatting
+                if (i+4) < len(allTables):
+                    megaSpriteTable = allTables[i]
+                    megaInfoTable = allTables[i+1]
+                    megaAbilityTable = allTables[i+2]
+                    megaStatsTable = allTables[i+4]
+                # Compact formatting
+                elif (i+3) < len(allTables):
+                    megaSpriteTable = allTables[i]
+                    megaInfoTable = allTables[i]
+                    megaAbilityTable = allTables[i+1]
+                    megaStatsTable = allTables[i+3]
+                megaTables.append((megaName, megaSpriteTable, megaInfoTable, megaAbilityTable, megaStatsTable))
+    return megaTables
+
+def getFormNames( statTables, megaTables ):
     forms = []
     for table in statTables:
         header = table.find('h2')
         if header is None:
             header = table.find('b')
-        if header is not None:
-            forms.append(header.text)
+        if header is not None and not header.text in forms:
+            forms.append(header.text)  
     for i in range(0, len(forms)):
         forms[i] = translateFormName( forms[i] )
+
+    for tables in megaTables:
+        megaName = tables[0]
+        if megaName is not None and megaName not in forms:
+            forms.append(megaName)
     return forms
 
 def translateFormName( headerText ):
@@ -520,6 +572,17 @@ def getHeight( formIndex, numForms, allTables ):
     else:
         return None
 
+def getMegaHeight( formName, megaTables, expanded ):
+    for mega in megaTables:
+        if formName == mega[0]:
+            rowInd = 3 if expanded else 4
+            megaCol = 2 if expanded else 1
+            heightRow = mega[megaCol].find_all('tr', recursive=False)[rowInd]
+            heightCol = heightRow.find_all('td', class_='fooinfo')[1]
+            height = heightCol.text
+            return height.replace('/','').split()[0]
+                
+
 def getWeight( formIndex, numForms, allTables ):
     # table with height/weight is 2nd table, 4th row
     weightRow = allTables[1].find_all('tr', recursive=False)[3]
@@ -529,7 +592,17 @@ def getWeight( formIndex, numForms, allTables ):
     if len(weight.replace('/','').split()) % numForms == 0:
         return weight.replace('/','').split()[formIndex]
     else:
-        return None    
+        return None
+
+def getMegaWeight( formName, megaTables, expanded ):
+    for mega in megaTables:
+        if formName == mega[0]:
+            rowInd = 3 if expanded else 4
+            megaCol = 2 if expanded else 1
+            weightRow = mega[megaCol].find_all('tr', recursive=False)[rowInd]
+            weightCol = weightRow.find_all('td', class_='fooinfo')[2]
+            weight = weightCol.text
+            return weight.replace('/', '').split()[0]
 
 def getBaseStats( formStats, formName, statTables ):
     # find the stat table for the specified form
@@ -549,9 +622,26 @@ def getBaseStats( formStats, formName, statTables ):
             baseStats['baseSpatk'] = statRows[4].text
             baseStats['baseSpdef'] = statRows[5].text
             baseStats['baseSpeed'] = statRows[6].text
-        formStats[formName] = baseStats
+            if not formName in list(formStats.keys()):
+                formStats[formName] = baseStats
 
     return formStats
+
+def getMegaStats( formName, megaTables ):
+    for mega in megaTables:
+        if formName == mega[0]:
+            statTable = mega[4]
+            allRows = statTable.find_all('tr')
+            baseRow = allRows[2]
+            statRows = baseRow.find_all('td')
+            baseStats = {}
+            baseStats['baseHp'] = statRows[1].text
+            baseStats['baseAtk'] = statRows[2].text
+            baseStats['baseDef'] = statRows[3].text
+            baseStats['baseSpatk'] = statRows[4].text
+            baseStats['baseSpdef'] = statRows[5].text
+            baseStats['baseSpeed'] = statRows[6].text
+            return { formName: baseStats }
 
 def getEVsEarned( formName, allTables ):
     # table with EVs is 3rd table, 4th row
@@ -652,6 +742,19 @@ def getPokeFormTypes( pokeName, formName, allTables ):
     # return as mapped object to update the form name where required
     return { formName: types }
 
+def getMegaTypes( formName, megaTables, expanded ):
+    for mega in megaTables:
+        if formName == mega[0]:
+            types = []
+            rowInd = 1 if expanded else 2
+            megaCol = 2 if expanded else 1
+            typeRow = mega[megaCol].find_all('tr')[rowInd]
+            typeCol = typeRow.find('td', class_='cen')
+            for img in typeCol.find_all('img'):
+                toks = img['src'].split('/')
+                types.append(toks[len(toks)-1].split('.')[0])
+            return { formName: types }
+
 def getFormAbilities( formName, isBase, allTables ):
     # Abilities table is 3rd table, 2nd row
     abRow = allTables[2].find_all('tr')[1]
@@ -692,11 +795,26 @@ def getFormAbilities( formName, isBase, allTables ):
 
     return (ability1, ability2, abilityH)
 
+def getMegaAbilities( formName, megaTables, expanded ):
+    for mega in megaTables:
+        if formName == mega[0]:
+            megaCol = 3 if expanded else 2
+            abRow = mega[megaCol].find_all('tr')[1]
+            megaAbility = abRow.find('td').find('b').text
+            return (megaAbility, None, None)
+
 #############
 # Test runner
 def initTests( genHtml ):
     html = dataDir + genHtml
+    dexId = int(genHtml.split('/')[1].split('.')[0])
     with open(html,'r',encoding='utf-8') as f:
         content = f.read()
         soup = BeautifulSoup(content, 'html.parser')
-    return getAllTables(soup)
+    pokeName = getPokeName(soup, dexId)
+    allTables.clear()
+    statTables.clear()
+    megaTables.clear()
+    allTables.extend(getAllTables(soup))
+    statTables.extend(getStatTables(allTables))
+    megaTables.extend(getMegaTables(pokeName, allTables))
