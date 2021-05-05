@@ -349,10 +349,14 @@ def updatePokemonForms( soup, pokeName, dexId ):
     allTables = getAllTables(soup)
     statTables = getStatTables( allTables )
     megaTables = getMegaTables( pokeName, allTables )
+    # remove this once validated
+    legTables = getLegendTables()
 
     # FIELDS
     # formName (default Base)
     formNames = getFormNames( statTables, megaTables )
+    print('Form Names: ' + str(formNames))
+    pokeForms = []
 
     # use indexed loop to use index for unnamed form columns
     for formIndex in range(0, len(formNames)):
@@ -361,7 +365,7 @@ def updatePokemonForms( soup, pokeName, dexId ):
         # base form
         isBase = formName == 'Base'
         # mega form
-        isMega = formName.startsWith('Mega Evolution')
+        isMega = formName.startswith('Mega Evolution')
         
         # gender (genderless = 0, gendered = 1, male-only = 2, female-only = 3)
         gender = getGender( allTables )
@@ -370,14 +374,14 @@ def updatePokemonForms( soup, pokeName, dexId ):
         # shinySprite
         # sprite (need to refactor multiforms)
         if len(formNames) < 2:
-            sprite = 'sp_' + dexId + '.png'
-            shiny = 'sh_' + dexId + '.png'
-            icon = 'ic_' + dexId + '.png'
+            sprite = 'sp_' + str(dexId) + '.png'
+            shiny = 'sh_' + str(dexId) + '.png'
+            icon = 'ic_' + str(dexId) + '.png'
         else:
             suffix = formName if not isMega else 'mega'
-            sprite = 'sp_' + dexId + '_' + suffix + '.png'
-            shiny = 'sh_' + dexId + '_' + suffix + '.png'
-            icon = 'ic_' + dexId + '_' + suffix + '.png'
+            sprite = 'sp_' + str(dexId) + '_' + suffix + '.png'
+            shiny = 'sh_' + str(dexId) + '_' + suffix + '.png'
+            icon = 'ic_' + str(dexId) + '_' + suffix + '.png'
 
         # height
         if not isMega:
@@ -410,7 +414,7 @@ def updatePokemonForms( soup, pokeName, dexId ):
         baseSpeed = formStats[formName]['baseSpeed']
 
         # EVs earned
-        evsEarned = getEVsEarned( allTables )
+        evsEarned = getEVsEarned( formName, allTables )
         
         # can_dmax
         can_dmax = getCanDmax( allTables ) if not isMega else False
@@ -451,33 +455,37 @@ def updatePokemonForms( soup, pokeName, dexId ):
             abilities = getFormAbilities( formName, isBase, allTables )
         else:
             abilities = getMegaAbilities( formName, megaTables )
-        cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
-        ability1 = cur.fetchone()
-        cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
-        ability2 = cur.fetchone()
-        cur.execute(SELECT_AB_BY_NAME,[abilities[2]])
-        abilityH = cur.fetchone()
+        #cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
+        #ability1 = cur.fetchone()
+        #cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
+        #ability2 = cur.fetchone()
+        #cur.execute(SELECT_AB_BY_NAME,[abilities[2]])
+        #abilityH = cur.fetchone()
         
         # pokeId
-        cur.execute(SELECT_POKE_BY_NATID,[dexId])
-        poke = cur.fetchone();
-        pokeId = poke[0] if poke is not None else None
+        #cur.execute(SELECT_POKE_BY_NATID,[dexId])
+        #poke = cur.fetchone();
+        #pokeId = poke[0] if poke is not None else None
 
         ## DB UPDATE ##
-        cur.execute(SELECT_PFORM_BY_DEX_FORM,[formName,dexId])
-        pokeForm = cur.fetchone()
+        #cur.execute(SELECT_PFORM_BY_DEX_FORM,[formName,dexId])
+        #pokeForm = cur.fetchone()
         # If it doesn't exist, insert
-        if pokeForm is None:
-            cur.execute(INSERT_POKE_FORM,[formName,gender,
-                                          sprite, icon, shiny,
-                                          height, weight, baseHp, baseAtk, baseDef,
-                                          baseSpatk, baseSpdef, baseSpeed, can_dmax,
-                                          has_gmax, legendary, sub_legend, mythic,
-                                          type1, type2, ability1, ability2, abilityH, pokeId])
+        #if pokeForm is None:
+            #cur.execute(INSERT_POKE_FORM,[formName,gender,
+            #                              sprite, icon, shiny,
+            #                              height, weight, baseHp, baseAtk, baseDef,
+            #                              baseSpatk, baseSpdef, baseSpeed, can_dmax,
+            #                              has_gmax, legendary, sub_legend, mythic,
+            #                              type1, type2, ability1, ability2, abilityH, pokeId])
         # Otherwise update
         # else:
-
-            
+        pokeForm = { formName: (isBase, gender, sprite, icon, shiny, height, weight,
+                                baseHp, baseAtk, baseDef, baseSpatk, baseSpdef, baseSpeed,
+                                can_dmax, has_gmax, legendary, sub_legend, mythic,
+                                type1, type2, str(abilities), dexId) }
+        pokeForms.append(pokeForm)
+        return pokeForms
 
 def getAllTables( soup ):
     return soup.find_all('table', class_='dextable')
@@ -818,3 +826,4 @@ def initTests( genHtml ):
     allTables.extend(getAllTables(soup))
     statTables.extend(getStatTables(allTables))
     megaTables.extend(getMegaTables(pokeName, allTables))
+    updatePokemonForms(soup, pokeName,dexId)
