@@ -33,6 +33,17 @@ gen1max = 151
 
 base_url = 'https://www.serebii.net/'
 
+def getLegends():
+    url = 'https://www.serebii.net/pokemon/legendary.shtml'
+    page = requests.get(url)
+    lsoup = BeautifulSoup(page.content, 'html.parser')
+    legFile = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/legends.html'
+    try:
+        with open(legFile, 'w', encoding='utf-8') as f:
+            f.write(str(lsoup))
+    except IOError as e:
+        print('Failed to write ' + maleOut)
+
 def cyclePokemon():
     # Test with just Charizard TODO: change to range(1, 899)
     for dexId in range(1, 899):
