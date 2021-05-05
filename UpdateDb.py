@@ -130,6 +130,7 @@ legTables = []
 allTables = []
 statTables = []
 megaTables = []
+allAbilities = []
 
 # ============================
 # Default Initialization
@@ -454,6 +455,10 @@ def updatePokemonForm( pokeName, forms, dexId ):
                 abilities = getFormAbilities( formName, isBase, allTables )
             else:
                 abilities = getMegaAbilities( formName, megaTables )
+
+            for ability in abilities:
+                if ability and not ability in allAbilities:
+                    allAbilities.append(ability)
             #cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
             #ability1 = cur.fetchone()
             #cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
@@ -932,7 +937,7 @@ def getMegaAbilities( formName, megaTables ):
 
 #############
 # Test runner
-def initIteration(start, end):
+def initIteration(start, end, writeAbilities):
     formMap = {}
     for dexId in range(start, (end+1)):
         cur = con.cursor()
@@ -940,6 +945,20 @@ def initIteration(start, end):
         result = cur.fetchone()
         if result:
             formMap[result[2]] = importAllForms(dexId)
+
+    if writeAbilities:
+        abilityFile = dataDir + 'abilities.txt'
+        if path.exists(abilityFile):
+            with open(abilityFile, 'r', encoding='utf-8') as f:
+                abilities = f.readlines()
+            for ability in abilities:
+                if not ability.strip() in allAbilities:
+                    allAbilities.append(ability.strip())
+
+        with open(abilityFile, 'w', encoding='utf-8') as f:
+            for ability in allAbilities:
+                f.write(ability+'\n')
+        
     return formMap
 
 def importAllForms(dexId):
