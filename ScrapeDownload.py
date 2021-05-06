@@ -11,6 +11,9 @@ gen3 = "pokedex-rs/"
 gen2 = "pokedex-gs/"
 gen1 = "pokedex/"
 
+# Scrape Ability Dexes
+abdex = "abilitydex/"
+
 # Gen output folders
 gen8out = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/Gen8/'
 gen7out = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/Gen7/'
@@ -31,6 +34,7 @@ gen3max = 386
 gen2max = 251
 gen1max = 151
 
+dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
 base_url = 'https://www.serebii.net/'
 
 def getLegends():
@@ -188,3 +192,19 @@ def getDexEntry( genUrl, genOut, dexIdStr ):
             return None
     else:
         return None
+
+def cycleAbilities( abilities ):
+    for ability in abilities:
+        url = base_url + abdex + ability.lower() + '.shtml'
+        print(url)
+        page = requests.get(url)
+        print('status: ' + str(page.status_code))
+        if page.status_code == 200:
+            outFile = dataDir + 'Abilities/' + ability.lower() + '.html'
+            print('outFile: ' + outFile)
+            soup = BeautifulSoup(page.content, 'html.parser')
+            try:
+                with open(outFile, 'w', encoding='utf-8') as file:
+                    file.write(str(soup))
+            except IOError as e:
+                print('Failed to write ' + outfile)
