@@ -51,12 +51,14 @@ INSERT_ATKSINDEX = 'INSERT INTO AttacksInDex(genId,atkFormId) VALUES (?,?)'
 DELETE_ATKSINDEX = 'DELETE FROM AttacksInDex WHERE genId=? AND atkFormId=?'
 # =================
 # TABLE: Item
-INSERT_ITEM = 'INSERT INTO Item(itemName,itemEffect,itemIcon) VALUES (?,?,?)'
-UPDATE_ITEM = 'UPDATE Item SET itemName=?, itemEffect=?, itemIcon=? WHERE itemId=?'
+INSERT_ITEM = 'INSERT INTO Item(itemName,itemDesc,itemEffect,itemIcon) VALUES (?,?,?,?)'
+UPDATE_ITEM = 'UPDATE Item SET itemName=?, itemDesc=?, itemEffect=?, itemIcon=? WHERE itemId=?'
+SELECT_ITEM_BY_NAME = 'SELECT * FROM Item WHERE itemName=? COLLATE NOCASE'
 # =================
 # TABLE: ItemsInDex
 INSERT_ITEMSINDEX = 'INSERT INTO ItemsInDex(genId,itemId) VALUES (?,?)'
 DELETE_ITEMSINDEX = 'DELETE FROM ItemsInDex WHERE genId=? AND itemId=?'
+SELECT_ITEM_IN_DEX = 'SELECT * FROM ItemsInDex WHERE genId=? AND itemId=?'
 # =================
 # TABLE: PokeMovesByGen
 INSERT_MOVESBYGEN = 'INSERT INTO PokeMovesByGen(genId,pokeFormId,atkFormId) VALUES (?,?,?)'
@@ -314,6 +316,107 @@ def updateAbility( soup ):
                 print('Updated: ' + abName)
     else:
         print('Failed to get/update ability for ' + html)
+
+# ====================
+# Insert/Update Item and ItemForGen based on the HTML
+def updateItem( itemName, soup, write ):
+    tableContainer = soup.find('table', class_='dextable').parent
+    itemTables = tableContainer.find_all('table', class_='dextable', recursive=False)
+    table = itemTables[2]
+    trs = table.find_all('tr')
+    gameRow1Cols = trs[2].find_all('td')
+    singlerow = False
+    if len(trs) > 4:
+        gameRow2Cols = trs[4].find_all('td')
+    else:
+        gameRow2Cols = None
+        singlerow = True
+    gens = []
+    # loop over columns in each row
+    # column has a pokeball in it if the item is available in that gen
+    for col in range(0, len(gameRow1Cols)):
+        data = gameRow1Cols[col]
+        if data.find('img'):
+            gen = getItemGen(1, col, singlerow)
+            if not gen in gens:
+                gens.append(gen)
+    if not singlerow:
+        for col in range(0, len(gameRow2Cols)):
+            data = gameRow2Cols[col]
+            if data.find('img'):
+                gen = getItemGen(2, col, singlerow)
+                if not gen in gens:
+                    gens.append(gen)
+
+    # Get the game text for the item
+    effectTable = itemTables[3]
+    itemEffR = effectTable.find_all('tr')[1]
+    itemEff = itemEffR.find('td').text
+    # Get the item description
+    gameTable = itemTables[4]
+    lastGame = gameTable.find_all('tr')[-1]
+    gameDesc = lastGame.find_all('td')[-1].text
+    # Create the icon name
+    itemIcon = 'item_' + itemName.lower().replace(' ','_') + '.png'
+
+    if write:
+        # Write/update the DB item
+        cur = con.cursor()
+        cur.execute(SELECT_ITEM_BY_NAME,[itemName])
+        item = cur.fetchone()
+        if not item:
+            cur.execute(INSERT_ITEM,[itemName,gameDesc,itemEff,itemIcon])
+            con.commit()
+            print('Inserted ' + itemName)
+            # select the record just inserted to get back the itemId
+            cur.execute(SELECT_ITEM_BY_NAME,[itemName])
+            itemId = cur.fetchone()[0]
+        else:
+            itemId = item[0]
+            cur.execute(UPDATE_ITEM,[itemName,gameDesc,itemEff,itemIcon, itemId])
+            con.commit()
+            print('Updated ' + itemName)
+
+        # For each gen where the item exists, create a gen/item relationship
+        for gen in gens:
+            # insert if not existing
+            cur.execute(SELECT_ITEM_IN_DEX,[gen,itemId])
+            itemInDex = cur.fetchone()
+            if not itemInDex and gen and itemId:
+                cur.execute(INSERT_ITEMSINDEX,[gen,itemId])
+                print('Inserted ' + itemName + ' in gen ' + str(gen))
+    else:
+        print('Item ' + itemName + ' found in gens: ' + str(gens))
+        print('Item desc: ' + gameDesc)
+        print('Item eff: ' + itemEff)
+    
+
+def getItemGen( row, col, singlerow ):
+    if not singlerow:
+        genMap = {
+            8: { 1: [], 2: [10,11] },
+            7: { 1: [], 2: [4,5,6,7] },
+            6: { 1: [], 2: [0,1] },
+            5: { 1: [10,11,12,13], 2: [] },
+            4: { 1: [6,7], 2: [] },
+            3: { 1: [3,4], 2: [2,3] },
+            2: { 1: [1,2,8,9], 2: [] },
+            1: { 1: [0,5], 2: [] }
+            }
+    else:
+        genMap = {
+            8: { 1: [], 2: []},
+            7: { 1: [18,19,20,21], 2: []},
+            6: { 1: [14,15], 2: []},
+            5: { 1: [10,11,12,13], 2: []},
+            4: { 1: [6,7], 2: []},
+            3: { 1: [3,4,16,17], 2: []},
+            2: { 1: [1,2,8,9], 2: []},
+            1: { 1: [0,5], 2: []}
+            }
+    for key in genMap.keys():
+        if col in genMap[key][row]:
+            return key
 
 # ====================
 # Insert/Update to the Pokemon table based on the HTML
@@ -1006,6 +1109,34 @@ def getMegaAbilities( formName, megaTables ):
 
 #############
 # Test runner
+def initItemIteration():
+    itemFile = dataDir + 'items.txt'
+    with open(itemFile, 'r', encoding='utf-8') as f:
+        itemlist = f.readlines()
+	
+    items = {}
+    for itemline in itemlist:
+        toks = itemline.split('">')
+        itemurl = toks[0].replace('.shtml','.html')
+        itemname = toks[1].split('</option>')[0]
+        items[itemurl] = itemname
+    
+    itemDir = dataDir + 'Items/'
+    if not path.exists(itemDir):
+        print('Item directory not found: ' + itemDir)
+
+    htmls = os.listdir(itemDir)
+    for html in htmls:
+        # skip any non-html file
+        if not html.rsplit('.',1)[1] == 'html':
+            continue
+        fullpath = itemDir + html
+        with open(fullpath,'r',encoding='utf-8') as f:
+            content = f.read()
+            soup = BeautifulSoup(content, 'html.parser')
+
+        updateItem(items[html], soup, True)
+
 def initAbIteration(single):
     abDir = dataDir + 'Abilities/'
     if not path.exists(abDir):
