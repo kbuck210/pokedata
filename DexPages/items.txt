@@ -1,0 +1,609 @@
+houndoomite.shtml">Houndoomite</option>
+hpup.shtml">HP Up</option>
+hyperpotion.shtml">Hyper Potion</option>
+iapapaberry.shtml">Iapapa Berry</option>
+iceberry.shtml">Ice Berry</option>
+icegem.shtml">Ice Gem</option>
+iceheal.shtml">Ice Heal</option>
+icememory.shtml">Ice Memory</option>
+icestone.shtml">Ice Stone</option>
+Icerootcarrot.shtml">Iceroot Carrot</option>
+iciumz.shtml">Icium Z</option>
+icicleplate.shtml">Icicle Plate</option>
+icyrock.shtml">Icy Rock</option>
+ilimasnormaliumz.shtml">Ilima's Normalium Z</option>
+impishmint.shtml">Impish Mint</option>
+inciniumz.shtml">Incinium Z</option>
+inquirymail.shtml">Inquiry Mail</option>
+insectplate.shtml">Insect Plate</option>
+instantnoodles.shtml">Instant Noodles</option>
+intriguingstone.shtml">Intriguing Stone</option>
+iron.shtml">Iron</option>
+ironball.shtml">Iron Ball</option>
+ironplate.shtml">Iron Plate</option>
+itemfinder.shtml">Itemfinder</option>
+jabocaberry.shtml">Jaboca Berry</option>
+jadeorb.shtml">Jade Orb</option>
+jawfossil.shtml">Jaw Fossil</option>
+jigglypuffcandy.shtml">Jigglypuff Candy</option>
+jollymint.shtml">Jolly Mint</option>
+journal.shtml">Journal</option>
+jynxcandy.shtml">Jynx Candy</option>
+kabutocandy.shtml">Kabuto Candy</option>
+kangaskhancandy.shtml">Kangaskhan Candy</option>
+kangaskhanite.shtml">Kangaskhanite</option>
+kasibberry.shtml">Kasib Berry</option>
+kebiaberry.shtml">Kebia Berry</option>
+keeberry.shtml">Kee Berry</option>
+kelpsyberry.shtml">Kelpsy Berry</option>
+keytoroom1.shtml">Key to Room 1</option>
+keytoroom2.shtml">Key to Room 2</option>
+keytoroom4.shtml">Key to Room 4</option>
+keytoroom6.shtml">Key to Room 6</option>
+kingsrock.shtml">King's Rock</option>
+koffingcandy.shtml">Koffing Candy</option>
+kommoniumz.shtml">Kommonium Z</option>
+krabbycandy.shtml">Krabby Candy</option>
+laggingtail.shtml">Lagging Tail</option>
+lansatberry.shtml">Lansat Berry</option>
+laprascandy.shtml">Lapras Candy</option>
+largeleek.shtml">Large Leek</option>
+lavacookie.shtml">Lava Cookie</option>
+laxincense.shtml">Lax Incense</option>
+laxmint.shtml">Lax Mint</option>
+leafletter.shtml">Leaf Letter</option>
+leafstone.shtml">Leaf Stone</option>
+leek.shtml">Leek</option>
+leftovers.shtml">Leftovers</option>
+leftpokeball.shtml">Left Poké Ball</option>
+legendaryclue1.shtml">Legendary Clue 1</option>
+legendaryclue2.shtml">Legendary Clue 2</option>
+legendaryclue3.shtml">Legendary Clue 3</option>
+legendaryclue.shtml">Legendary Clue?</option>
+lemonade.shtml">Lemonade</option>
+lenscase.shtml">Lens Case</option>
+leppaberry.shtml">Leppa Berry</option>
+letter.shtml">Letter</option>
+levelball.shtml">Level Ball</option>
+libertypass.shtml">Liberty Pass</option>
+lickitungcandy.shtml">Lickitung Candy</option>
+liechiberry.shtml">Liechi Berry</option>
+lifeorb.shtml">Life Orb</option>
+liftkey.shtml">Lift Key</option>
+lightball.shtml">Light Ball</option>
+lightclay.shtml">Light Clay</option>
+lightstone.shtml">Light Stone</option>
+likemail.shtml">Like Mail</option>
+litebluemail.shtml">LiteBlue Mail</option>
+lockcapsule.shtml">Lock Capsule</option>
+loneearring.shtml">Lone Earring</option>
+lonelymint.shtml">Lonely Mint</option>
+lookerticket.shtml">Looker Ticket</option>
+lootsack.shtml">Loot Sack</option>
+lopunnite.shtml">Lopunnite</option>
+lostitem.shtml">Lost Item</option>
+loveball.shtml">Love Ball</option>
+lovesweet.shtml">Love Sweet</option>
+lovelymail.shtml">Lovely Mail</option>
+lucarionite.shtml">Lucarionite</option>
+luckincense.shtml">Luck Incense</option>
+luckyegg.shtml">Lucky Egg</option>
+luckypunch.shtml">Lucky Punch</option>
+lumberry.shtml">Lum Berry</option>
+luminousmoss.shtml">Luminous Moss</option>
+lumiosegalette.shtml">Lumiose Galette</option>
+lunaliumz.shtml">Lunalium Z</option>
+lunarwing.shtml">Lunar Wing</option>
+lure.shtml">Lure</option>
+lureball.shtml">Lure Ball</option>
+lycaniumz.shtml">Lycanium Z</option>
+lustrousorb.shtml">Lustrous Orb</option>
+luxuryball.shtml">Luxury Ball</option>
+machbike.shtml">Mach Bike</option>
+machinepart.shtml">Machine Part</option>
+machobrace.shtml">Macho Brace</option>
+machopcandy.shtml">Machop Candy</option>
+magikarpcandy.shtml">Magikarp Candy</option>
+magmaemblem.shtml">Magma Emblem</option>
+magmastone.shtml">Magma Stone</option>
+magmasuit.shtml">Magma Suit</option>
+magmarcandy.shtml">Magmar Candy</option>
+magmarizer.shtml">Magmarizer</option>
+magnemitecandy.shtml">Magnemite Candy</option>
+magnet.shtml">Magnet</option>
+magoberry.shtml">Mago Berry</option>
+magostberry.shtml">Magost Berry</option>
+manectite.shtml">Manectite</option>
+mankeycandy.shtml">Mankey Candy</option>
+marangaberry.shtml">Maranga Berry</option>
+marble.shtml">Marble</option>
+markcharm.shtml">Mark Charm</option>
+marshadiumz.shtml">Marshadium Z</option>
+masterball.shtml">Master Ball</option>
+mawilite.shtml">Mawilite</option>
+maxelixir.shtml">Max Elixir</option>
+maxether.shtml">Max Ether</option>
+maxhoney.shtml">Max Honey</option>
+maxlure.shtml">Max Lure</option>
+maxmushrooms.shtml">Max Mushrooms</option>
+maxpotion.shtml">Max Potion</option>
+maxrepel.shtml">Max Repel</option>
+maxrevive.shtml">Max Revive</option>
+meadowplate.shtml">Meadow Plate</option>
+mechmail.shtml">Mech Mail</option>
+medalbox.shtml">Medal Box</option>
+medichamite.shtml">Medichamite</option>
+megabracelet.shtml">Mega Bracelet</option>
+megaring.shtml">Mega Ring</option>
+membercard.shtml">Member Card</option>
+mentalherb.shtml">Mental Herb</option>
+meltancandy.shtml">Meltan Candy</option>
+metagrossite.shtml">Metagrossite</option>
+metalcoat.shtml">Metal Coat</option>
+metalpowder.shtml">Metal Powder</option>
+meteorite.shtml">Meteorite</option>
+meteoriteshard.shtml">Meteorite Shard</option>
+metronome.shtml">Metronome</option>
+meowthcandy.shtml">Meowth Candy</option>
+mewcandy.shtml">Mew Candy</option>
+mewniumz.shtml">Mewnium Z</option>
+mewtwocandy.shtml">Mewtwo Candy</option>
+mewtwonitex.shtml">Mewtwonite X</option>
+mewtwonitey.shtml">Mewtwonite Y</option>
+micleberry.shtml">Micle Berry</option>
+mightycandy.shtml">Mighty Candy</option>
+mightycandyl.shtml">Mighty Candy L</option>
+mightycandyxl.shtml">Mighty Candy XL</option>
+mildmint.shtml">Mild Mint</option>
+mimikiumz.shtml">Mimikium Z</option>
+mindplate.shtml">Mind Plate</option>
+mintberry.shtml">Mint Berry</option>
+miracleseed.shtml">Miracle Seed</option>
+miracleberry.shtml">MiracleBerry</option>
+miragemail.shtml">Mirage Mail</option>
+mistyseed.shtml">Misty Seed</option>
+mixedmushrooms.shtml">Mixed Mushrooms</option>
+modestmint.shtml">Modest Mint</option>
+moltrescandy.shtml">Moltres Candy</option>
+moomoocheese.shtml">Moomoo Cheese</option>
+moomoomilk.shtml">Moomoo Milk</option>
+moonball.shtml">Moon Ball</option>
+moonflute.shtml">Moon Flute</option>
+moonstone.shtml">Moon Stone</option>
+morphmail.shtml">Morph Mail</option>
+mosaicmail.shtml">Mosaic Mail</option>
+mr.mimecandy.shtml">Mr. Mime Candy</option>
+muscleband.shtml">Muscle Band</option>
+musclefeather.shtml">Muscle Feather</option>
+musicmail.shtml">Music Mail</option>
+mysteryegg.shtml">Mystery Egg</option>
+mysteryberry.shtml">MysteryBerry</option>
+mysticwater.shtml">Mystic Water</option>
+mysticticket.shtml">MysticTicket</option>
+n-lunarizer.shtml">N-Lunarizer</option>
+n-solarizer.shtml">N-Solarizer</option>
+naivemint.shtml">Naive Mint</option>
+nanabberry.shtml">Nanab Berry</option>
+naughtymint.shtml">Naughty Mint</option>
+nestball.shtml">Nest Ball</option>
+netball.shtml">Net Ball</option>
+never-meltice.shtml">Never-meltIce</option>
+nidoranfcandy.shtml">Nidoran F Candy</option>
+nidoranmcandy.shtml">Nidoran M Candy</option>
+nomelberry.shtml">Nomel Berry</option>
+normalbox.shtml">Normal Box</option>
+normalgem.shtml">Normal Gem</option>
+normaliumz.shtml">Normalium Z</option>
+nugget.shtml">Nugget</option>
+oaksletter.shtml">Oak's Letter</option>
+oaksparcel.shtml">Oak's Parcel</option>
+occaberry.shtml">Occa Berry</option>
+oddincense.shtml">Odd Incense</option>
+oddkeystone.shtml">Odd Keystone</option>
+oddishcandy.shtml">Oddish Candy</option>
+oldamber.shtml">Old Amber</option>
+oldcharm.shtml">Old Charm</option>
+oldgateau.shtml">Old Gateau</option>
+oldletter.shtml">Old Letter</option>
+oldrod.shtml">Old Rod</option>
+oldseamap.shtml">Old Sea Map</option>
+omanytecandy.shtml">Omanyte Candy</option>
+onixcandy.shtml">Onix Candy</option>
+oranberry.shtml">Oran Berry</option>
+orangemail.shtml">Orange Mail</option>
+orangepetal.shtml">Orange Petal</option>
+ovalcharm.shtml">Oval Charm</option>
+ovalstone.shtml">Oval Stone</option>
+ppmax.shtml">PP Max</option>
+ppup.shtml">PP Up</option>
+packofpotatoes.shtml">Pack of Potatoes</option>
+packagedcurry.shtml">Packaged Curry</option>
+pairoftickets.shtml">Pair of Tickets</option>
+palpad.shtml">Pal Pad</option>
+pamtreberry.shtml">Pamtre Berry</option>
+parascandy.shtml">Paras Candy</option>
+parcel.shtml">Parcel</option>
+parkball.shtml">Park Ball</option>
+parlyzheal.shtml">Parlyz Heal</option>
+pass.shtml">Pass</option>
+passorb.shtml">Pass Orb</option>
+passhoberry.shtml">Passho Berry</option>
+pasta.shtml">Pasta</option>
+payapaberry.shtml">Payapa Berry</option>
+pearl.shtml">Pearl</option>
+pearlstring.shtml">Pearl String</option>
+pechaberry.shtml">Pecha Berry</option>
+permit.shtml">Permit</option>
+persimberry.shtml">Persim Berry</option>
+pewtercrunchies.shtml">Pewter Crunchies</option>
+petayaberry.shtml">Petaya Berry</option>
+photoalbum.shtml">Photo Album</option>
+pidgeotite.shtml">Pidgeotite</option>
+pidgeycandy.shtml">Pidgey Candy</option>
+pikachucandy.shtml">Pikachu Candy</option>
+pikaniumz.shtml">Pikanium Z</option>
+pikashuniumz.shtml">Pikashunium Z</option>
+pinapberry.shtml">Pinap Berry</option>
+pinkbow.shtml">Pink Bow</option>
+pinknectar.shtml">Pink Nectar</option>
+pinkpetal.shtml">Pink Petal</option>
+pinkscarf.shtml">Pink Scarf</option>
+pinsircandy.shtml">Pinsir Candy</option>
+pinsirite.shtml">Pinsirite</option>
+pixieplate.shtml">Pixie Plate</option>
+plasmacard.shtml">Plasma Card</option>
+plumefossil.shtml">Plume Fossil</option>
+pinkapricorn.shtml">Pink Apricorn</option>
+poffincase.shtml">Poffin Case</option>
+pointcard.shtml">Point Card</option>
+poisonbarb.shtml">Poison Barb</option>
+poisongem.shtml">Poison Gem</option>
+poisonmemory.shtml">Poison Memory</option>
+poisoniumz.shtml">Poisonium Z</option>
+pokeball.shtml">Poké Ball</option>
+pokedoll.shtml">Poké Doll</option>
+pokeradar.shtml">Poké Radar</option>
+poketoy.shtml">Poké Toy</option>
+pokeblockcase.shtml">PokéBlock Case</option>
+pokeblockkit.shtml">PokéBlock Kit</option>
+pokeflute.shtml">Pokéflute</option>
+polishedmudball.shtml">Polished Mud Ball</option>
+poliwagcandy.shtml">Poliwag Candy</option>
+polkadotbow.shtml">Polkadot Bow</option>
+pomegberry.shtml">Pomeg Berry</option>
+ponytacandy.shtml">Ponyta Candy</option>
+portraitmail.shtml">Portrait Mail</option>
+porygoncandy.shtml">Porygon Candy</option>
+potion.shtml">Potion</option>
+powderjar.shtml">Powder Jar</option>
+poweranklet.shtml">Power Anklet</option>
+powerband.shtml">Power Band</option>
+powerbelt.shtml">Power Belt</option>
+powerbracer.shtml">Power Bracer</option>
+powerherb.shtml">Power Herb</option>
+powerlens.shtml">Power Lens</option>
+powerplantpass.shtml">Power Plant Pass</option>
+powerweight.shtml">Power Weight</option>
+precookedburger.shtml">Precooked Burger</option>
+premierball.shtml">Premier Ball</option>
+prettyfeather.shtml">Pretty Feather</option>
+primariumz.shtml">Primarium Z</option>
+prismscale.shtml">Prism Scale</option>
+prisonbottle.shtml">Prison Bottle</option>
+profsletter.shtml">Prof's Letter</option>
+professor'smask.shtml">Professor's Mask</option>
+propcase.shtml">Prop Case</option>
+protectivepads.shtml">Protective Pads</option>
+protector.shtml">Protector</option>
+protein.shtml">Protein</option>
+przcureberry.shtml">PrzCureBerry</option>
+psncureberry.shtml">PsnCureBerry</option>
+psychicgem.shtml">Psychic Gem</option>
+psychicmemory.shtml">Psychic Memory</option>
+psychicseed.shtml">Psychic Seed</option>
+psychiumz.shtml">Psychium Z</option>
+psyduckcandy.shtml">Psyduck Candy</option>
+pungentroot.shtml">Pungent Root</option>
+pureincense.shtml">Pure Incense</option>
+purplenectar.shtml">Purple Nectar</option>
+purplepetal.shtml">Purple Petal</option>
+qualotberry.shtml">Qualot Berry</option>
+quickball.shtml">Quick Ball</option>
+quickcandy.shtml">Quick Candy</option>
+quickcandyl.shtml">Quick Candy L</option>
+quickcandyxl.shtml">Quick Candy XL</option>
+quickclaw.shtml">Quick Claw</option>
+quickpowder.shtml">Quick Powder</option>
+quietmint.shtml">Quiet Mint</option>
+rabutaberry.shtml">Rabuta Berry</option>
+radiantpetal.shtml">Radiant Petal</option>
+ragecandybar.shtml">Ragecandybar</option>
+rainbowflower.shtml">Rainbow Flower</option>
+rainbowpass.shtml">Rainbow Pass</option>
+rainbowwing.shtml">Rainbow Wing</option>
+rarebone.shtml">Rare Bone</option>
+rarecandy.shtml">Rare Candy</option>
+rashmint.shtml">Rash Mint</option>
+rattatacandy.shtml">Rattata Candy</option>
+rawstberry.shtml">Rawst Berry</option>
+razorclaw.shtml">Razor Claw</option>
+razorfang.shtml">Razor Fang</option>
+razzberry.shtml">Razz Berry</option>
+reapercloth.shtml">Reaper Cloth</option>
+redapricorn.shtml">Red Apricorn</option>
+redcard.shtml">Red Card</option>
+redchain.shtml">Red Chain</option>
+redflute.shtml">Red Flute</option>
+rednectar.shtml">Red Nectar</option>
+redpetal.shtml">Red Petal</option>
+redorb.shtml">Red Orb</option>
+redscale.shtml">Red Scale</option>
+redscarf.shtml">Red Scarf</option>
+redshard.shtml">Red Shard</option>
+reinsofunity.shtml">Reins of Unity</option>
+relaxedmint.shtml">Relaxed Mint</option>
+relicband.shtml">Relic Band</option>
+reliccopper.shtml">Relic Copper</option>
+reliccrown.shtml">Relic Crown</option>
+relicgold.shtml">Relic Gold</option>
+relicsilver.shtml">Relic Silver</option>
+relicstatue.shtml">Relic Statue</option>
+relicvase.shtml">Relic Vase</option>
+repeatball.shtml">Repeat Ball</option>
+repel.shtml">Repel</option>
+replymail.shtml">Reply Mail</option>
+resistfeather.shtml">Resist Feather</option>
+retromail.shtml">Retro Mail</option>
+revealglass.shtml">Reveal Glass</option>
+revivalherb.shtml">Revival Herb</option>
+revive.shtml">Revive</option>
+rhyhorncandy.shtml">Rhyhorn Candy</option>
+ribbonsweet.shtml">Ribbon Sweet</option>
+richmulch.shtml">Rich Mulch</option>
+ridepager.shtml">Ride Pager</option>
+rindoberry.shtml">Rindo Berry</option>
+ringtarget.shtml">Ring Target</option>
+rm.1key.shtml">Rm. 1 Key</option>
+rm.2key.shtml">Rm. 2 Key</option>
+rm.4key.shtml">Rm. 4 Key</option>
+rm.6key.shtml">Rm. 6 Key</option>
+rockgem.shtml">Rock Gem</option>
+rockmemory.shtml">Rock Memory</option>
+rockiumz.shtml">Rockium Z</option>
+rockincense.shtml">Rock Incense</option>
+rockyhelmet.shtml">Rocky Helmet</option>
+rollerskates.shtml">Roller Skates</option>
+roomservice.shtml">Room Service</option>
+rootfossil.shtml">Root Fossil</option>
+roseincense.shtml">Rose Incense</option>
+roseliberry.shtml">Roseli Berry</option>
+rotobargain.shtml">Roto Bargain</option>
+rotoboost.shtml">Roto Boost</option>
+rotocatch.shtml">Roto Catch</option>
+rotoencounter.shtml">Roto Encounter</option>
+rotoexp.points.shtml">Roto Exp. Points</option>
+rotofriendship.shtml">Roto Friendship</option>
+rotohatch.shtml">Roto Hatch</option>
+rotohprestore.shtml">Roto HP Restore</option>
+rotopprestore.shtml">Roto PP Restore</option>
+rotoprizemoney.shtml">Roto Prize Money</option>
+rotostealth.shtml">Roto Stealth</option>
+rotombike.shtml">Rotom Bike</option>
+rotomcatalog.shtml">Rotom Catalog</option>
+rowapberry.shtml">Rowap Berry</option>
+rsvpmail.shtml">RSVP Mail</option>
+ruby.shtml">Ruby</option>
+rulebook.shtml">Rule Book</option>
+rustedshield.shtml">Rusted Shield</option>
+rustedsword.shtml">Rusted Sword</option>
+s.s.ticket.shtml">S.S. Ticket</option>
+sablenite.shtml">Sablenite</option>
+sachet.shtml">Sachet</option>
+sacredash.shtml">Sacred Ash</option>
+safariball.shtml">Safari Ball</option>
+safetygoggles.shtml">Safety Goggles</option>
+sailfossil.shtml">Sail Fossil</option>
+salacberry.shtml">Salac Berry</option>
+saladmix.shtml">Salad Mix</option>
+salamencite.shtml">Salamencite</option>
+sandshrewcandy.shtml">Sandshrew Candy</option>
+sapphire.shtml">Sapphire</option>
+sassymint.shtml">Sassy Mint</option>
+sausages.shtml">Sausages</option>
+scanner.shtml">Scanner</option>
+sceptilite.shtml">Sceptilite</option>
+scizorite.shtml">Scizorite</option>
+scopelens.shtml">Scope Lens</option>
+scythercandy.shtml">Scyther Candy</option>
+seaincense.shtml">Sea Incense</option>
+sealbag.shtml">Seal Bag</option>
+sealcase.shtml">Seal Case</option>
+secretkey.shtml">Secret Key</option>
+secretpotion.shtml">SecretPotion</option>
+seelcandy.shtml">Seel Candy</option>
+seriousmint.shtml">Serious Mint</option>
+shaderootcarrot.shtml">Shaderoot Carrot</option>
+shadowmail.shtml">Shadow Mail</option>
+shaloursable.shtml">Shalour Sable</option>
+sharpbeak.shtml">Sharp Beak</option>
+sharpedonite.shtml">Sharpedonite</option>
+shedshell.shtml">Shed Shell</option>
+shellbell.shtml">Shell Bell</option>
+shelldercandy.shtml">Shellder Candy</option>
+shinystone.shtml">Shiny Stone</option>
+shinycharm.shtml">Shiny Charm</option>
+shoalsalt.shtml">Shoal Salt</option>
+shoalshell.shtml">Shoal Shell</option>
+shockdrive.shtml">Shock Drive</option>
+shucaberry.shtml">Shuca Berry</option>
+silkscarf.shtml">Silk Scarf</option>
+silphscope.shtml">Silph Scope</option>
+silverleaf.shtml">Silver Leaf</option>
+silvernanabberry.shtml">Silver Nanab Berry</option>
+silverpinapberry.shtml">Silver Pinap Berry</option>
+silverrazzberry.shtml">Silver Razz Berry</option>
+silverwing.shtml">Silver Wing</option>
+silverpowder.shtml">SilverPowder</option>
+sitrusberry.shtml">Sitrus Berry</option>
+skullfossil.shtml">Skull Fossil</option>
+skyplate.shtml">Sky Plate</option>
+slowbronite.shtml">Slowbronite</option>
+slowpokecandy.shtml">Slowpoke Candy</option>
+slowpoketail.shtml">Slowpoketail</option>
+smallbouquet.shtml">Small Bouquet</option>
+smartcandy.shtml">Smart Candy</option>
+smartcandyl.shtml">Smart Candy L</option>
+smartcandyxl.shtml">Smart Candy XL</option>
+smokeball.shtml">Smoke Ball</option>
+smoke-poketail.shtml">Smoke-Poke Tail</option>
+smoothrock.shtml">Smooth Rock</option>
+snorlaxcandy.shtml">Snorlax Candy</option>
+snorliumz.shtml">Snorlium Z</option>
+snowmail.shtml">Snow Mail</option>
+snowball.shtml">Snowball</option>
+sodapop.shtml">Soda Pop</option>
+softsand.shtml">Soft Sand</option>
+solganiumz.shtml">Solganium Z</option>
+sonia'sbook.shtml">Sonia's Book</option>
+sootsack.shtml">Soot Sack</option>
+soothebell.shtml">Soothe Bell</option>
+souldew.shtml">Soul Dew</option>
+spacemail.shtml">Space Mail</option>
+sparklingstone.shtml">Sparkling Stone</option>
+spearowcandy.shtml">Spearow Candy</option>
+spelltag.shtml">Spell Tag</option>
+spelonberry.shtml">Spelon Berry</option>
+splashplate.shtml">Splash Plate</option>
+spicemix.shtml">Spice Mix</option>
+spookyplate.shtml">Spooky Plate</option>
+sportball.shtml">Sport Ball</option>
+sprayduck.shtml">Sprayduck</option>
+sprinklotad.shtml">Sprinklotad</option>
+squirtbottle.shtml">Squirtbottle</option>
+squirtlecandy.shtml">Squirtle Candy</option>
+stablemulch.shtml">Stable Mulch</option>
+starpiece.shtml">Star Piece</option>
+starsweet.shtml">Star Sweet</option>
+stardust.shtml">Stardust</option>
+starfberry.shtml">Starf Berry</option>
+staryucandy.shtml">Staryu Candy</option>
+steelgem.shtml">Steel Gem</option>
+steelmail.shtml">Steel Mail</option>
+steelmemory.shtml">Steel Memory</option>
+steeliumz.shtml">Steelium Z</option>
+steelixite.shtml">Steelixite</option>
+stick.shtml">Stick</option>
+stickybarb.shtml">Sticky Barb</option>
+stoneplate.shtml">Stone Plate</option>
+storagekey.shtml">Storage Key</option>
+strangesouvenir.shtml">Strange Souvenir</option>
+strawberrysweet.shtml">Strawberry Sweet</option>
+stretchyspring.shtml">Stretchy Spring</option>
+stylecard.shtml">Style Card</option>
+suitekey.shtml">Suite Key</option>
+sunflute.shtml">Sun Flute</option>
+sunstone.shtml">Sun Stone</option>
+superlure.shtml">Super Lure</option>
+superpotion.shtml">Super Potion</option>
+superrepel.shtml">Super Repel</option>
+superrod.shtml">Super Rod</option>
+surfmail.shtml">Surf Mail</option>
+surgebadge.shtml">Surge Badge</option>
+surprisemulch.shtml">Surprise Mulch</option>
+swampertite.shtml">Swampertite</option>
+sweetapple.shtml">Sweet Apple</option>
+sweetheart.shtml">Sweet Heart</option>
+swiftfeather.shtml">Swift Feather</option>
+tmcase.shtml">TM Case</option>
+tamatoberry.shtml">Tamato Berry</option>
+tangaberry.shtml">Tanga Berry</option>
+tangelacandy.shtml">Tangela Candy</option>
+tapuniumz.shtml">Tapunium Z</option>
+tartapple.shtml">Tart Apple</option>
+tauroscandy.shtml">Tauros Candy</option>
+tea.shtml">Tea</option>
+teachytv.shtml">Teachy TV</option>
+tentacoolcandy.shtml">Tentacool Candy</option>
+terrainextender.shtml">Terrain Extender</option>
+thanksmail.shtml">Thanks Mail</option>
+thickclub.shtml">Thick Club</option>
+throatspray.shtml">Throat Spray</option>
+thunderstone.shtml">Thunderstone</option>
+tidalbell.shtml">Tidal Bell</option>
+timerball.shtml">Timer Ball</option>
+timidmint.shtml">Timid Mint</option>
+tinofbeans.shtml">Tin of Beans</option>
+tinymushroom.shtml">TinyMushroom</option>
+tmvpass.shtml">TMV Pass</option>
+toughcandy.shtml">Tough Candy</option>
+toughcandyl.shtml">Tough Candy L</option>
+toughcandyxl.shtml">Tough Candy XL</option>
+townmap.shtml">Town Map</option>
+toxicorb.shtml">Toxic Orb</option>
+toxicplate.shtml">Toxic Plate</option>
+tripass.shtml">Tri Pass</option>
+tropicmail.shtml">Tropic Mail</option>
+tropicalshell.shtml">Tropical Shell</option>
+tunnelmail.shtml">Tunnel Mail</option>
+twistedspoon.shtml">TwistedSpoon</option>
+tyranitarite.shtml">Tyranitarite</option>
+ultraball.shtml">Ultra Ball</option>
+ultranecroziumz.shtml">Ultranecrozium Z</option>
+unownreport.shtml">Unown Report</option>
+upgrade.shtml">Upgrade</option>
+utilityumbrella.shtml">Utility Umbrella</option>
+venonatcandy.shtml">Venonat Candy</option>
+venusaurite.shtml">Venusaurite</option>
+voltorbcandy.shtml">Voltorb Candy</option>
+vs.recorder.shtml">Vs. Recorder</option>
+vs.seeker.shtml">Vs. Seeker</option>
+vulpixcandy.shtml">Vulpix Candy</option>
+wacanberry.shtml">Wacan Berry</option>
+wailmerpail.shtml">Wailmer Pail</option>
+watergem.shtml">Water Gem</option>
+watermemory.shtml">Water Memory</option>
+waterstone.shtml">Water Stone</option>
+wateriumz.shtml">Waterium Z</option>
+watmelberry.shtml">Watmel Berry</option>
+waveincense.shtml">Wave Incense</option>
+wavemail.shtml">Wave Mail</option>
+weaknesspolicy.shtml">Weakness Policy</option>
+weedlecandy.shtml">Weedle Candy</option>
+wepearberry.shtml">Wepear Berry</option>
+whippeddream.shtml">Whipped Dream</option>
+whiteflute.shtml">White Flute</option>
+whiteherb.shtml">White Herb</option>
+whiteapricorn.shtml">White Apricorn</option>
+whitemanehair.shtml">White Mane Hair</option>
+widelens.shtml">Wide Lens</option>
+wikiberry.shtml">Wiki Berry</option>
+wiseglasses.shtml">Wise Glasses</option>
+wishingchip.shtml">Wishing Chip</option>
+wishingpiece.shtml">Wishing Piece</option>
+wishingstar.shtml">Wishing Star</option>
+woodencrown.shtml">Wooden Crown</option>
+woodmail.shtml">Wood Mail</option>
+workskey.shtml">Works Key</option>
+xaccuracy.shtml">X Accuracy</option>
+xattack.shtml">X Attack</option>
+xdefend.shtml">X Defend</option>
+xsp.def.shtml">X Sp. Def</option>
+xspecial.shtml">X Special</option>
+xspeed.shtml">X Speed</option>
+xtransceiver.shtml">Xtransceiver</option>
+xtransceiver.shtml">Xtransceiver</option>
+yacheberry.shtml">Yache Berry</option>
+yellowflute.shtml">Yellow Flute</option>
+yellownectar.shtml">Yellow Nectar</option>
+yellowpetal.shtml">Yellow Petal</option>
+yellowscarf.shtml">Yellow Scarf</option>
+yellowshard.shtml">Yellow Shard</option>
+yellowapricorn.shtml">Yellow  Apricorn</option>
+z-powerring.shtml">Z-Power Ring</option>
+z-ring.shtml">Z-Ring</option>
+zapplate.shtml">Zap Plate</option>
+zapdoscandy.shtml">Zapdos Candy</option>
+zinc.shtml">Zinc</option>
+zoomlens.shtml">Zoom Lens</option>
+zubatcandy.shtml">Zubat Candy</option>
+zygardecube.shtml">Zygarde Cube</option>

@@ -10,26 +10,26 @@
 <link href="/style/layout.css" rel="stylesheet" type="text/css">
 <meta content="width=device-width,initial-scale=1" id="viewport-meta" name="viewport"/>
 <!-- GDPR Compliancy -->
-<style>
-body {
-	--cmpBgColor: #507C36;
-	--cmpTextColor: #000000;
-	--cmpLinkColor: #ffffff;
-	--cmpPurposesColor: #000000;
-	--cmpBrandColor: #000000;
-	--cmpLogo: url('https://www.serebii.net/extralogo.png');
-}
+<style>
+body {
+	--cmpBgColor: #507C36;
+	--cmpTextColor: #000000;
+	--cmpLinkColor: #ffffff;
+	--cmpPurposesColor: #000000;
+	--cmpBrandColor: #000000;
+	--cmpLogo: url('https://www.serebii.net/extralogo.png');
+}
 </style>
 <!-- GDPR Compliancy -->
 <link href="/serebii-opensearch.xml" rel="search" title="Serebii Open Search" type="application/opensearchdescription+xml">
 <link href="/favicon.ico" rel="shortcut icon">
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-128947957-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'UA-128947957-1');
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-128947957-1');
 </script>
 <!-- Place the below code anywhere you like in the <head> (higher is better) -->
 <script>window.AdSlots = window.AdSlots || {cmd: [], disableScripts: ['gpt','bk']};</script>
@@ -40,69 +40,69 @@ body {
 <link href="/style/dexy-new.css" rel="stylesheet" type="text/css"/>
 </meta></link></link></link></head>
 <body>
-<script type="text/javascript">
-	var viewport_meta = document.getElementById('viewport-meta');
-	var viewport_timer;
-
-	// these body*Class are reused in the lbar mobile menu
-	function bodyAddClass(className){
-		if(document.body) document.body.classList.add(className);
-	}
-	function bodyRemoveClass(className){
-		if(document.body) document.body.className = document.body.className.replace(className,"");
-	}
-
-	function viewport_set() {
-		// Define our viewport meta values
-		var viewports = {
-			default: viewport_meta.getAttribute('content'),
-			mobileL: 'width=device-width,initial-scale=0.75',
-			mobileM: 'width=device-width,initial-scale=0.5',
-			mobileS: 'width=device-width,initial-scale=0.4'
-		};
-
-		// Change the viewport value based on screen.width
-		if(screen.width < 370){
-			viewport_meta.setAttribute('content', viewports.mobileS);
-			bodyAddClass("nav_mobileS");
-			bodyRemoveClass("nav_mobileM");
-			bodyRemoveClass("nav_mobileL");
-		} else if(screen.width < 505){
-			viewport_meta.setAttribute('content', viewports.mobileM);
-			bodyRemoveClass("nav_mobileS");
-			bodyAddClass("nav_mobileM");
-			bodyRemoveClass("nav_mobileL");
-		} else if (screen.width < 760){
-			viewport_meta.setAttribute('content', viewports.mobileL);
-			bodyRemoveClass("nav_mobileS");
-			bodyRemoveClass("nav_mobileM");
-			bodyAddClass("nav_mobileL");
-		} else{
-			viewport_meta.setAttribute('content', viewports.default);
-			bodyRemoveClass("nav_mobileS");
-			bodyRemoveClass("nav_mobileM");
-			bodyRemoveClass("nav_mobileL");
-		}
-	}
-
-	// Set the correct viewport value on page load
-	viewport_set();
-
-	/* attach listener to (delay) set the correct viewport after device orientation change or resize. also onload so the nav_mobile* class gets added to body AFTER <body> has loaded */
-	if(window.addEventListener){
-		window.addEventListener('load', viewport_set);
-		window.addEventListener('resize', function(){
-			clearTimeout(viewport_timer);
-			viewport_timer = setTimeout(viewport_set, 100);
-		})
-	} else{
-		window.attachEvent('onload', viewport_set)
-		window.attachEvent('onresize', function(){
-			clearTimeout(viewport_timer);
-			viewport_timer = setTimeout(viewport_set, 100);
-		})
-	}
-
+<script type="text/javascript">
+	var viewport_meta = document.getElementById('viewport-meta');
+	var viewport_timer;
+
+	// these body*Class are reused in the lbar mobile menu
+	function bodyAddClass(className){
+		if(document.body) document.body.classList.add(className);
+	}
+	function bodyRemoveClass(className){
+		if(document.body) document.body.className = document.body.className.replace(className,"");
+	}
+
+	function viewport_set() {
+		// Define our viewport meta values
+		var viewports = {
+			default: viewport_meta.getAttribute('content'),
+			mobileL: 'width=device-width,initial-scale=0.75',
+			mobileM: 'width=device-width,initial-scale=0.5',
+			mobileS: 'width=device-width,initial-scale=0.4'
+		};
+
+		// Change the viewport value based on screen.width
+		if(screen.width < 370){
+			viewport_meta.setAttribute('content', viewports.mobileS);
+			bodyAddClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if(screen.width < 505){
+			viewport_meta.setAttribute('content', viewports.mobileM);
+			bodyRemoveClass("nav_mobileS");
+			bodyAddClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		} else if (screen.width < 760){
+			viewport_meta.setAttribute('content', viewports.mobileL);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyAddClass("nav_mobileL");
+		} else{
+			viewport_meta.setAttribute('content', viewports.default);
+			bodyRemoveClass("nav_mobileS");
+			bodyRemoveClass("nav_mobileM");
+			bodyRemoveClass("nav_mobileL");
+		}
+	}
+
+	// Set the correct viewport value on page load
+	viewport_set();
+
+	/* attach listener to (delay) set the correct viewport after device orientation change or resize. also onload so the nav_mobile* class gets added to body AFTER <body> has loaded */
+	if(window.addEventListener){
+		window.addEventListener('load', viewport_set);
+		window.addEventListener('resize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	} else{
+		window.attachEvent('onload', viewport_set)
+		window.attachEvent('onresize', function(){
+			clearTimeout(viewport_timer);
+			viewport_timer = setTimeout(viewport_set, 100);
+		})
+	}
+
 </script>
 <header id="header">
 <div class="banner">
@@ -486,82 +486,82 @@ body {
 </li>
 </ul>
 </nav>
-<script type="text/javascript">
-
-function loadMobileLbar(){
-	var tbar_lbar_open=document.getElementById('tbar_lbar_open'),
-		tbar_backdrop=document.getElementById('tbar_backdrop'),
-		lbar=document.getElementById('lbar'),
-		lbarLIs=document.querySelectorAll("#lbar_ul>li .navheader"),
-		lbarLIULs=document.querySelectorAll("#lbar_ul>li>ul");
-
-	/* lbar display/hide */
-	tbar_lbar_open.onclick=function() {
-		if (lbar.className.indexOf("show") > -1){//hide
-			lbar.className = lbar.className.replace("show","");
-			bodyRemoveClass("nav_modal");
-		} else{//show
-			lbar.classList.add("show");
-			bodyAddClass("nav_modal");
-		}
-
-		return false;
-	}
-
-
-	/* background clicked when bar shown */
-	tbar_backdrop.onclick=function() {// if the backdrop is clicked, hide menus
-		lbar.className = lbar.className.replace("show","");
-		rbar.className = rbar.className.replace("show","");
-		bodyRemoveClass("nav_modal");
-		return false;
-	}
-
-	/* handle expand/collapse sub-menus in lbar by attaching click events */
-	for(i=0; i<lbarLIs.length; i++){
-		lbarLIs[i].onclick=function(i) {
-			var elem=this.parentNode.getElementsByTagName("UL")[0];
-			var elemDisp=(elem.className.indexOf("show") === -1)
-
-			// hide all ul, then open one if clicked
-			for(i2=0; i2<lbarLIULs.length; i2++){
-				lbarLIULs[i2].className = lbarLIULs[i2].className.replace("show","");
-			}
-
-			if(elemDisp){
-				elem.classList.add("show");
-			}
-
-			return false;
-		}
-	}
-}
-function loadMobileRbar(){
-	var tbar_rbar_open=document.getElementById('tbar_rbar_open'),
-		rbar=document.getElementById('rbar');
-
-	/* rbar display/hide */
-	tbar_rbar_open.onclick=function() {
-		if (rbar.className.indexOf("show") > -1){//hide
-			rbar.className = rbar.className.replace("show","");
-			bodyRemoveClass("nav_modal");
-		} else{//show
-			rbar.classList.add("show");
-			bodyAddClass("nav_modal");
-		}
-
-		return false;
-	}
-}
-
-loadMobileLbar();
-
-/* attach listener to for rbar events AFTER page loads (because #rbar hasn't loaded at this point in page ) */
-if(window.addEventListener){
-	window.addEventListener('load', loadMobileRbar)
-} else{
-	window.attachEvent('onload', loadMobileRbar)
-}
+<script type="text/javascript">
+
+function loadMobileLbar(){
+	var tbar_lbar_open=document.getElementById('tbar_lbar_open'),
+		tbar_backdrop=document.getElementById('tbar_backdrop'),
+		lbar=document.getElementById('lbar'),
+		lbarLIs=document.querySelectorAll("#lbar_ul>li .navheader"),
+		lbarLIULs=document.querySelectorAll("#lbar_ul>li>ul");
+
+	/* lbar display/hide */
+	tbar_lbar_open.onclick=function() {
+		if (lbar.className.indexOf("show") > -1){//hide
+			lbar.className = lbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			lbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+
+
+	/* background clicked when bar shown */
+	tbar_backdrop.onclick=function() {// if the backdrop is clicked, hide menus
+		lbar.className = lbar.className.replace("show","");
+		rbar.className = rbar.className.replace("show","");
+		bodyRemoveClass("nav_modal");
+		return false;
+	}
+
+	/* handle expand/collapse sub-menus in lbar by attaching click events */
+	for(i=0; i<lbarLIs.length; i++){
+		lbarLIs[i].onclick=function(i) {
+			var elem=this.parentNode.getElementsByTagName("UL")[0];
+			var elemDisp=(elem.className.indexOf("show") === -1)
+
+			// hide all ul, then open one if clicked
+			for(i2=0; i2<lbarLIULs.length; i2++){
+				lbarLIULs[i2].className = lbarLIULs[i2].className.replace("show","");
+			}
+
+			if(elemDisp){
+				elem.classList.add("show");
+			}
+
+			return false;
+		}
+	}
+}
+function loadMobileRbar(){
+	var tbar_rbar_open=document.getElementById('tbar_rbar_open'),
+		rbar=document.getElementById('rbar');
+
+	/* rbar display/hide */
+	tbar_rbar_open.onclick=function() {
+		if (rbar.className.indexOf("show") > -1){//hide
+			rbar.className = rbar.className.replace("show","");
+			bodyRemoveClass("nav_modal");
+		} else{//show
+			rbar.classList.add("show");
+			bodyAddClass("nav_modal");
+		}
+
+		return false;
+	}
+}
+
+loadMobileLbar();
+
+/* attach listener to for rbar events AFTER page loads (because #rbar hasn't loaded at this point in page ) */
+if(window.addEventListener){
+	window.addEventListener('load', loadMobileRbar)
+} else{
+	window.attachEvent('onload', loadMobileRbar)
+}
 </script>
 <div id="content">
 <div class="center" style="margin-top:16px;height:100px"><div id="nn_lb1"></div><div id="nn_mobile_lb1"></div></div>
@@ -571,7 +571,7 @@ if(window.addEventListener){
 <td align="center" width="50%">
 <form name="ability">
 <select name="SelectURL" onchange="document.location.href=document.ability.SelectURL.options[document.ability.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
-<option value="index.shtml">AbilityDex A-L
+<option value="index.shtml">AbilityDex A-L
 <option value="/abilitydex/adaptability.shtml">Adaptability</option>
 <option value="/abilitydex/aerilate.shtml">Aerilate</option>
 <option value="/abilitydex/aftermath.shtml">Aftermath</option>
@@ -689,7 +689,7 @@ if(window.addEventListener){
 </option></select></form></td>
 <td align="center" width="50%"><form name="ability2">
 <select name="SelectURL" onchange="document.location.href=document.ability2.SelectURL.options[document.ability2.SelectURL.selectedIndex].value" size="1" style="color:#383838; font-size: 8pt; background:#CEBC77">
-<option value="index.shtml">AbilityDex M-Z
+<option value="index.shtml">AbilityDex M-Z
 <option value="/abilitydex/magicbounce.shtml">Magic Bounce</option>
 <option value="/abilitydex/magicguard.shtml">Magic Guard</option>
 <option value="/abilitydex/magician.shtml">Magician</option>
@@ -1237,15 +1237,15 @@ if(window.addEventListener){
 </div>
 <div class="navheader">Next In Japan</div>
 <div>
-<div align="center"><img "="" class="tbarpic" src="/anime/NextOn/1154.jpg"/></div>
+<div align="center"><img "="" class="tbarpic" src="/anime/NextOn/1154.jpg"/></div>
 		Episode 1154<br/>
 <b>Dragon Battle! Ash VS Iris!!</b><br/>
-<div align="center"><img "="" class="tbarpic" src="/anime/NextOn/1154-i.jpg"/></div>
+<div align="center"><img "="" class="tbarpic" src="/anime/NextOn/1154-i.jpg"/></div>
 		Airdate: 07/05/2021<br/>
 </div>
 <div class="navheader">Recently In USA</div>
 <div>
-<div align="center"><a href="/anime/epiguide/pokemon/1137.shtml"><img "="" class="tbarpic" src="/1137.jpg"/></a></div>
+<div align="center"><a href="/anime/epiguide/pokemon/1137.shtml"><img "="" class="tbarpic" src="/1137.jpg"/></a></div>
 		Episode 1137<br/>
 <b>A Close Call... Practically</b><br/>
 <img src="/anime/synopsis.gif"/>Synopsis<br/>
@@ -1253,9 +1253,9 @@ if(window.addEventListener){
 </div>
 <div class="navheader">Next In USA</div>
 <div>
-<div align="center"><a href="/anime/epiguide/pokemon/1138.shtml"><img "="" class="tbarpic" src="/1138.jpg"/></a></div>
+<div align="center"><a href="/anime/epiguide/pokemon/1138.shtml"><img "="" class="tbarpic" src="/1138.jpg"/></a></div>
 		Episode 1138<br/>
-<b>Chloe &amp; The Really Mysterious Eevee</b><br/>
+<b>Chloe &amp; The Really Mysterious Eevee</b><br/>
 		Airdate: 2021<br/>
 <a href="/anime/epiguide/pokemon/1138.shtml"><img src="/anime/synopsis.gif"/>Synopsis</a><br/>
 <a href="/anime/pictures/pokemon/1138.shtml"><img src="/anime/pictures.gif"/>Pictures</a><br/>
@@ -1276,12 +1276,12 @@ if(window.addEventListener){
 </div><!-- END #wrapper -->
 <footer id="footer">
 <div class="copyright">
-<a alt="Top of Page" class="totop" href="#top" title="Top of Page"></a>
-
-		All Content is © Copyright of Serebii.net 1999-2021. |
-		<a href="/privacy.shtml">Privacy Policy</a> |
-		<a class="nn-cmp-show" href="#">Manage Cookie Settings</a><br/>
-		Pokémon and All Respective Names are Trademark &amp; © of Nintendo 1996-2021
+<a alt="Top of Page" class="totop" href="#top" title="Top of Page"></a>
+
+		All Content is © Copyright of Serebii.net 1999-2021. |
+		<a href="/privacy.shtml">Privacy Policy</a> |
+		<a class="nn-cmp-show" href="#">Manage Cookie Settings</a><br/>
+		Pokémon and All Respective Names are Trademark &amp; © of Nintendo 1996-2021
 	</div>
 <div style="height:102px">
 <div id="nn_lb2"></div><div id="nn_mobile_lb2"></div>

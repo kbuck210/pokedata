@@ -1,0 +1,412 @@
+abilitycapsule.shtml">Ability Capsule</option>
+abilitypatch.shtml">Ability Patch</option>
+abomasite.shtml">Abomasite</option>
+abracandy.shtml">Abra Candy</option>
+absolite.shtml">Absolite</option>
+absorbbulb.shtml">Absorb Bulb</option>
+abilitycapsule.shtml">Ability Capsule</option>
+abilitypatch.shtml">Ability Patch</option>
+acrobike.shtml">Acro Bike</option>
+adamantmint.shtml">Adamant Mint</option>
+adamantorb.shtml">Adamant Orb</option>
+adrenalineorb.shtml">Adrenaline Orb</option>
+adventurerules.shtml">Adventure Rules</option>
+aerodactylite.shtml">Aerodactylite</option>
+aerodactylcandy.shtml">Aerodactyl Candy</option>
+aggronite.shtml">Aggronite</option>
+aguavberry.shtml">Aguav Berry</option>
+airballoon.shtml">Air Balloon</option>
+airmail.shtml">Air Mail</option>
+alakazite.shtml">Alakazite</option>
+aloraichiumz.shtml">Aloraichium Z</option>
+altarianite.shtml">Altarianite</option>
+amazemulch.shtml">Amaze Mulch</option>
+ampharosite.shtml">Ampharosite</option>
+amuletcoin.shtml">Amulet Coin</option>
+antidote.shtml">Antidote</option>
+apicotberry.shtml">Apicot Berry</option>
+apricornbox.shtml">Apricorn Box</option>
+aquasuit.shtml">Aqua Suit</option>
+armorfossil.shtml">Armor Fossil</option>
+armorpass.shtml">Armor Pass</option>
+articunocandy.shtml">Articuno Candy</option>
+armoriteore.shtml">Armorite Ore</option>
+aspearberry.shtml">Aspear Berry</option>
+assaultvest.shtml">Assault Vest</option>
+audinite.shtml">Audinite</option>
+auroraticket.shtml">Aurora Ticket</option>
+autograph.shtml">Autograph</option>
+awakening.shtml">Awakening</option>
+azureflute.shtml">Azure Flute</option>
+babiriberry.shtml">Babiri Berry</option>
+bachsfoodtin.shtml">Bach's Food Tin</option>
+balmmushroom.shtml">BalmMushroom</option>
+bandautograph.shtml">Band Autograph</option>
+banettite.shtml">Banettite</option>
+basementkey.shtml">Basement Key</option>
+beachglass.shtml">Beach Glass</option>
+beadmail.shtml">Bead Mail</option>
+beastball.shtml">Beast Ball</option>
+beedrillite.shtml">Beedrillite</option>
+bellsproutcandy.shtml">Bellsprout Candy</option>
+belueberry.shtml">Belue Berry</option>
+berry.shtml">Berry</option>
+berryjuice.shtml">Berry Juice</option>
+berrypots.shtml">Berry Pots</option>
+berrypouch.shtml">Berry Pouch</option>
+berserkgene.shtml">Berserk Gene</option>
+bicycle.shtml">Bicycle</option>
+bigmalasada.shtml">Big Malasada</option>
+bigmushroom.shtml">Big Mushroom</option>
+bignugget.shtml">Big Nugget</option>
+bigpearl.shtml">Big Pearl</option>
+bigroot.shtml">Big Root</option>
+bikevoucher.shtml">Bike Voucher</option>
+bindingband.shtml">Binding Band</option>
+bitterberry.shtml">Bitter Berry</option>
+blackbelt.shtml">Black Belt</option>
+blackflute.shtml">Black Flute</option>
+blackmanehair.shtml">Black Mane Hair</option>
+blacksludge.shtml">Black Sludge</option>
+blackglasses.shtml">BlackGlasses</option>
+blastoisinite.shtml">Blastoisinite</option>
+blazikenite.shtml">Blazikenite</option>
+blackapricorn.shtml">Black Apricorn</option>
+bloommail.shtml">Bloom Mail</option>
+blueapricorn.shtml">Blue Apricorn</option>
+bluecard.shtml">Blue Card</option>
+blueflute.shtml">Blue Flute</option>
+blueorb.shtml">Blue Orb</option>
+bluepetal.shtml">Blue Petal</option>
+bluescarf.shtml">Blue Scarf</option>
+blueshard.shtml">Blue Shard</option>
+blueskymail.shtml">BlueSky Mail</option>
+blukberry.shtml">Bluk Berry</option>
+blunderpolicy.shtml">Blunder Policy</option>
+bobsfoodtin.shtml">Bob's Food Tin</option>
+boiledegg.shtml">Boiled Egg</option>
+boldmint.shtml">Bold Mint</option>
+boostmulch.shtml">Boost Mulch</option>
+bottlecap.shtml">Bottle Cap</option>
+bravemint.shtml">Brave Mint</option>
+bread.shtml">Bread</option>
+brittlebones.shtml">Brittle Bones</option>
+brickmail.shtml">Brick Mail</option>
+brickpiece.shtml">Brick Piece</option>
+bridgemaild.shtml">BridgeMail D</option>
+bridgemailm.shtml">BridgeMail M</option>
+bridgemails.shtml">BridgeMail S</option>
+bridgemailt.shtml">BridgeMail T</option>
+bridgemailv.shtml">BridgeMail V</option>
+brightpowder.shtml">BrightPowder</option>
+bubblemail.shtml">Bubble Mail</option>
+buggem.shtml">Bug Gem</option>
+bugmemory.shtml">Bug Memory</option>
+buginiumz.shtml">Buginium Z</option>
+bulbasaurcandy.shtml">Bulbasaur Candy</option>
+burndrive.shtml">Burn Drive</option>
+burnheal.shtml">Burn Heal</option>
+burntberry.shtml">Burnt Berry</option>
+calcium.shtml">Calcium</option>
+calmmint.shtml">Calm Mint</option>
+cameruptite.shtml">Cameruptite</option>
+campinggear.shtml">Camping Gear</option>
+carbos.shtml">Carbos</option>
+cardkey.shtml">Card Key</option>
+carefulmint.shtml">Careful Mint</option>
+carrotseeds.shtml">Carrot Seeds</option>
+casteliacone.shtml">Casteliacone</option>
+caterpiecandy.shtml">Caterpie Candy</option>
+catchingcharm.shtml">Catching Charm</option>
+cellbattery.shtml">Cell Battery</option>
+chalkystone.shtml">Chalky Stone</option>
+chanseycandy.shtml">Chansey Candy</option>
+charcoal.shtml">Charcoal</option>
+charizarditex.shtml">Charizardite X</option>
+charizarditey.shtml">Charizardite Y</option>
+charmandercandy.shtml">Charmander Candy</option>
+chartiberry.shtml">Charti Berry</option>
+cheriberry.shtml">Cheri Berry</option>
+cherishball.shtml">Cherish Ball</option>
+chestoberry.shtml">Chesto Berry</option>
+chilanberry.shtml">Chilan Berry</option>
+chilldrive.shtml">Chill Drive</option>
+chippedpot.shtml">Chipped Pot</option>
+choiceband.shtml">Choice Band</option>
+choicescarf.shtml">Choice Scarf</option>
+choicespecs.shtml">Choice Specs</option>
+chopleberry.shtml">Chople Berry</option>
+clawfossil.shtml">Claw Fossil</option>
+cleansetag.shtml">Cleanse Tag</option>
+clearbell.shtml">Clear Bell</option>
+clefairycandy.shtml">Clefairy Candy</option>
+cleverfeather.shtml">Clever Feather</option>
+cloversweet.shtml">Clover Sweet</option>
+cobaberry.shtml">Coba Berry</option>
+coconutmilk.shtml">Coconut Milk</option>
+coincase.shtml">Coin Case</option>
+colburberry.shtml">Colbur Berry</option>
+cometshard.shtml">Comet Shard</option>
+contestcostume.shtml">Contest Costume</option>
+contestpass.shtml">Contest Pass</option>
+colressmchn.shtml">Colress MCHN</option>
+cornnberry.shtml">Cornn Berry</option>
+coupon1.shtml">Coupon 1</option>
+coupon2.shtml">Coupon 2</option>
+coupon3.shtml">Coupon 3</option>
+couragecandy.shtml">Courage Candy</option>
+couragecandyl.shtml">Courage Candy L</option>
+couragecandyxl.shtml">Courage Candy XL</option>
+coverfossil.shtml">Cover Fossil</option>
+crownpass.shtml">Crown Pass</option>
+cubonecandy.shtml">Cubone Candy</option>
+custapberry.shtml">Custap Berry</option>
+dampmulch.shtml">Damp Mulch</option>
+damprock.shtml">Damp Rock</option>
+darkgem.shtml">Dark Gem</option>
+darkstone.shtml">Dark Stone</option>
+darkmemory.shtml">Dark Memory</option>
+darkiniumz.shtml">Darkinium Z</option>
+datacard1.shtml">Data Card 1</option>
+datacard10.shtml">Data Card 10</option>
+datacard11.shtml">Data Card 11</option>
+datacard12.shtml">Data Card 12</option>
+datacard13.shtml">Data Card 13</option>
+datacard14.shtml">Data Card 14</option>
+datacard15.shtml">Data Card 15</option>
+datacard16.shtml">Data Card 16</option>
+datacard17.shtml">Data Card 17</option>
+datacard18.shtml">Data Card 18</option>
+datacard19.shtml">Data Card 19</option>
+datacard2.shtml">Data Card 2</option>
+datacard20.shtml">Data Card 20</option>
+datacard21.shtml">Data Card 21</option>
+datacard22.shtml">Data Card 22</option>
+datacard23.shtml">Data Card 23</option>
+datacard24.shtml">Data Card 24</option>
+datacard25.shtml">Data Card 25</option>
+datacard26.shtml">Data Card 26</option>
+datacard27.shtml">Data Card 27</option>
+datacard3.shtml">Data Card 3</option>
+datacard4.shtml">Data Card 4</option>
+datacard5.shtml">Data Card 5</option>
+datacard6.shtml">Data Card 6</option>
+datacard7.shtml">Data Card 7</option>
+datacard8.shtml">Data Card 8</option>
+datacard9.shtml">Data Card 9</option>
+dawnstone.shtml">Dawn Stone</option>
+decidiumz.shtml">Decidium Z</option>
+deepseascale.shtml">DeepSeaScale</option>
+deepseatooth.shtml">DeepSeaTooth</option>
+destinyknot.shtml">Destiny Knot</option>
+devongoods.shtml">Devon Goods</option>
+devonparts.shtml">Devon Parts</option>
+devonscope.shtml">Devon Scope</option>
+devonscubagear.shtml">Devon Scuba Gear</option>
+discountcoupon.shtml">Discount Coupon</option>
+diancite.shtml">Diancite</option>
+diglettcandy.shtml">Diglett Candy</option>
+direhit.shtml">Dire Hit</option>
+dittocandy.shtml">Ditto Candy</option>
+diveball.shtml">Dive Ball</option>
+dnasplicers.shtml">DNA Splicers</option>
+doduocandy.shtml">Doduo Candy</option>
+domefossil.shtml">Dome Fossil</option>
+dousedrive.shtml">Douse Drive</option>
+dowsingmachine.shtml">Dowsing Machine</option>
+dowsingmchn.shtml">Dowsing MCHN</option>
+dracoplate.shtml">Draco Plate</option>
+dragonfang.shtml">Dragon Fang</option>
+dragongem.shtml">Dragon Gem</option>
+dragonscale.shtml">Dragon Scale</option>
+dragonskull.shtml">Dragon Skull</option>
+dragonmemory.shtml">Dragon Memory</option>
+dragoniumz.shtml">Dragonium Z</option>
+dratinicandy.shtml">Dratini Candy</option>
+dreadplate.shtml">Dread Plate</option>
+dreamball.shtml">Dream Ball</option>
+dreammail.shtml">Dream Mail</option>
+droppeditem.shtml">Dropped Item</option>
+drowzeecandy.shtml">Drowzee Candy</option>
+dubiousdisc.shtml">Dubious Disc</option>
+durinberry.shtml">Durin Berry</option>
+duskball.shtml">Dusk Ball</option>
+duskstone.shtml">Dusk Stone</option>
+dynamaxband.shtml">Dynamax Band</option>
+dynamaxcandy.shtml">Dynamax Candy</option>
+dyniteore.shtml">Dynite Ore</option>
+exp.all.shtml">EXP. All</option>
+earthplate.shtml">Earth Plate</option>
+eeveecandy.shtml">Eevee Candy</option>
+eeviumz.shtml">Eevium Z</option>
+eggcard.shtml">Egg Card</option>
+ejectbutton.shtml">Eject Button</option>
+ejectpack.shtml">Eject Pack</option>
+ekanscandy.shtml">Ekans Candy</option>
+electabuzzcandy.shtml">Electabuzz Candy</option>
+electirizer.shtml">Electirizer</option>
+electricgem.shtml">Electric Gem</option>
+electricmemory.shtml">Electric Memory</option>
+electricseed.shtml">Electric Seed</option>
+electriumz.shtml">Electrium Z</option>
+elevatorkey.shtml">Elevator Key</option>
+elixir.shtml">Elixir</option>
+endorsement.shtml">Endorsement</option>
+energyroot.shtml">Energy Root</option>
+energypowder.shtml">EnergyPowder</option>
+enigmaberry.shtml">Enigma Berry</option>
+enigmastone.shtml">Enigma Stone</option>
+enigmaticcard.shtml">Enigmatic Card</option>
+eonflute.shtml">Eon Flute</option>
+eonmail.shtml">Eon Mail</option>
+eonticket.shtml">Eon Ticket</option>
+escaperope.shtml">Escape Rope</option>
+ether.shtml">Ether</option>
+everstone.shtml">Everstone</option>
+eviolite.shtml">Eviolite</option>
+exeggcutecandy.shtml">Exeggcute Candy</option>
+exp.candyl.shtml">Exp. Candy L</option>
+exp.candym.shtml">Exp. Candy M</option>
+exp.candys.shtml">Exp. Candy S</option>
+exp.candyxl.shtml">Exp. Candy XL</option>
+exp.candyxs.shtml">Exp. Candy XS</option>
+exp.charm.shtml">Exp. Charm</option>
+exp.share.shtml">Exp. Share</option>
+expertbelt.shtml">Expert Belt</option>
+explorerkit.shtml">Explorer Kit</option>
+fabmail.shtml">Fab Mail</option>
+fairiumz.shtml">Fairium Z</option>
+fairygem.shtml">Fairy Gem</option>
+fairymemory.shtml">Fairy Memory</option>
+farfetchdcandy.shtml">Farfetch'd Candy</option>
+famechecker.shtml">Fame Checker</option>
+fancyapple.shtml">Fancy Apple</option>
+fashioncase.shtml">Fashion Case</option>
+fastball.shtml">Fast Ball</option>
+favoredmail.shtml">Favored Mail</option>
+festivalticket.shtml">Festival Ticket</option>
+fightinggem.shtml">Fighting Gem</option>
+fightingmemory.shtml">Fighting Memory</option>
+fightiniumz.shtml">Fightinium Z</option>
+figyberry.shtml">Figy Berry</option>
+firegem.shtml">Fire Gem</option>
+firememory.shtml">Fire Memory</option>
+firestone.shtml">Fire Stone</option>
+firiumz.shtml">Firium Z</option>
+fishingrod.shtml">Fishing Rod</option>
+fistplate.shtml">Fist Plate</option>
+flamemail.shtml">Flame Mail</option>
+flameorb.shtml">Flame Orb</option>
+flameplate.shtml">Flame Plate</option>
+floatstone.shtml">Float Stone</option>
+flowermail.shtml">Flower Mail</option>
+flowersweet.shtml">Flower Sweet</option>
+fluffytail.shtml">Fluffy Tail</option>
+flyinggem.shtml">Flying Gem</option>
+flyingmemory.shtml">Flying Memory</option>
+flyiniumz.shtml">Flyinium Z</option>
+focusband.shtml">Focus Band</option>
+focussash.shtml">Focus Sash</option>
+foragebag.shtml">Forage Bag</option>
+fossilizedbird.shtml">Fossilized Bird</option>
+fossilizeddino.shtml">Fossilized Dino</option>
+fossilizeddrake.shtml">Fossilized Drake</option>
+fossilizedfish.shtml">Fossilized Fish</option>
+freshcream.shtml">Fresh Cream</option>
+freshwater.shtml">Fresh Water</option>
+friedfood.shtml">Fried Food</option>
+friendball.shtml">Friend Ball</option>
+fruitbunch.shtml">Fruit Bunch</option>
+fullheal.shtml">Full Heal</option>
+fullincense.shtml">Full Incense</option>
+fullrestore.shtml">Full Restore</option>
+galaricacuff.shtml">Galarica Cuff</option>
+galaricatwig.shtml">Galarica Twig</option>
+galaricawreath.shtml">Galarica Wreath</option>
+garchompite.shtml">Garchompite</option>
+gardevoirite.shtml">Gardevoirite</option>
+gastlycandy.shtml">Gastly Candy</option>
+gbsounds.shtml">GB Sounds</option>
+gsball.shtml">GS Ball</option>
+galladite.shtml">Galladite</option>
+galactickey.shtml">Galactic Key</option>
+galaricacuff.shtml">Galarica Cuff</option>
+galaricatwig.shtml">Galarica Twig</option>
+galaricawreath.shtml">Galarica Wreath</option>
+ganlonberry.shtml">Ganlon Berry</option>
+gardevoirite.shtml">Gardevoirite</option>
+gengarite.shtml">Gengarite</option>
+geniusfeather.shtml">Genius Feather</option>
+gentlemint.shtml">Gentle Mint</option>
+geodudecandy.shtml">Geodude Candy</option>
+ghostgem.shtml">Ghost Gem</option>
+ghostmemory.shtml">Ghost Memory</option>
+ghostiumz.shtml">Ghostium Z</option>
+gigantamix.shtml">Gigantamix</option>
+glalitite.shtml">Glalitite</option>
+glittermail.shtml">Glitter Mail</option>
+go-goggles.shtml">Go-Goggles</option>
+godstone.shtml">God Stone</option>
+goldberry.shtml">Gold Berry</option>
+goldbottlecap.shtml">Gold Bottle Cap</option>
+goldleaf.shtml">Gold Leaf</option>
+goldteeth.shtml">Gold Teeth</option>
+goldeencandy.shtml">Goldeen Candy</option>
+goldennanabberry.shtml">Golden Nanab Berry</option>
+goldenpinapberry.shtml">Golden Pinap Berry</option>
+goldenrazzberry.shtml">Golden Razz Berry</option>
+goodrod.shtml">Good Rod</option>
+gooeymulch.shtml">Gooey Mulch</option>
+gorgeousbox.shtml">Gorgeous Box</option>
+gracidea.shtml">Gracidea</option>
+gram1.shtml">Gram 1</option>
+gram2.shtml">Gram 2</option>
+gram3.shtml">Gram 3</option>
+grassgem.shtml">Grass Gem</option>
+grassmail.shtml">Grass Mail</option>
+grassmemory.shtml">Grass Memory</option>
+grassiumz.shtml">Grassium Z</option>
+grassyseed.shtml">Grassy Seed</option>
+greatball.shtml">Great Ball</option>
+greenpetal.shtml">Green Petal</option>
+greenscarf.shtml">Green Scarf</option>
+greenshard.shtml">Green Shard</option>
+greetmail.shtml">Greet Mail</option>
+grepaberry.shtml">Grepa Berry</option>
+grimercandy.shtml">Grimer Candy</option>
+gripclaw.shtml">Grip Claw</option>
+griseousorb.shtml">Griseous Orb</option>
+greenapricorn.shtml">Green Apricorn</option>
+groundgem.shtml">Ground Gem</option>
+groundmemory.shtml">Ground Memory</option>
+groundiumz.shtml">Groundium Z</option>
+growlithecandy.shtml">Growlithe Candy</option>
+growthmulch.shtml">Growth Mulch</option>
+grubbyhanky.shtml">Grubby Hanky</option>
+guardspec..shtml">Guard Spec.</option>
+gyaradosite.shtml">Gyaradosite</option>
+habanberry.shtml">Haban Berry</option>
+harbormail.shtml">Harbor Mail</option>
+hardstone.shtml">Hard Stone</option>
+hastymint.shtml">Hasty Mint</option>
+healball.shtml">Heal Ball</option>
+healpowder.shtml">Heal Powder</option>
+healthcandy.shtml">Health Candy</option>
+healthcandyl.shtml">Health Candy L</option>
+healthcandyxl.shtml">Health Candy XL</option>
+healthfeather.shtml">Health Feather</option>
+heartmail.shtml">Heart Mail</option>
+heartscale.shtml">Heart Scale</option>
+heatrock.shtml">Heat Rock</option>
+heavyball.shtml">Heavy Ball</option>
+heavy-dutyboots.shtml">Heavy-Duty Boots</option>
+helixfossil.shtml">Helix Fossil</option>
+heracronite.shtml">Heracronite</option>
+hi-techearbuds.shtml">Hi-tech Earbuds</option>
+hitmonchancandy.shtml">Hitmonchan Candy</option>
+hitmonleecandy.shtml">Hitmonlee Candy</option>
+holocaster.shtml">Holo Caster</option>
+hondewberry.shtml">Hondew Berry</option>
+honey.shtml">Honey</option>
+honorofkalos.shtml">Honor of Kalos</option>
+horseacandy.shtml">Horsea Candy</option>

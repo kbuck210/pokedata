@@ -3,6 +3,7 @@ import requests
 import sqlite3
 import os.path
 from os import path
+from os import listdir
 from bs4 import BeautifulSoup
 
 # Downloaded HTML Directory & DB Path (check mac then windows)
@@ -263,31 +264,56 @@ def buildTypes():
         con.commit()
     return
 
-# ==============================
-# Process the HTML files to insert/update the DB
-def processHtmls():
-    legTables = getLegendTables()
-    
-    # Loop over each generation, looking for pokemon instances if they exist
-    for gen in range(1,9):
-        genDir = dataDir + 'Gen' + str(gen) + '/'
-        print('Processing Gen' + str(gen))
+# ====================
+# Insert/Update ability data based on the HTML
+def updateAbility( soup ):
+    abilityTables = getAllTables( soup )
+    table = abilityTables[1]
+    trs = table.find_all('tr')
+    abNameRow = None
+    abDescRow = None
+    abEffectRow = None
+    for r in range(0, len(trs)):
+        td = trs[r].find('td').text
+        if td and td == 'Name' and not abNameRow:
+            abNameRow = trs[r+1]
+        elif td and td == 'Game\'s Text:' and not abDescRow:
+            abDescRow = trs[r+1]
+        elif td and td == 'In-Depth Effect:' and not abEffectRow:
+            abEffectRow = trs[r+1]
+    abName = None
+    abDesc = None
+    abEffect = None
+    if abNameRow:
+        abName = abNameRow.find('td').text
+        if abName:
+            abName = abName.strip()
+    if abDescRow:
+        abDesc = abDescRow.find('td').text
+        if abDesc:
+            abDesc = abDesc.strip()
+    if abEffectRow:
+        abEffect = abEffectRow.find('td').text
+        if abEffect:
+            abEffect = abEffect.strip()
 
-        # Loop over the max pokedex values, looking for html files
-        for natId in range(1, 899):
-            pokeHtml = genDir + str(natId).zfill(3) + '.html'
-
-            # If the file exists, map the pokemon data
-            if (path.exists(pokeHtml)):
-                # Open file for parsing
-                with open(pokeHtml, 'r', encoding='utf-8') as f:
-                    content = f.read()
-                    soup = BeautifulSoup(content, 'html.parser')
-
-                    # Call functions here
-                    updatePokemon(soup, natId)
-                
-    return
+    # check that a good result populated
+    if abName and abDesc:
+        cur = con.cursor()
+        cur.execute('SELECT EXISTS('+SELECT_AB_BY_NAME+')',[abName])
+        if not cur.fetchone()[0]:
+            cur.execute(INSERT_ABILITY, [abName, abDesc, abEffect])
+            con.commit()
+            print('Inserted: ' + abName)
+        else:
+            cur.execute(SELECT_AB_BY_NAME,[abName])
+            ability = cur.fetchone()
+            if abName != ability[1] or abDesc != ability[2] or abEffect != ability[3]:
+                abId = ability[0]
+                cur.execute(UPDATE_ABILITY,[abName, abDesc, abEffet, abId])
+                print('Updated: ' + abName)
+    else:
+        print('Failed to get/update ability for ' + html)
 
 # ====================
 # Insert/Update to the Pokemon table based on the HTML
@@ -347,17 +373,23 @@ def getPokeName( soup, dexId ):
 # ====================
 # Insert/Update to the PokemonForms table based on the HTML
 def updatePokemonForm( pokeName, forms, dexId ):
-    formNames = getFormNames( statTables, megaTables )
+    formNames = getFormNames( pokeName, statTables, megaTables )
     legTables = getLegendTables()
 
     # Check if any forms not yet created
     for formIndex in range(0, len(formNames)):
         formName = formNames[formIndex]
-        if formName not in forms.keys():
+        
+        # Skip if base and already processed but changed name
+        if formName == 'Base' and formName not in forms.keys() and len(forms.keys()) > 0:
+            continue
+        elif formName not in forms.keys():
             # base form
             isBase = formName == 'Base'
             # mega form
-            isMega = formName.startswith('Mega ')
+            isMega = formName.startswith('Mega ') or \
+                     formName.startswith('Primal ') or \
+                     formName.startswith('Ultra ')
             
             # gender (genderless = 0, gendered = 1, male-only = 2, female-only = 3)
             gender = getGender( allTables )
@@ -400,7 +432,7 @@ def updatePokemonForm( pokeName, forms, dexId ):
             # baseSpeed
             formStats = {}
             if not formName.startswith('Mega '):
-                formStats[formName] = getBaseStats( formStats, formName, statTables )
+                formStats[formName] = getBaseStats( pokeName, formStats, formName, statTables )
             else:
                 formStats[formName] = getMegaStats(formName, megaTables)
             baseHp = formStats[formName]['baseHp']
@@ -432,6 +464,7 @@ def updatePokemonForm( pokeName, forms, dexId ):
             # type1 name
             # type2 name
             if not isMega:
+                print('formName: ' + formName)
                 formTypes = getPokeFormTypes(pokeName, formName, allTables)
             else:
                 formTypes = getMegaTypes(formName, megaTables)
@@ -530,8 +563,12 @@ def getMegaTables( pokeName, allTables ):
     for i in range(0, len(allTables)):
         bolds = allTables[i].find_all('b')
         for bold in bolds:
-            if bold.text and bold.text.startswith('Mega Evolution'):
+            if bold.text and (bold.text.startswith('Mega Evolution') or \
+                              bold.text.startswith('Primal Reversion') or \
+                              bold.text.startswith('Ultra Burst')):
                 megaName = bold.text.replace('Evolution', pokeName)
+                megaName = megaName.replace('Reversion', pokeName)
+                megaName = megaName.replace('Burst', pokeName)
                 expanded = len(allTables[i].find_all('tr', recursive=False)) == 3
                 # Spread formatting
                 if expanded:
@@ -548,29 +585,39 @@ def getMegaTables( pokeName, allTables ):
                 megaTables.append((megaName, megaSpriteTable, megaInfoTable, megaAbilityTable, megaStatsTable, expanded))
     return megaTables
 
-def getFormNames( statTables, megaTables ):
+def getFormNames( pokeName, statTables, megaTables ):
     forms = []
-    for table in statTables:
-        header = table.find('h2')
-        if header is None:
-            header = table.find('b')
-        if header is not None and not header.text in forms:
-            forms.append(header.text)  
-    for i in range(0, len(forms)):
-        forms[i] = translateFormName( forms[i] )
+    # They took shortcuts with Rotom...set manually
+    if pokeName == 'Rotom':
+        forms = ['Base', 'Frost Rotom', 'Heat Rotom', 'Mow Rotom', 'Fan Rotom', 'Wash Rotom']
+    else:
+        for table in statTables:
+            header = table.find('h2')
+            if header is None:
+                header = table.find('b')
+            if header is not None:
+                formName = translateFormName(header.text, pokeName)
+                if formName not in forms:
+                    forms.append(formName)
 
-    for tables in megaTables:
-        megaName = tables[0]
-        if megaName is not None and megaName not in forms:
-            forms.append(megaName)
+        for tables in megaTables:
+            megaName = tables[0]
+            if megaName is not None and megaName not in forms:
+                forms.append(megaName)
     return forms
 
-def translateFormName( headerText ):
+def translateFormName( headerText, pokeName ):
     if headerText.strip() == 'Stats':
         return 'Base'
     else:
         toks = headerText.split('-')
-        return toks[len(toks)-1].strip()
+        formName = toks[len(toks)-1].strip()
+        if formName.startswith('Alola'):
+            return 'Alolan ' + pokeName
+        elif formName.startswith('Galar'):
+            return 'Galarian ' + pokeName
+        else:
+            return formName
 
 def getGender( allTables ):
     # find gender row
@@ -598,8 +645,16 @@ def getGender( allTables ):
         return 0
     else:
         # get the percentage for male & female
-        malePer = int(gendPers[0].find_all('td')[1].text.split('.')[0].split('%')[0])
-        femalePer = int(gendPers[1].find_all('td')[1].text.split('.')[0].split('%')[0])
+        malePer = gendPers[0].find_all('td')[1].text
+        m = re.search('[\d]+', malePer)
+        malePer = m.group(0)
+        if malePer:
+            malePer = int(malePer)
+        femalePer = gendPers[1].find_all('td')[1].text
+        m = re.search('[\d]+', femalePer)
+        femalePer = m.group(0)
+        if femalePer:
+            femalePer = int(femalePer)
         
         if malePer == 100:
             return 2
@@ -679,7 +734,8 @@ def getMegaWeight( formName, megaTables ):
             weight = weightCol.text
             return weight.replace('/', '').split()[0]
 
-def getBaseStats( formStats, formName, statTables ):
+def getBaseStats( pokeName, formStats, formName, statTables ):
+    
     # find the stat table for the specified form
     for i in range(0, len(statTables)):
         table = statTables[i]
@@ -687,7 +743,10 @@ def getBaseStats( formStats, formName, statTables ):
         header = allRows[0].find('h2')
         if header is None:
             header = allRows[0].find('b')
-        if header is not None and formName == translateFormName(header.text):
+        # again they cheated with Rotom...need separate check for it
+        if header is not None and \
+           (formName == translateFormName(header.text, pokeName) or \
+            (pokeName == 'Rotom' and translateFormName(header.text, pokeName) == 'Alternate Forms')):
             baseRow = allRows[2]
             statRows = baseRow.find_all('td')
             baseStats = {}
@@ -841,15 +900,20 @@ def getPokeFormTypes( pokeName, formName, allTables ):
             formData = formTypes[i].find_all('td')
             foundName = formData[0].text
             # check if found name matches specified form name
-            if (formName == 'Base' and foundName == pokeName) or formName == foundName:
+            if (formName == 'Base' and foundName == pokeName) or \
+                formName == foundName or \
+                (foundName.startswith('Alola') and formName.startswith('Alola')) or \
+                (foundName.startswith('Galar') and formName.startswith('Galar')) or \
+                (foundName == pokeName + ' ' + formName) or \
+                (foundName == formName.split(pokeName)[0].strip()):
                 # found the types for the specified form
-                for img in formData[1].find_all('img', class_='typeimg'):
+                for img in formData[1].find_all('img'):
                     toks = img['src'].split('/')
                     types.append(toks[len(toks)-1].split('.')[0])
             elif formName == 'Base' and i == 0:
                 # found the base form, but form needs name updated
                 formName = foundName
-                for img in formData[1].find_all('img', class_='typeimg'):
+                for img in formData[1].find_all('img'):
                     toks = img['src'].split('/')
                     types.append(toks[len(toks)-1].split('.')[0])
     else:
@@ -917,7 +981,12 @@ def getFormAbilities( formName, isBase, allTables ):
         # Next check if it is a form change line, then check if is specified form
         elif ab.strip().endswith('Abilities') or ab.strip().endswith('Ability'):
             form = ab.strip().rsplit(' ',1)[0]
-            foundForm = form == formName
+            if formName.startswith('Alola') and form.startswith('Alola'):
+                foundForm = True
+            elif formName.startswith('Galar') and form.startswith('Galar'):
+                foundForm = True
+            else:
+                foundForm = form == formName
         # If working with specified form set ability 1 if not already set
         elif foundForm and ability1 == None:
             ability1 = allAbs[i].text
@@ -937,7 +1006,27 @@ def getMegaAbilities( formName, megaTables ):
 
 #############
 # Test runner
-def initIteration(start, end, writeAbilities):
+def initAbIteration(single):
+    abDir = dataDir + 'Abilities/'
+    if not path.exists(abDir):
+        print('Ability directory not found: ' + abDir)
+
+    if not single:
+        htmls = os.listdir(abDir)
+    else:
+        htmls = [abDir + single + '.html']
+    for html in htmls:
+        # skip any non html file
+        if not html.rsplit('.',1)[1] == 'html':
+            continue
+        fullpath = abDir + html
+        with open(fullpath, 'r', encoding='utf-8') as f:
+            content = f.read()
+            soup = BeautifulSoup(content, 'html.parser')
+
+        updateAbility(soup)
+
+def initPokeIteration(start, end, writeAbilities):
     formMap = {}
     for dexId in range(start, (end+1)):
         cur = con.cursor()
@@ -945,19 +1034,19 @@ def initIteration(start, end, writeAbilities):
         result = cur.fetchone()
         if result:
             formMap[result[2]] = importAllForms(dexId)
+            # write after processing each
+            if writeAbilities:
+                abilityFile = dataDir + 'abilities.txt'
+                if path.exists(abilityFile):
+                    with open(abilityFile, 'r', encoding='utf-8') as f:
+                        abilities = f.readlines()
+                    for ability in abilities:
+                        if not ability.strip() in allAbilities:
+                            allAbilities.append(ability.strip())
 
-    if writeAbilities:
-        abilityFile = dataDir + 'abilities.txt'
-        if path.exists(abilityFile):
-            with open(abilityFile, 'r', encoding='utf-8') as f:
-                abilities = f.readlines()
-            for ability in abilities:
-                if not ability.strip() in allAbilities:
-                    allAbilities.append(ability.strip())
-
-        with open(abilityFile, 'w', encoding='utf-8') as f:
-            for ability in allAbilities:
-                f.write(ability+'\n')
+                with open(abilityFile, 'w', encoding='utf-8') as f:
+                    for ability in allAbilities:
+                        f.write(ability+'\n')
         
     return formMap
 
@@ -981,7 +1070,7 @@ def importAllForms(dexId):
         updatePokemonForm(pokeName, forms, dexId)
     return forms
 
-def initTests( genHtml, foundForms ):
+def initTests( genHtml ):
     html = dataDir + genHtml
     dexId = int(genHtml.split('/')[1].split('.')[0])
     with open(html,'r',encoding='utf-8') as f:
@@ -994,5 +1083,3 @@ def initTests( genHtml, foundForms ):
     allTables.extend(getAllTables(soup))
     statTables.extend(getStatTables(allTables))
     megaTables.extend(getMegaTables(pokeName, allTables))
-    
-    print(str(updatePokemonForms(soup, pokeName,dexId)))

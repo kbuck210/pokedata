@@ -1,4 +1,5 @@
 import requests
+from os import path
 from bs4 import BeautifulSoup
 
 # Scrape Serebii Dexes
@@ -35,6 +36,8 @@ gen2max = 251
 gen1max = 151
 
 dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
+if not path.exists(dataDir):
+    dataDir = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\DexPages\\'
 base_url = 'https://www.serebii.net/'
 
 def getLegends():
@@ -193,18 +196,50 @@ def getDexEntry( genUrl, genOut, dexIdStr ):
     else:
         return None
 
-def cycleAbilities( abilities ):
+def cycleAbilities():
+    abFile = dataDir + 'abilities.txt'
+    with open(abFile, 'r', encoding='utf-8') as f:
+        getAbilityEntries(f.readlines())
+
+def getAbilityEntries( abilities ):
     for ability in abilities:
-        url = base_url + abdex + ability.lower() + '.shtml'
+        ability = ability.lower().replace(' ','').strip()
+        url = base_url + abdex + ability + '.shtml'
         print(url)
         page = requests.get(url)
         print('status: ' + str(page.status_code))
         if page.status_code == 200:
-            outFile = dataDir + 'Abilities/' + ability.lower() + '.html'
-            print('outFile: ' + outFile)
+            outFile = dataDir + 'Abilities/' + ability + '.html'
             soup = BeautifulSoup(page.content, 'html.parser')
             try:
                 with open(outFile, 'w', encoding='utf-8') as file:
                     file.write(str(soup))
+                    print('Wrote: ' + ability + '.html')
             except IOError as e:
                 print('Failed to write ' + outfile)
+
+def getItemEntries():
+    itemdex = 'https://www.serebii.net/itemdex/'
+    itemFile = dataDir + 'items.txt'
+    with open(itemFile, 'r', encoding='utf-8') as f:
+        itemlist = f.readlines()
+	
+    items = []
+    for itemline in itemlist:
+        toks = itemline.split('">')
+        itemurl = toks[0]
+        itemname = toks[1].split('</option>')[0]
+        items.append({ 'url': itemurl, 'name': itemname })
+	
+    for item in items:
+        url = itemdex + item['url']
+        page = requests.get(url)
+        if page.status_code == 200:
+            outname = item['url'].replace('.shtml','.html')
+            outfile = dataDir + 'Items/' + outname
+            soup = BeautifulSoup(page.content, 'html.parser')
+            with open(outfile, 'w', encoding='utf-8') as f:
+                f.write(str(soup))
+                print('Wrote: ' + outname)
+        else:
+            print('Error ' + str(page.status_code) + ' for ' + item['url'])
