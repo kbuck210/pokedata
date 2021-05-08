@@ -75,21 +75,21 @@ UPDATE_POKEMON = 'UPDATE Pokemon SET nat_id=?, name=? WHERE pokeId=?'
 SELECT_POKE_BY_NATID = 'SELECT * FROM Pokemon WHERE nat_id=?'
 # =================
 # TABLE: PokemonForm
-INSERT_POKE_FORM = """INSERT INTO PokemonForm(formName,gender,
+INSERT_POKE_FORM = """INSERT INTO PokemonForm(formName,isBase,gender,
                         sprite,icon,shinySprite,
                         height,weight,baseHp,baseAtk,baseDef,
-                        baseSpatk,baseSpdef,baseSpeed,can_dmax,
-                        has_gmax,legendary,sub_legend,mythic,
+                        baseSpatk,baseSpdef,baseSpeed,evsEarned,
+                        can_dmax,has_gmax,legendary,sub_legend,mythic,
                         type1,type2,ability1,ability2,abilityH,pokeId) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
-UPDATE_POKE_FORM = """UPDATE PokemonForm SET formName=?, gender=?,
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+UPDATE_POKE_FORM = """UPDATE PokemonForm SET formName=?, isBase=?, gender=?,
                         sprite=?,icon=?,shinySprite=?,
-                        height=?,weight=?,baseHp=?,baseAtk=?,baseDef=?.
-                        baseSpatk=?,baseSpdef=?,baseSpeed=?,can_dmax=?,
-                        has_gmax=?,legendary=?,sub_legend=?,mythic=?,
+                        height=?,weight=?,baseHp=?,baseAtk=?,baseDef=?,
+                        baseSpatk=?,baseSpdef=?,baseSpeed=?,evsEarned=?,
+                        can_dmax=?,has_gmax=?,legendary=?,sub_legend=?,mythic=?,
                         type1=?,type2=?,ability1=?,ability2=?,abilityH=?,pokeId=?
                     WHERE pokeFormId=?"""
-SELECT_PFORM_BY_DEX_FORM = """SELECT * FROM PokemonForm
+SELECT_PFORM_BY_DEXID = """SELECT * FROM PokemonForm
                             WHERE formName=?
                             AND pokeId=
                             (SELECT pokeId FROM Pokemon WHERE nat_id=?)"""
@@ -97,6 +97,7 @@ SELECT_PFORM_BY_DEX_FORM = """SELECT * FROM PokemonForm
 # TABLE: PokemonInDex
 INSERT_POKEINDEX = 'INSERT INTO PokemonInDex(genId,pokeFormId) VALUES (?,?)'
 DELETE_POKEINDEX = 'DELETE FROM PokemonInDex WHERE genId=? AND pokeFormId=?'
+SELECT_POKEINDEX = 'SELECT * FROM PokemonInDex WHERE genId=? AND pokeFormId=?'
 # =================
 # TABLE: Team
 INSERT_TEAM = 'INSERT INTO Team(teamName,targetGen) VALUES (?,?)'
@@ -353,9 +354,21 @@ def updateItem( itemName, soup, write ):
     itemEffR = effectTable.find_all('tr')[1]
     itemEff = itemEffR.find('td').text
     # Get the item description
-    gameTable = itemTables[4]
-    lastGame = gameTable.find_all('tr')[-1]
-    gameDesc = lastGame.find_all('td')[-1].text
+    gameTable = None
+    if len(itemTables) > 4:
+        gameTable = itemTables[4]
+    else:
+        # html broken, find from all tables
+        allTables = getAllTables(soup)
+        for table in allTables:
+            if table.find('td').text == 'Flavour Text':
+                gameTable = table
+                break
+    if gameTable:
+        lastGame = gameTable.find_all('tr')[-1]
+        gameDesc = lastGame.find_all('td')[-1].text
+    else:
+        gameDesc = None
     # Create the icon name
     itemIcon = 'item_' + itemName.lower().replace(' ','_') + '.png'
 
@@ -475,7 +488,7 @@ def getPokeName( soup, dexId ):
 
 # ====================
 # Insert/Update to the PokemonForms table based on the HTML
-def updatePokemonForm( pokeName, forms, dexId ):
+def updatePokemonForm( pokeName, forms, dexId, gen ):
     formNames = getFormNames( pokeName, statTables, megaTables )
     legTables = getLegendTables()
 
@@ -483,10 +496,12 @@ def updatePokemonForm( pokeName, forms, dexId ):
     for formIndex in range(0, len(formNames)):
         formName = formNames[formIndex]
         
-        # Skip if base and already processed but changed name
-        if formName == 'Base' and formName not in forms.keys() and len(forms.keys()) > 0:
+        # Skip create if base and already processed but changed name, but create gen relationship
+        if formName == 'Base' and formName not in forms and len(forms) > 0:
+            addPokeFormToGen( pokeName, formName, dexId, gen )
             continue
-        elif formName not in forms.keys():
+        # If new form, create it
+        elif formName not in forms:
             # base form
             isBase = formName == 'Base'
             # mega form
@@ -534,10 +549,12 @@ def updatePokemonForm( pokeName, forms, dexId ):
             # baseSpdef
             # baseSpeed
             formStats = {}
-            if not formName.startswith('Mega '):
+            if not isMega:
                 formStats[formName] = getBaseStats( pokeName, formStats, formName, statTables )
             else:
                 formStats[formName] = getMegaStats(formName, megaTables)
+
+            
             baseHp = formStats[formName]['baseHp']
             baseAtk = formStats[formName]['baseAtk']
             baseDef = formStats[formName]['baseDef']
@@ -567,10 +584,11 @@ def updatePokemonForm( pokeName, forms, dexId ):
             # type1 name
             # type2 name
             if not isMega:
-                print('formName: ' + formName)
-                formTypes = getPokeFormTypes(pokeName, formName, allTables)
+                print('getting types for: ' + formName)
+                formTypes = getPokeFormTypes( pokeName, formName, allTables)
             else:
-                formTypes = getMegaTypes(formName, megaTables)
+                print('getting types for: ' + formName)
+                formTypes = getMegaTypes( formName, megaTables)
             # check result to see if formName needs to be updated from base
             formKey = list(formTypes.keys())[0]
             if formName == 'Base' and formKey != 'Base':
@@ -588,62 +606,108 @@ def updatePokemonForm( pokeName, forms, dexId ):
             # ability2 name
             # abilityH name
             if not isMega:
-                abilities = getFormAbilities( formName, isBase, allTables )
+                # certain forms are extensions of base form, get base abilites
+                if formName == 'Zen Mode' or formName == '10% Forme' or formName == 'Complete Form':
+                    abilities = getFormAbilities(formName, True, allTables)
+                else:
+                    abilities = getFormAbilities( formName, isBase, allTables )
             else:
                 abilities = getMegaAbilities( formName, megaTables )
 
-            for ability in abilities:
-                if ability and not ability in allAbilities:
-                    allAbilities.append(ability)
-            #cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
-            #ability1 = cur.fetchone()
-            #cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
-            #ability2 = cur.fetchone()
-            #cur.execute(SELECT_AB_BY_NAME,[abilities[2]])
-            #abilityH = cur.fetchone()
+            for a in range(0, len(abilities)):
+                if abilities[a]:
+                    if abilities[a] == 'Compoundeyes':
+                        abilities[a] = 'Compound Eyes'
+                    if not abilities[a] in allAbilities:
+                        allAbilities.append(abilities[a])
+
+            # Get the abilities from the database
+            cur.execute(SELECT_AB_BY_NAME,[abilities[0]])
+            ab1 = cur.fetchone()
+            ability1 = ab1[0] if ab1 else None
+            cur.execute(SELECT_AB_BY_NAME,[abilities[1]])
+            ab2 = cur.fetchone()
+            ability2 = ab2[0] if ab2 else None
+            cur.execute(SELECT_AB_BY_NAME,[abilities[2]])
+            abH = cur.fetchone()
+            abilityH = abH[0] if abH else None
             
             # pokeId
-            #cur.execute(SELECT_POKE_BY_NATID,[dexId])
-            #poke = cur.fetchone();
-            #pokeId = poke[0] if poke is not None else None
+            cur.execute(SELECT_POKE_BY_NATID,[dexId])
+            poke = cur.fetchone();
+            pokeId = poke[0] if poke is not None else None
 
             ## DB UPDATE ##
-            #cur.execute(SELECT_PFORM_BY_DEX_FORM,[formName,dexId])
-            #pokeForm = cur.fetchone()
+            cur.execute(SELECT_PFORM_BY_DEXID,[formName,dexId])
+            pokeForm = cur.fetchone()
             # If it doesn't exist, insert
-            #if pokeForm is None:
-                #cur.execute(INSERT_POKE_FORM,[formName,gender,
-                #                              sprite, icon, shiny,
-                #                              height, weight, baseHp, baseAtk, baseDef,
-                #                              baseSpatk, baseSpdef, baseSpeed, can_dmax,
-                #                              has_gmax, legendary, sub_legend, mythic,
-                #                              type1, type2, ability1, ability2, abilityH, pokeId])
+            if not pokeForm:
+                cur.execute(INSERT_POKE_FORM,[formName,isBase,gender,
+                                              sprite, icon, shiny,
+                                              height, weight, baseHp, baseAtk, baseDef,
+                                              baseSpatk, baseSpdef, baseSpeed, evsEarned,
+                                              can_dmax, has_gmax, legendary, sub_legend, mythic,
+                                              type1, type2, ability1, ability2, abilityH, pokeId])
+                con.commit()
+                print('Inserted ' + pokeName + ' - ' + formName)
             # Otherwise update
-            # else:
-            forms[formName] = {}
-            forms[formName]['isBase'] = isBase
-            forms[formName]['gender'] = gender
-            forms[formName]['sprite'] = sprite
-            forms[formName]['icon'] = icon
-            forms[formName]['shiny'] = shiny
-            forms[formName]['height'] = height
-            forms[formName]['weight'] = weight
-            forms[formName]['stats'] = {}
-            forms[formName]['stats']['baseHP'] = baseHp
-            forms[formName]['stats']['baseAtk'] = baseAtk
-            forms[formName]['stats']['baseDef'] = baseDef
-            forms[formName]['stats']['baseSpatk'] = baseSpatk
-            forms[formName]['stats']['baseSpdef'] = baseSpdef
-            forms[formName]['stats']['baseSpeed'] = baseSpeed
-            forms[formName]['can_dmax'] = can_dmax
-            forms[formName]['has_gmax'] = has_gmax
-            forms[formName]['legend'] = legendary
-            forms[formName]['sub_legend'] = sub_legend
-            forms[formName]['mythic'] = mythic
-            forms[formName]['type1'] = type1
-            forms[formName]['type2'] = type2
-            forms[formName]['abilities'] = abilities
-            forms[formName]['dexId'] = dexId
+            else:
+                cur.execute(UPDATE_POKE_FORM,[formName,isBase,gender,
+                                              sprite, icon, shiny,
+                                              height, weight, baseHp, baseAtk, baseDef,
+                                              baseSpatk, baseSpdef, baseSpeed, evsEarned,
+                                              can_dmax, has_gmax, legendary, sub_legend, mythic,
+                                              type1, type2, ability1, ability2, abilityH, pokeId, pokeForm[0]])
+                con.commit()
+                print('Updated ' + pokeName + ' - ' + formName)
+
+            # After insert/update add gen relation if needed
+            addPokeFormToGen( pokeName, formName, dexId, gen )
+                    
+            # Append formname to not reprocess
+            forms.append(formName)
+
+        # If not new form, add to gen if required
+        else:
+            addPokeFormToGen( pokeName, formName, dexId, gen )
+            
+#            forms[formName] = {}
+#            forms[formName]['isBase'] = isBase
+#            forms[formName]['gender'] = gender
+#            forms[formName]['sprite'] = sprite
+#            forms[formName]['icon'] = icon
+#            forms[formName]['shiny'] = shiny
+#            forms[formName]['height'] = height
+#            forms[formName]['weight'] = weight
+#            forms[formName]['stats'] = {}
+#            forms[formName]['stats']['baseHP'] = baseHp
+#            forms[formName]['stats']['baseAtk'] = baseAtk
+#            forms[formName]['stats']['baseDef'] = baseDef
+#            forms[formName]['stats']['baseSpatk'] = baseSpatk
+#            forms[formName]['stats']['baseSpdef'] = baseSpdef
+#            forms[formName]['stats']['baseSpeed'] = baseSpeed
+#            forms[formName]['can_dmax'] = can_dmax
+#            forms[formName]['has_gmax'] = has_gmax
+#            forms[formName]['legend'] = legendary
+#            forms[formName]['sub_legend'] = sub_legend
+#            forms[formName]['mythic'] = mythic
+#            forms[formName]['type1'] = type1
+#            forms[formName]['type2'] = type2
+#            forms[formName]['abilities'] = abilities
+#            forms[formName]['dexId'] = dexId
+
+def addPokeFormToGen( pokeName, formName, dexId, gen ):
+    cur = con.cursor()
+    cur.execute(SELECT_PFORM_BY_DEXID,[formName,dexId])
+    pokeForm = cur.fetchone()
+    if pokeForm:
+        # validate the gen relationship doesn't already exist
+        cur.execute(SELECT_POKEINDEX,[gen,pokeForm[0]])
+        exists = cur.fetchone()
+        if not exists:
+            cur.execute(INSERT_POKEINDEX,[gen,pokeForm[0]])
+            con.commit()
+            print('Added ' + pokeName + ' - ' + formName + ' to Gen' + str(gen))
 
 def getAllTables( soup ):
     return soup.find_all('table', class_='dextable')
@@ -700,7 +764,7 @@ def getFormNames( pokeName, statTables, megaTables ):
                 header = table.find('b')
             if header is not None:
                 formName = translateFormName(header.text, pokeName)
-                if formName not in forms:
+                if formName not in forms and 'Reversion' not in formName and 'Ultra Burst' not in formName:
                     forms.append(formName)
 
         for tables in megaTables:
@@ -713,8 +777,8 @@ def translateFormName( headerText, pokeName ):
     if headerText.strip() == 'Stats':
         return 'Base'
     else:
-        toks = headerText.split('-')
-        formName = toks[len(toks)-1].strip()
+        toks = headerText.split('-',1)
+        formName = toks[-1].strip()
         if formName.startswith('Alola'):
             return 'Alolan ' + pokeName
         elif formName.startswith('Galar'):
@@ -1068,7 +1132,7 @@ def getFormAbilities( formName, isBase, allTables ):
     for i in range(0, len(allAbs)):
         ab = allAbs[i].text.strip()
         # Check for alternate form ability designation
-        if ab != 'Hidden Ability' and (ab.endswith('Abilities') or ab.endswith('Ability')):
+        if ab != 'Hidden Ability' and ab != 'Other Ability' and (ab.endswith('Abilities') or ab.endswith('Ability')):
             singleSet = False
 
     # Reset foundForm if singleSet
@@ -1079,7 +1143,7 @@ def getFormAbilities( formName, isBase, allTables ):
         ab = allAbs[i].text
         # First check hidden ability so that can use 'ability' as descriminator
         if foundForm and ab.strip() == 'Hidden Ability':
-            abilityH = allAbs[i+1].text
+            abilityH = allAbs[i+1].text.strip()
             break
         # Next check if it is a form change line, then check if is specified form
         elif ab.strip().endswith('Abilities') or ab.strip().endswith('Ability'):
@@ -1088,16 +1152,18 @@ def getFormAbilities( formName, isBase, allTables ):
                 foundForm = True
             elif formName.startswith('Galar') and form.startswith('Galar'):
                 foundForm = True
+            elif form.startswith('Other'):
+                foundForm = True
             else:
                 foundForm = form == formName
         # If working with specified form set ability 1 if not already set
         elif foundForm and ability1 == None:
-            ability1 = allAbs[i].text
+            ability1 = allAbs[i].text.strip()
         # If working with found form and ability 1 is set, set ability 2
         elif foundForm:
-            ability2 = allAbs[i].text
+            ability2 = allAbs[i].text.strip()
 
-    return (ability1, ability2, abilityH)
+    return [ability1, ability2, abilityH]
 
 def getMegaAbilities( formName, megaTables ):
     for mega in megaTables:
@@ -1105,7 +1171,48 @@ def getMegaAbilities( formName, megaTables ):
             #megaCol = 3 if mega[5] else 2
             abRow = mega[3].find_all('tr')[1]
             megaAbility = abRow.find('td').find('b').text
-            return (megaAbility, None, None)
+            return [megaAbility, None, None]
+
+def getLevelTables():
+    tables = []
+    for t in allTables:
+        tr = t.find('tr')
+        td = tr.find('h3')
+        if td and 'Level Up' in td.text:
+            tables.append(t)
+    return tables
+
+def getLevelUpMoves( formName ):
+    table = None
+    levelTables = getLevelTables()
+    if len(levelTables) > 0:
+        table = levelTables[0]
+    if not table:
+        return {}
+
+    allRows = table.find_all('tr', recursive=False)
+    moves = {}
+    name = None
+    for r in range(2, len(allRows)):
+        # even rows are info rows, odd are descriptions
+        if r % 2 == 0:
+            infoTds = allRows[r].find_all('td', recursive=False)
+            if len(infoTds) > 7:
+                name = infoTds[1].find('a').text
+                moves[name] = {
+                    'level': infoTds[0].text,
+                    'type': infoTds[2].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                    'category': infoTds[3].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                    'bp': infoTds[4].text,
+                    'acc': infoTds[5].text,
+                    'pp': infoTds[6].text,
+                    'effPer': infoTds[7].text
+                    }
+        else:
+            if name and name in moves:
+                moves[name]['desc'] = allRows[r].find('td').text
+            name = None
+    return moves
 
 #############
 # Test runner
@@ -1182,12 +1289,12 @@ def initPokeIteration(start, end, writeAbilities):
     return formMap
 
 def importAllForms(dexId):
-    forms = {}
-    for i in reversed(range(1,9)):
-        html = dataDir + 'Gen' + str(i) + '/' + str(dexId).zfill(3) + '.html'
+    forms = []
+    for gen in reversed(range(1,9)):
+        html = dataDir + 'Gen' + str(gen) + '/' + str(dexId).zfill(3) + '.html'
         if not path.exists(html):
             continue
-        print('Processing: ' + 'Gen' + str(i) + '/' + str(dexId).zfill(3) + '.html')
+        print('Processing: ' + 'Gen' + str(gen) + '/' + str(dexId).zfill(3) + '.html')
         with open(html, 'r', encoding='utf-8') as f:
             content = f.read()
             soup = BeautifulSoup(content, 'html.parser')
@@ -1198,7 +1305,7 @@ def importAllForms(dexId):
         allTables.extend(getAllTables(soup))
         statTables.extend(getStatTables(allTables))
         megaTables.extend(getMegaTables(pokeName, allTables))
-        updatePokemonForm(pokeName, forms, dexId)
+        updatePokemonForm(pokeName, forms, dexId, gen)
     return forms
 
 def initTests( genHtml ):
