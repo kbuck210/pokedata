@@ -24,6 +24,7 @@ SELECT_AB_BY_NAME = 'SELECT * FROM Ability WHERE abName=? COLLATE NOCASE'
 # TABLE: Attack
 INSERT_ATTACK = 'INSERT INTO Attack(atkName) VALUES (?)'
 UPDATE_ATTACK = 'UPDATE Attack SET atkName=? WHERE atkId=?'
+SELECT_ATTACK = 'SELECT * FROM Attack WHERE atkName=?'
 # =================
 # TABLE: AttackForm
 INSERT_ATK_FORM = """INSERT INTO AttackForm(
@@ -1214,8 +1215,174 @@ def getLevelUpMoves( formName ):
             name = None
     return moves
 
+def getAttackTables():
+    tables = {}
+    for t in allTables:
+        h = t.find('tr').find('h3')
+        header = h.text if h else None
+        if not header:
+            h = t.find('tr').find('td')
+            header = h.text if h else None
+        if not header:
+            continue
+        elif 'level up' in header.lower() or \
+             'attacks' in header.lower() or \
+             'moves' in header.lower():
+            tables[header] = t
+
+    # Skip collapsed table if details table exists
+    if 'Transfer Only Moves' in tables.keys() and 'Transfer Only Moves (Details)' in tables.keys():
+        del tables['Transfer Only Moves']
+    return tables
+
+def getAttackTableColumnData( title, allRows, formNames, dexId ):
+    moves = {}
+    name = None
+    for r in range(2, len(allRows)):
+        # even rows are info rows, odd are descriptions
+        if r % 2 == 0:
+            infoTds = allRows[r].find_all('td', recursive=False)
+            cols = { 'level': None, 'name': None, 'type': None, 'category': None,
+                     'bp': None, 'acc': None, 'pp': None, 'effPer': None, 'forms': None }
+            # Level Up tables - 8 columns (level, name, type, category, bp, acc, pp, effPer)
+            if 'level up' in title.lower() or \
+               'technical machine' in title.lower() or \
+               'technical record' in title.lower() or \
+               ('tm ' in title.lower() and 'attacks' in title.lower()) or \
+               'hm attacks' in title.lower():
+                if len(infoTds) > 7:
+                    cols['level'] = 0
+                    cols['name'] = 1
+                    cols['type'] = 2
+                    cols['category'] = 3
+                    cols['bp'] = 4
+                    cols['acc'] = 5
+                    cols['pp'] = 6
+                    cols['effPer'] = 7
+                if len(infoTds) > 8:
+                    cols['forms'] = 8                    
+            # Move Tutor Tables - 7 columns (name, type, cat, bp, acc, pp, effper)
+            elif 'move tutor' in title.lower():
+                if len(infoTds) > 6:
+                    cols['name'] = 0
+                    cols['type'] = 1
+                    cols['category'] = 2
+                    cols['bp'] = 3
+                    cols['acc'] = 4
+                    cols['pp']  = 5
+                    cols['effPer'] = 6
+                if len(infoTds) > 7:
+                    cols['forms'] = 7
+
+            # Get column data
+            if not cols['name']:
+                continue
+            name = infoTds[cols['name']].find('a').text
+            moves[name] = {
+                'level': infoTds[cols['level']].text if cols['level'] != None else '--',
+                'type': infoTds[cols['type']].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                'category': infoTds[cols['category']].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                'bp': infoTds[cols['bp']].text,
+                'acc': infoTds[cols['acc']].text,
+                'pp': infoTds[cols['pp']].text,
+                'effPer': infoTds[cols['effPer']].text
+                }
+            # check if there are forms specified
+            if cols['forms']:
+                forms = getFormsForAttack(infoTds, cols['forms'], formNames, dexId)
+                moves[name]['forms'] = forms
+        else:
+            if name and name in moves:
+                moves[name]['desc'] = allRows[r].find('td').text
+                name = None
+                
+    return moves
+
+def getFormsForAttack( infoTds, formCol, formNames, dexId ):
+    # check if there are forms specified
+    forms = []
+    if len(infoTds) > formCol:
+        formImgs = infoTds[formCol].find_all('img')
+        # first check src for if base, then check alt/title for other forms
+        for img in formImgs:
+            srcId = img['src'].rsplit('/',1)[1]
+            # check if base, base form always first in formNames
+            if srcId == str(dexId) + '.png':
+                forms.append(formNames[0])
+                # otherwise use alt text or title tags
+            elif img.get('alt') and img['alt'].strip() in formNames:
+                forms.append(img['alt'].strip())
+            elif img.get('title') and img['title'].strip() in formNames:
+                forms.append(img['title'].strip())
+    return forms
+
+def getPokeAttacks(formNames, dexId):
+    tables = getAttackTables()
+    attacks = {}
+    # Each table has title row, column headers, then attack rows
+    for title in tables.keys():
+        table = tables[title]
+        rowContainer = table.find('tr').parent
+        allRows = rowContainer.find_all('tr', recursive=False)    
+        moves = getAttackTableColumnData(title, allRows, formNames, dexId)
+        attacks[title] = moves
+
+    return attacks
+
+def updateAttacksFromFile():
+    atkFile = dataDir + 'attacks.txt'
+    with open(atkFile, 'r', encoding='utf-8') as f:
+        atkLines = f.read().splitlines()
+
+    # if attack not in DB insert
+    for attack in atkLines:
+        cur = con.cursor()
+        cur.execute(SELECT_ATTACK,[attack.strip()])
+        result = cur.fetchone()
+        if not result:
+            cur.execute(INSERT_ATTACK,[attack.strip()])
+            con.commit()
+            print('Wrote ' + attack.strip())
+
 #############
 # Test runner
+def writeOutPokeAttacks(start, end):
+    attackFile = dataDir + 'attacks.txt'
+    writtenAttacks = []
+    # check existing written attacks on re-runs
+    if path.exists(attackFile):
+        with open(attackFile, 'r', encoding='utf-8') as f:
+            writtenAttacks = f.read().splitlines()
+
+    # Cycle pokemon
+    for gen in reversed(range(1,9)):
+        genDir = dataDir + 'Gen' + str(gen) +'/'
+        htmls = os.listdir(genDir)
+        for html in htmls:
+            # skip any non html file
+            if not html.rsplit('.',1)[1] == 'html':
+                continue
+            else:
+                dexId = int(html.rsplit('.',1)[0])
+                if start <= dexId and dexId <= end:
+                    genHtml = 'Gen' + str(gen) +'/' + html
+                    print('processing ' + genHtml)
+                    pokeName = initTests(genHtml)
+                    formNames = getFormNames(pokeName, statTables, megaTables)
+                    attackGroups = getPokeAttacks(formNames,dexId)
+
+                    # add the returned attacks to the list of attacks
+                    for group in attackGroups.keys():
+                        attacks = attackGroups[group].keys()
+                        for attack in attacks:
+                            if attack not in writtenAttacks:
+                                writtenAttacks.append(attack)
+            # write at the end of each pokemon
+            with open(attackFile, 'w', encoding='utf-8') as f:
+                for attack in writtenAttacks:
+                    f.write(attack+'\n')
+        
+
 def initItemIteration():
     itemFile = dataDir + 'items.txt'
     with open(itemFile, 'r', encoding='utf-8') as f:
@@ -1321,3 +1488,4 @@ def initTests( genHtml ):
     allTables.extend(getAllTables(soup))
     statTables.extend(getStatTables(allTables))
     megaTables.extend(getMegaTables(pokeName, allTables))
+    return pokeName

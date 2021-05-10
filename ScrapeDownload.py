@@ -1,5 +1,7 @@
 import requests
+import os
 from os import path
+from os import mkdir
 from bs4 import BeautifulSoup
 
 # Scrape Serebii Dexes
@@ -11,6 +13,15 @@ gen4 = "pokedex-dp/"
 gen3 = "pokedex-rs/"
 gen2 = "pokedex-gs/"
 gen1 = "pokedex/"
+
+atk8 = "attackdex-swsh/"
+atk7 = "attackdex-sm/"
+atk6 = "attackdex-xy/"
+atk5 = "attackdex-bw/"
+atk4 = "attackdex-dp/"
+atk3 = "attackdex/"
+atk2 = "attackdex-gs/"
+atk1 = "attackdex-rby/"
 
 # Scrape Ability Dexes
 abdex = "abilitydex/"
@@ -243,3 +254,63 @@ def getItemEntries():
                 print('Wrote: ' + outname)
         else:
             print('Error ' + str(page.status_code) + ' for ' + item['url'])
+
+def cycleAttacks():
+    atkFile = dataDir + 'attacks.txt'
+    with open(atkFile, 'r', encoding='utf-8') as f:
+        attacks = f.read().splitlines()
+
+    for attack in attacks:
+        # Test to see if in each gen
+        atkHtml = attack.lower().strip().replace(' ', '') + '.shtml'
+        # Gen 8
+        gen8url = base_url + atk8 + atkHtml
+        page = requests.get(gen8url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen8/', atkHtml)
+        # Gen 7
+        gen7url = base_url + atk7 + atkHtml
+        page = requests.get(gen7url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen7/', atkHtml)
+        # Gen 6
+        gen6url = base_url + atk6 + atkHtml
+        page = requests.get(gen6url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen6/', atkHtml)
+        # Gen 5
+        gen5url = base_url + atk5 + atkHtml
+        page = requests.get(gen5url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen5/', atkHtml)
+        # Gen 4
+        gen4url = base_url + atk4 + atkHtml
+        page = requests.get(gen4url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen4/', atkHtml)
+        # Gen 3
+        gen3url = base_url + atk3 + atkHtml
+        page = requests.get(gen3url)
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen3/', atkHtml)
+        # Gen 2
+        gen2url = base_url + atk2 + atkHtml
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen2/', atkHtml)
+        # Gen 1
+        gen1url = base_url + atk1 + atkHtml
+        if page.status_code == 200:
+            downloadAttack(page, 'Gen1/', atkHtml)
+
+
+def downloadAttack( page, gen, atkHtml ):
+    # check whether the gen directory exists, if not create it
+    atkGenDir = dataDir + 'Attacks/' + gen
+    if not path.exists(atkGenDir):
+        os.mkdir(atkGenDir)
+
+    outFile = atkGenDir + atkHtml.replace('.shtml','.html')
+    soup = BeautifulSoup(page.content, 'html.parser')
+    with open(outFile, 'w', encoding='utf-8') as f:
+        f.write(str(soup))
+        print('Wrote: ' + atkHtml.replace('.shtml','.html'))
