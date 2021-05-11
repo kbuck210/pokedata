@@ -26,8 +26,8 @@ INSERT_ATTACK = 'INSERT INTO Attack(atkName) VALUES (?)'
 UPDATE_ATTACK = 'UPDATE Attack SET atkName=? WHERE atkId=?'
 SELECT_ATTACK = 'SELECT * FROM Attack WHERE atkName=?'
 # =================
-# TABLE: AttackForm
-INSERT_ATK_FORM = """INSERT INTO AttackForm(
+# TABLE: AttackByGen
+INSERT_ATK_BYGEN = """INSERT INTO AttackByGen(
                         atkCategory,atkDesc,
                         atkEffect,bp,acc,pp,effPercent,
                         critRate,target,maxMove,maxPower,
@@ -35,21 +35,20 @@ INSERT_ATK_FORM = """INSERT INTO AttackForm(
                         soundMove,bitingMove,punchMove,
                         copyable,thaws,reflectable,
                         gravityAffected,snatchable,
-                        typeId,atkId) 
-                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
-UPDATE_ATK_FORM = """UPDATE AttackForm SET atkCategory=?, atkDesc=?,
+                        typeId,atkId,genId) 
+                    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+UPDATE_ATK_BYGEN = """UPDATE AttackByGen SET atkCategory=?, atkDesc=?,
                         atkEffect=?,bp=?,acc=?,pp=?,effPercent=?,
                         critRate=?,target=?,maxMove=?,maxPower=?,
                         priority=?,breaksProtect=?,contacting=?,
                         soundMove=?,bitingMove=?,punchMove=?,
                         copyable=?,thaws=?,reflectable=?,
                         gravityAffected=?,snatchable=?,
-                        typeId=?,atkId=? 
+                        typeId=?,atkId=?,genId=? 
                     WHERE atkFormId=?"""
-# =================
-# TABLE: AttacksInDex
-INSERT_ATKSINDEX = 'INSERT INTO AttacksInDex(genId,atkFormId) VALUES (?,?)'
-DELETE_ATKSINDEX = 'DELETE FROM AttacksInDex WHERE genId=? AND atkFormId=?'
+SELECT_ATK_BYGEN = """SELECT * FROM AttackByGen
+                        WHERE atkId=(SELECT atkId FROM Attack WHERE atkName=?)
+                        AND genId=?"""
 # =================
 # TABLE: Item
 INSERT_ITEM = 'INSERT INTO Item(itemName,itemDesc,itemEffect,itemIcon) VALUES (?,?,?,?)'
@@ -1343,6 +1342,313 @@ def updateAttacksFromFile():
             cur.execute(INSERT_ATTACK,[attack.strip()])
             con.commit()
             print('Wrote ' + attack.strip())
+
+def checkDuplicated( atkName ):
+    dupes = {
+        'ancientpower': 'Ancient Power',
+        'bubblebeam': 'Bubble Beam',
+        'doubleslap': 'Double Slap',
+        'dragonbreath': 'Dragon Breath',
+        'dynamicpunch': 'Dynamic Punch',
+        'extremespeed': 'Extreme Speed',
+        'featherdance': 'Feather Dance',
+        'grasswhistle': 'Grass Whistle',
+        'poisonpowder': 'Poison Powder',
+        'powersplit': 'Power Split',
+        'solarbeam': 'Solar Beam',
+        'sonicboom': 'Sonic Boom',
+        'thunderpunch': 'Thunder Punch',
+        'thundershock': 'Thunder Shock',
+        'vicegrip': 'Vice Grip'
+        }
+    if atkName.lower() in dupes:
+        return dupes[atkName.lower()]
+
+    return atkName
+
+def getAttackByGenData(startFrom, endAt):
+    # get the set of all attacks from the database
+    cur = con.cursor()
+    cur.execute('SELECT * FROM Attack')
+    allAttacks = cur.fetchall()
+    atkDir = dataDir + 'Attacks/'
+
+    # Loop over each attack, check if it's in the current gen,
+    # then parse & update if found
+    foundStart = False
+    foundEnd = False
+    for attack in allAttacks:
+        atkId = attack[0]
+        atkName = attack[1]
+        if not foundStart and (startFrom and atkName == startFrom) or startFrom == None:
+            foundStart = True
+        # skip previous entries if starting point specified
+        if not foundStart:
+            continue
+        elif atkName == endAt:
+            foundEnd = True
+
+        # skipping gen 3 backwards at the moment
+        for gen in reversed(range(4,9)):
+            genHtml = 'Gen' + str(gen) + '/' + atkName.lower().replace(' ','') + '.html'
+            fullpath = atkDir + genHtml
+            if path.exists(fullpath):
+                # parse for gen
+                with open(fullpath, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    soup = BeautifulSoup(content, 'html.parser')
+
+                atkData = parseAtkForGen4Up(atkName, soup, gen)
+                ## Attributes:
+                # atkCategory, atkDesc, atkEffect,
+                # bp, acc, pp, effPercent,
+                # critRate, target, maxMove, maxPower,
+                # priority, breaksProtect, contacting,
+                # soundMove, bitingMove, punchMove,
+                # copyable, thaws, reflectable,
+                # gravityAffected, snatchable,
+                # typeId, atkId, genId
+                atkCategory = atkData[atkName]['category']
+                atkDesc = atkData[atkName]['desc']
+                atkEffect = atkData[atkName]['effect']
+                bp = str(translateNumStr( atkData[atkName]['bp'] ))
+                acc = str(translateNumStr( atkData[atkName]['acc'] ))
+                pp = translateNumStr( atkData[atkName]['pp'] )
+                effPercent = str(translateNumStr( atkData[atkName]['effPer'] )) + ' %'
+                critRate = atkData[atkName]['critRate']
+                target = atkData[atkName]['target']
+                maxMove = atkData[atkName]['maxMove']
+                maxPower = str(translateNumStr( atkData[atkName]['maxPow'] ))
+                priority = atkData[atkName]['priority']
+                breaksProtect = not atkData[atkName]['protectable']
+                contacting = atkData[atkName]['contacts']
+                soundMove = atkData[atkName]['sound']
+                bitingMove = atkData[atkName]['biting']
+                punchMove = atkData[atkName]['punch']
+                copyable = atkData[atkName]['copyable']
+                thaws = atkData[atkName]['defrosts']
+                reflectable = atkData[atkName]['reflectable']
+                gravityAffected = atkData[atkName]['gravity']
+                snatchable = atkData[atkName]['snatch']
+                typ3 = atkData[atkName]['type']
+
+                # get the typeId from the database
+                cur.execute(SELECT_TYPE_BY_NAME,[typ3])
+                atkType = cur.fetchone()
+                typeId = atkType[0]
+                
+                # with returned json insert the attack forms
+                # check whether the attack by gen doesn't exist
+                cur.execute(SELECT_ATK_BYGEN,[atkName, gen])
+                existing = cur.fetchone()
+                if not existing:
+                    cur.execute(INSERT_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
+                                                   bp, acc, pp, effPercent,
+                                                   critRate, target, maxMove, maxPower,
+                                                   priority, breaksProtect, contacting,
+                                                   soundMove, bitingMove, punchMove,
+                                                   copyable, thaws, reflectable,
+                                                   gravityAffected, snatchable,
+                                                   typeId, atkId, gen])
+                    con.commit()
+                    print('Inserted ' + atkName + ' in gen ' + str(gen))
+                # if the attack exists, update it
+                else:
+                    cur.execute(UPDATE_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
+                                                   bp, acc, pp, effPercent,
+                                                   critRate, target, maxMove, maxPower,
+                                                   priority, breaksProtect, contacting,
+                                                   soundMove, bitingMove, punchMove,
+                                                   copyable, thaws, reflectable,
+                                                   gravityAffected, snatchable,
+                                                   typeId, atkId, gen, existing[0]])
+                    con.commit()
+                    print('Updated ' + atkName + ' in gen ' + str(gen))
+
+        if foundEnd:
+            break
+
+def translateNumStr( val ):
+    if isinstance( val, int ):
+        if val >= 0 and val <= 100:
+            return val
+        else:
+            return '--'
+    else:
+        return '--'
+
+def parseAtkForGen4Up( name, soup, gen ):
+    attack = {}
+    tableContainer = soup.find('table', class_='dextable').parent
+    # get a non-p container
+    while tableContainer.name == 'p':
+        tableContainer = tableContainer.parent
+    atkTables = tableContainer.find_all('table',class_='dextable')
+    if len(atkTables) > 1:
+        atkInfo = None
+        atkAttr = None
+        
+        atkInfo = atkTables[0]
+        infoRows = atkInfo.find_all('tr', recursive=False)
+        # gen 4 has no attr table
+        if not gen == 4:
+            # find attr table
+            for table in atkTables:
+                td = table.find('td')
+                if td and 'Contact' in td.text:
+                    attrRows = table.find_all('tr', recursive=False)
+
+        # Gen 8-4 get common formatted info
+        attack = getGen8_4SharedInfo( attack, infoRows, soup )
+
+        # Gen 8-5 get common formatted attributes
+        if gen > 4:
+            attrCols1 = attrRows[1].find_all('td')
+            attrCols2 = attrRows[3].find_all('td')
+            attack = getGen8765SharedAttrs( attack, attrCols1, attrCols2 )
+
+        allTrs = soup.find_all('tr')
+        # Gen specific attributes
+        if gen == 8:
+            # check if max move defined, status moves don't have it, use max guard
+            if attack['category'] == 'other':
+                attack['maxMove'] = 'Max Guard'
+                attack['maxPow'] = '--'
+            # find max row, crit row
+            for r in range(0, len(allTrs)):
+                title = allTrs[r].find('td')
+                if title and 'Corresponding' in title.text:
+                    maxRowCols = allTrs[r+1].find_all('td')
+                    attack['maxMove'] = maxRowCols[0].find('u').text.strip()
+                    attack['maxPow'] = maxRowCols[1].text.strip()
+                # crit, prio, target
+                elif title and 'Hit Rate' in title.text:
+                    critRowCols = allTrs[r+1].find_all('td')
+                    attack['critRate'] = critRowCols[0].text.strip()
+                    attack['priority'] = critRowCols[1].text.strip()
+                    attack['target'] = critRowCols[2].text.strip()
+
+            # Gen 8 attributes
+            attack['biting'] = truthyFalsy( attrCols1[3].text.strip() )
+            attack['snatch'] = truthyFalsy( attrCols1[4].text.strip() )
+            attack['gravity'] = truthyFalsy( attrCols2[0].text.strip() )
+            attack['defrosts'] = truthyFalsy( attrCols2[1].text.strip() )
+            return { name: attack }
+        # Gen 7
+        elif gen == 7:
+            # find crit, prio, target
+            for r in range(0, len(allTrs)):
+                title = allTrs[r].find('td')
+                if title and 'Hit Rate' in title.text:
+                    critRowCols = allTrs[r+1].find_all('td')
+                    attack['critRate'] = critRowCols[0].text.strip()
+                    attack['priority'] = critRowCols[1].text.strip()
+                    attack['target'] = critRowCols[2].text.strip()
+                elif title and ('Corresponding' in title.text or title.text.startswith('Z-')):
+                    # Z move
+                    zRowTitle = title.text.strip()
+                    zRowCols = allTrs[r+1].find_all('td')
+                    if 'Corresponding' in zRowTitle:
+                        attack['maxMove'] = zRowCols[0].find('u').text.strip()
+                    else:
+                        attack['maxMove'] = zRowTitle
+                    # note that might be description if status move
+                    attack['maxPow'] = zRowCols[1].text.strip()
+            attack['biting'] = False # doesn't exist
+            attack['snatch'] = truthyFalsy( attrCols1[3].text.strip() )
+            attack['gravity'] = False
+            attack['defrosts'] = truthyFalsy( attrCols2[0].text.strip() )
+            return { name: attack }
+        # Gen 6 & 5
+        elif gen > 4:
+            # crit, prio, target
+            for r in range(0, len(allTrs)):
+                title = allTrs[r].find('b')
+                if title and 'TM' in title.text:
+                    prioRowCols = allTrs[r+1].find_all('td')
+                    attack['critRate'] = '--' # doesn't exist
+                    attack['priority'] = prioRowCols[1].text.strip()
+                    attack['target'] = prioRowCols[2].text.strip()
+            # no max/z move
+            attack['maxMove'] = None
+            attack['maxPow'] = None
+            attack['biting'] = False # doesn't exist
+            attack['snatch'] = truthyFalsy( attrCols1[3].text.strip() )
+            attack['gravity'] = False
+            attack['defrosts'] = truthyFalsy( attrCols2[0].text.strip() )
+            return { name: attack }
+        # Gen 4
+        elif gen == 4:
+            # find attrcols
+            for r in range(0, len(allTrs)):
+                title = allTrs[r].find('td')
+                if title and title.find('b') and title.find('b').text.startswith('TM'):
+                    attrCols1 = allTrs[r+1].find_all('td')
+                    attrCols2 = allTrs[r+3].find_all('td')
+                    attack['priority'] = attrCols1[1].text.strip()
+                    attack['target'] = attrCols1[2].text.strip()
+                    attack['contacts'] = truthyFalsy( attrCols2[2].text.strip() )
+            attack['maxMove'] = None
+            attack['maxPow'] = None
+            attack['critRate'] = '--'
+            attack['biting'] = False
+            attack['snatch'] = False
+            attack['gravity'] = False
+            attack['defrosts'] = False
+            attack['protectable'] = True
+            attack['sound'] = False
+            attack['punch'] = False
+            attack['copyable'] = False
+            attack['reflectable'] = False
+            return { name: attack }
+
+def getGen8_4SharedInfo(attack, infoRows, soup):
+    # type & category
+    typeRowCols = infoRows[1].find_all('td')
+    attack['type'] = typeRowCols[1].find('img')['src'].rsplit('/',1)[1].split('.')[0]
+    # curse in gen 4 has ??? type for some reason...
+    if attack['type'] == 'curse':
+        attack['type'] = 'ghost'
+    attack['category'] = typeRowCols[2].find('img')['src'].rsplit('/',1)[1].split('.')[0]
+    # power attrs
+    powRowCols = infoRows[3].find_all('td')
+    attack['pp'] = powRowCols[0].text.strip().split()[0]
+    attack['bp'] = powRowCols[1].text.strip().split()[0]
+    attack['acc'] = powRowCols[2].text.strip().split()[0]
+    # desc/eff - check for in-depth effect
+    allTrs = soup.find_all('tr')
+    for r in range(0, len(allTrs)):
+        first = allTrs[r].find('td')
+        if first and 'Battle Effect' in first.text:
+            attack['desc'] = allTrs[r+1].find('td').text.strip()
+        elif first and 'In-Depth' in first.text:
+            attack['effect'] = allTrs[r+1].find('p').text.strip()
+        elif first and 'Secondary Effect' in first.text:
+            effRowCols = allTrs[r+1].find_all('td')
+            if not 'effect' in attack:
+                attack['effect'] = effRowCols[0].text.strip()
+            attack['effPer'] = effRowCols[1].text.strip()
+
+    return attack
+
+def getGen8765SharedAttrs(attack, attrCols1, attrCols2):
+    # attributes
+    attack['contacts'] = truthyFalsy( attrCols1[0].text.strip() )
+    attack['sound'] = truthyFalsy( attrCols1[1].text.strip() )
+    attack['punch'] = truthyFalsy( attrCols1[2].text.strip() )
+    attack['reflectable'] = truthyFalsy( attrCols2[2].text.strip() )
+    attack['protectable'] = truthyFalsy( attrCols2[3].text.strip() )
+    attack['copyable'] = truthyFalsy( attrCols2[4].text.strip() )
+    
+    return attack
+
+def truthyFalsy( val ):
+    if val == 'Yes':
+        return True
+    elif val == 'No':
+        return False
+    else:
+        return bool(val)
 
 #############
 # Test runner
