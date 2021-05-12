@@ -305,7 +305,10 @@ def cycleAttacks():
 
 def downloadAttack( page, gen, atkHtml ):
     # check whether the gen directory exists, if not create it
-    atkGenDir = dataDir + 'Attacks/' + gen
+    if gen:
+        atkGenDir = dataDir + 'Attacks/' + gen
+    else:
+        atkGenDir = dataDir + 'Attacks/'
     if not path.exists(atkGenDir):
         os.mkdir(atkGenDir)
 
@@ -314,3 +317,95 @@ def downloadAttack( page, gen, atkHtml ):
     with open(outFile, 'w', encoding='utf-8') as f:
         f.write(str(soup))
         print('Wrote: ' + atkHtml.replace('.shtml','.html'))
+
+def downloadMissingMoves(atkName):
+    urlname = atkName.lower().strip().replace(' ','') + '.shtml'
+    gen8page = requests.get(base_url + atk8 + urlname)
+    if gen8page.status_code == 200:
+        if atkName.startswith('Max ') or atkName.startswith('G-Max '):
+            downloadAttack( gen8page, None, urlname)
+        else:
+            downloadAttack( gen8page, 'Gen8/', urlname)
+    gen7page = requests.get(base_url + atk7 + urlname)
+    if gen7page.status_code == 200:
+        downloadAttack( gen7page, 'Gen7/', urlname)
+    gen6page = requests.get(base_url + atk6 + urlname)
+    if gen6page.status_code == 200:
+        downloadAttack( gen6page, 'Gen6/', urlname)
+    gen5page = requests.get(base_url + atk5 + urlname)
+    if gen5page.status_code == 200:
+        downloadAttack( gen5page, 'Gen5/', urlname)
+    gen4page = requests.get(base_url + atk4 + urlname)
+    if gen4page.status_code == 200:
+        downloadAttack( gen4page, 'Gen4/', urlname)   
+
+def redownloadMaxMoves():
+    maxfile = dataDir + 'Attacks/maxmoves.txt'
+    with open(maxfile, 'r', encoding='utf-8') as f:
+        maxmoves = f.read().splitlines()
+
+    for maxmove in maxmoves:
+        html = maxmove.lower().strip().replace(' ','') + '.html'
+        file = dataDir + 'Attacks/' + html
+        if not path.exists(file):
+            downloadMissingMoves(maxmove)
+            print('downloaded ' + html)
+
+def scrapeMaxZAttacks(writeNames, download):
+    maxurl = 'https://www.serebii.net/swordshield/maxmoves.shtml'
+    zurl = 'https://www.serebii.net/sunmoon/zmoves.shtml'
+    nameFile = dataDir + 'Attacks/maxmoves.txt'
+
+    maxPage = requests.get(maxurl)
+    if maxPage.status_code == 200:
+        soup = BeautifulSoup(maxPage.content, 'html.parser')
+        maxmoves = getMaxNames(soup)
+    zpage = requests.get(zurl)
+    if zpage.status_code == 200:
+        soup = BeautifulSoup(zpage.content, 'html.parser')
+        zmoves = getMaxNames(soup)
+
+    if writeNames:
+        with open(nameFile, 'w', encoding='utf-8') as f:
+            for maxmove in maxmoves.keys():
+                f.write(maxmove+'\n')
+            for zmove in zmoves.keys():
+                f.write(zmove+'\n')
+
+    if download:
+        maxBase = 'https://www.serebii.net/attackdex-swsh/'
+        zBase = 'https://www.serebii.net/attackdex-sm/'
+        for maxAtk in maxmoves.keys():
+            maxurl = maxBase + maxmoves[maxAtk]
+            page = requests.get(maxurl)
+            if page.status_code == 200:
+                downloadMaxZAttacks(page, maxmoves[maxAtk])
+            else:
+                print('Failed to get ' + maxAtk)
+
+        for zAtk in zmoves.keys():
+            zurl = zBase + zmoves[zAtk]
+            page = requests.get(zurl)
+            if page.status_code == 200:
+                downloadMaxZAttacks(page, zmoves[zAtk])
+            else:
+                print('Failed to get ' + zAtk)
+
+def getMaxNames(soup):
+    moveTable = soup.find_all('table', class_='tab')[1]
+    allTrs = moveTable.find_all('tr', recursive=False)
+    moveurls = {}
+    for r in range(1, len(allTrs)):
+        name = allTrs[r].find('a').text
+        url = name.lower().strip().replace(' ', '') + '.shtml'
+        moveurls[name] = url
+
+    return moveurls
+
+def downloadMaxZAttacks( page, html ):
+    atkDir = dataDir + 'Attacks/'
+    outfile = atkDir + html.replace('.shtml','.html')
+    soup = BeautifulSoup(page.content, 'html.parser')
+    with open(outfile, 'w', encoding='utf-8') as f:
+        f.write(str(soup))
+        print('Wrote: ' + html.replace('.shtml','.html'))

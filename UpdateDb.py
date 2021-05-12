@@ -24,7 +24,7 @@ SELECT_AB_BY_NAME = 'SELECT * FROM Ability WHERE abName=? COLLATE NOCASE'
 # TABLE: Attack
 INSERT_ATTACK = 'INSERT INTO Attack(atkName) VALUES (?)'
 UPDATE_ATTACK = 'UPDATE Attack SET atkName=? WHERE atkId=?'
-SELECT_ATTACK = 'SELECT * FROM Attack WHERE atkName=?'
+SELECT_ATTACK = 'SELECT * FROM Attack WHERE atkName=? COLLATE NOCASE'
 # =================
 # TABLE: AttackByGen
 INSERT_ATK_BYGEN = """INSERT INTO AttackByGen(
@@ -61,8 +61,9 @@ DELETE_ITEMSINDEX = 'DELETE FROM ItemsInDex WHERE genId=? AND itemId=?'
 SELECT_ITEM_IN_DEX = 'SELECT * FROM ItemsInDex WHERE genId=? AND itemId=?'
 # =================
 # TABLE: PokeMovesByGen
-INSERT_MOVESBYGEN = 'INSERT INTO PokeMovesByGen(genId,pokeFormId,atkFormId) VALUES (?,?,?)'
+INSERT_MOVESBYGEN = 'INSERT INTO PokeMovesByGen(genId,pokeFormId,atkFormId,groupDesc) VALUES (?,?,?,?)'
 DELETE_MOVESBYGEN = 'DELETE FROM PokeMovesByGen WHERE genId=? AND pokeFormId=? AND atkFormId=?'
+SELECT_MOVESBYGEN = 'SELECT * FROM PokeMovesByGen WHERE genId=? AND pokeFormId=? AND atkFormId=?'
 # =================
 # TABLE: Pokedex
 INSERT_POKEDEX = 'INSERT INTO Pokedex(genId,genDescription) VALUES (?,?)'
@@ -89,10 +90,12 @@ UPDATE_POKE_FORM = """UPDATE PokemonForm SET formName=?, isBase=?, gender=?,
                         can_dmax=?,has_gmax=?,legendary=?,sub_legend=?,mythic=?,
                         type1=?,type2=?,ability1=?,ability2=?,abilityH=?,pokeId=?
                     WHERE pokeFormId=?"""
-SELECT_PFORM_BY_DEXID = """SELECT * FROM PokemonForm
+SELECT_BY_FORM_AND_DEXID = """SELECT * FROM PokemonForm
                             WHERE formName=?
                             AND pokeId=
                             (SELECT pokeId FROM Pokemon WHERE nat_id=?)"""
+SELECT_PFORM_BY_DEXID = """SELECT * FROM PokemonForm
+                            WHERE pokeId=(SELECT pokeId FROM Pokemon WHERE nat_id=?)"""
 # =================
 # TABLE: PokemonInDex
 INSERT_POKEINDEX = 'INSERT INTO PokemonInDex(genId,pokeFormId) VALUES (?,?)'
@@ -638,7 +641,7 @@ def updatePokemonForm( pokeName, forms, dexId, gen ):
             pokeId = poke[0] if poke is not None else None
 
             ## DB UPDATE ##
-            cur.execute(SELECT_PFORM_BY_DEXID,[formName,dexId])
+            cur.execute(SELECT_BY_FORM_AND_DEXID,[formName,dexId])
             pokeForm = cur.fetchone()
             # If it doesn't exist, insert
             if not pokeForm:
@@ -698,7 +701,7 @@ def updatePokemonForm( pokeName, forms, dexId, gen ):
 
 def addPokeFormToGen( pokeName, formName, dexId, gen ):
     cur = con.cursor()
-    cur.execute(SELECT_PFORM_BY_DEXID,[formName,dexId])
+    cur.execute(SELECT_BY_FORM_AND_DEXID,[formName,dexId])
     pokeForm = cur.fetchone()
     if pokeForm:
         # validate the gen relationship doesn't already exist
@@ -1240,6 +1243,7 @@ def getAttackTableColumnData( title, allRows, formNames, dexId ):
     for r in range(2, len(allRows)):
         # even rows are info rows, odd are descriptions
         if r % 2 == 0:
+            preevo = False
             infoTds = allRows[r].find_all('td', recursive=False)
             cols = { 'level': None, 'name': None, 'type': None, 'category': None,
                      'bp': None, 'acc': None, 'pp': None, 'effPer': None, 'forms': None }
@@ -1260,8 +1264,12 @@ def getAttackTableColumnData( title, allRows, formNames, dexId ):
                     cols['effPer'] = 7
                 if len(infoTds) > 8:
                     cols['forms'] = 8                    
-            # Move Tutor Tables - 7 columns (name, type, cat, bp, acc, pp, effper)
-            elif 'move tutor' in title.lower():
+            # Egg/Move Tutor/Transfer Tables - 7 columns (name, type, cat, bp, acc, pp, effper)
+            elif 'move tutor' in title.lower() or \
+                 'egg moves' in title.lower() or \
+                 'transfer only' in title.lower() or \
+                 'usable' in title.lower() or \
+                 'pre-evolution only' in title.lower():
                 if len(infoTds) > 6:
                     cols['name'] = 0
                     cols['type'] = 1
@@ -1272,15 +1280,22 @@ def getAttackTableColumnData( title, allRows, formNames, dexId ):
                     cols['effPer'] = 6
                 if len(infoTds) > 7:
                     cols['forms'] = 7
+                if 'pre-evolution only' in title.lower():
+                    preevo = True
 
             # Get column data
-            if not cols['name']:
+            if cols['name'] == None:
                 continue
-            name = infoTds[cols['name']].find('a').text
+            # using next element instead of text ensures that if there are <br> tags they're ignored
+            name = infoTds[cols['name']].find('a').next_element.strip()
+            # if no text found, try extracting straight text
+            if not name:
+                name = infoTds[cols['name']].find('a').text.strip()
             moves[name] = {
                 'level': infoTds[cols['level']].text if cols['level'] != None else '--',
                 'type': infoTds[cols['type']].find('img')['src'].rsplit('/',1)[1].split('.')[0],
-                'category': infoTds[cols['category']].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                #'category': infoTds[cols['category']].find('img')['src'].rsplit('/',1)[1].split('.')[0],
+                'category': '--',
                 'bp': infoTds[cols['bp']].text,
                 'acc': infoTds[cols['acc']].text,
                 'pp': infoTds[cols['pp']].text,
@@ -1289,6 +1304,10 @@ def getAttackTableColumnData( title, allRows, formNames, dexId ):
             # check if there are forms specified
             if cols['forms']:
                 forms = getFormsForAttack(infoTds, cols['forms'], formNames, dexId)
+                # if empty, likely a details row for pokemon without multiforms, add all forms
+                # if any pre-evolution only moves, apply to all forms
+                if len(forms) == 0 or preevo:
+                    forms = formNames
                 moves[name]['forms'] = forms
         else:
             if name and name in moves:
@@ -1328,6 +1347,8 @@ def getPokeAttacks(formNames, dexId):
 
     return attacks
 
+# ==================
+#   Insert/Update attacks from the text list
 def updateAttacksFromFile():
     atkFile = dataDir + 'attacks.txt'
     with open(atkFile, 'r', encoding='utf-8') as f:
@@ -1343,6 +1364,7 @@ def updateAttacksFromFile():
             con.commit()
             print('Wrote ' + attack.strip())
 
+#   Some attacks are read without spacing, correct them
 def checkDuplicated( atkName ):
     dupes = {
         'ancientpower': 'Ancient Power',
@@ -1366,7 +1388,9 @@ def checkDuplicated( atkName ):
 
     return atkName
 
-def getAttackByGenData(startFrom, endAt):
+# ===================
+#   Insert/Update AttackByGen objects from the attach html pages
+def getAttackByGenData(startFrom, endAt, genStart, genEnd):
     # get the set of all attacks from the database
     cur = con.cursor()
     cur.execute('SELECT * FROM Attack')
@@ -1377,9 +1401,13 @@ def getAttackByGenData(startFrom, endAt):
     # then parse & update if found
     foundStart = False
     foundEnd = False
+    processedAtks = []
     for attack in allAttacks:
         atkId = attack[0]
-        atkName = attack[1]
+        atkName = checkDuplicated(attack[1])
+        # skip duplicates
+        if atkName in processedAtks:
+            continue
         if not foundStart and (startFrom and atkName == startFrom) or startFrom == None:
             foundStart = True
         # skip previous entries if starting point specified
@@ -1389,7 +1417,7 @@ def getAttackByGenData(startFrom, endAt):
             foundEnd = True
 
         # skipping gen 3 backwards at the moment
-        for gen in reversed(range(4,9)):
+        for gen in reversed(range(genStart,(genEnd+1))):
             genHtml = 'Gen' + str(gen) + '/' + atkName.lower().replace(' ','') + '.html'
             fullpath = atkDir + genHtml
             if path.exists(fullpath):
@@ -1398,75 +1426,83 @@ def getAttackByGenData(startFrom, endAt):
                     content = f.read()
                     soup = BeautifulSoup(content, 'html.parser')
 
-                atkData = parseAtkForGen4Up(atkName, soup, gen)
-                ## Attributes:
-                # atkCategory, atkDesc, atkEffect,
-                # bp, acc, pp, effPercent,
-                # critRate, target, maxMove, maxPower,
-                # priority, breaksProtect, contacting,
-                # soundMove, bitingMove, punchMove,
-                # copyable, thaws, reflectable,
-                # gravityAffected, snatchable,
-                # typeId, atkId, genId
-                atkCategory = atkData[atkName]['category']
-                atkDesc = atkData[atkName]['desc']
-                atkEffect = atkData[atkName]['effect']
-                bp = str(translateNumStr( atkData[atkName]['bp'] ))
-                acc = str(translateNumStr( atkData[atkName]['acc'] ))
-                pp = translateNumStr( atkData[atkName]['pp'] )
-                effPercent = str(translateNumStr( atkData[atkName]['effPer'] )) + ' %'
-                critRate = atkData[atkName]['critRate']
-                target = atkData[atkName]['target']
-                maxMove = atkData[atkName]['maxMove']
-                maxPower = str(translateNumStr( atkData[atkName]['maxPow'] ))
-                priority = atkData[atkName]['priority']
-                breaksProtect = not atkData[atkName]['protectable']
-                contacting = atkData[atkName]['contacts']
-                soundMove = atkData[atkName]['sound']
-                bitingMove = atkData[atkName]['biting']
-                punchMove = atkData[atkName]['punch']
-                copyable = atkData[atkName]['copyable']
-                thaws = atkData[atkName]['defrosts']
-                reflectable = atkData[atkName]['reflectable']
-                gravityAffected = atkData[atkName]['gravity']
-                snatchable = atkData[atkName]['snatch']
-                typ3 = atkData[atkName]['type']
-
-                # get the typeId from the database
-                cur.execute(SELECT_TYPE_BY_NAME,[typ3])
-                atkType = cur.fetchone()
-                typeId = atkType[0]
-                
-                # with returned json insert the attack forms
-                # check whether the attack by gen doesn't exist
-                cur.execute(SELECT_ATK_BYGEN,[atkName, gen])
-                existing = cur.fetchone()
-                if not existing:
-                    cur.execute(INSERT_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
-                                                   bp, acc, pp, effPercent,
-                                                   critRate, target, maxMove, maxPower,
-                                                   priority, breaksProtect, contacting,
-                                                   soundMove, bitingMove, punchMove,
-                                                   copyable, thaws, reflectable,
-                                                   gravityAffected, snatchable,
-                                                   typeId, atkId, gen])
-                    con.commit()
-                    print('Inserted ' + atkName + ' in gen ' + str(gen))
-                # if the attack exists, update it
-                else:
-                    cur.execute(UPDATE_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
-                                                   bp, acc, pp, effPercent,
-                                                   critRate, target, maxMove, maxPower,
-                                                   priority, breaksProtect, contacting,
-                                                   soundMove, bitingMove, punchMove,
-                                                   copyable, thaws, reflectable,
-                                                   gravityAffected, snatchable,
-                                                   typeId, atkId, gen, existing[0]])
-                    con.commit()
-                    print('Updated ' + atkName + ' in gen ' + str(gen))
+                processedAtks.append(writeAtkByGenData(atkId, atkName, soup, gen, False))
 
         if foundEnd:
             break
+        
+    return processedAtks
+
+def writeAtkByGenData(atkId, atkName, soup, gen, isMax):
+    atkData = parseAtkForGen4Up(atkName, soup, gen, isMax)
+    ## Attributes:
+    # atkCategory, atkDesc, atkEffect,
+    # bp, acc, pp, effPercent,
+    # critRate, target, maxMove, maxPower,
+    # priority, breaksProtect, contacting,
+    # soundMove, bitingMove, punchMove,
+    # copyable, thaws, reflectable,
+    # gravityAffected, snatchable,
+    # typeId, atkId, genId
+    atkCategory = atkData[atkName]['category']
+    atkDesc = atkData[atkName]['desc']
+    atkEffect = atkData[atkName]['effect']
+    bp = str(translateNumStr( atkData[atkName]['bp'] ))
+    acc = str(translateNumStr( atkData[atkName]['acc'] ))
+    pp = translateNumStr( atkData[atkName]['pp'] )
+    effPercent = str(translateNumStr( atkData[atkName]['effPer'] )) + ' %'
+    critRate = atkData[atkName]['critRate']
+    target = atkData[atkName]['target']
+    maxMove = atkData[atkName]['maxMove']
+    maxPower = atkData[atkName]['maxPow']
+    priority = atkData[atkName]['priority']
+    breaksProtect = not atkData[atkName]['protectable']
+    contacting = atkData[atkName]['contacts']
+    soundMove = atkData[atkName]['sound']
+    bitingMove = atkData[atkName]['biting']
+    punchMove = atkData[atkName]['punch']
+    copyable = atkData[atkName]['copyable']
+    thaws = atkData[atkName]['defrosts']
+    reflectable = atkData[atkName]['reflectable']
+    gravityAffected = atkData[atkName]['gravity']
+    snatchable = atkData[atkName]['snatch']
+    typ3 = atkData[atkName]['type']
+
+    # get the typeId from the database
+    cur = con.cursor()
+    cur.execute(SELECT_TYPE_BY_NAME,[typ3])
+    atkType = cur.fetchone()
+    typeId = atkType[0]
+
+    # with returned json insert the attack forms
+    # check whether the attack by gen doesn't exist
+    cur.execute(SELECT_ATK_BYGEN,[atkName, gen])
+    existing = cur.fetchone()
+    if not existing:
+        cur.execute(INSERT_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
+                                        bp, acc, pp, effPercent,
+                                        critRate, target, maxMove, maxPower,
+                                        priority, breaksProtect, contacting,
+                                        soundMove, bitingMove, punchMove,
+                                        copyable, thaws, reflectable,
+                                        gravityAffected, snatchable,
+                                        typeId, atkId, gen])
+        con.commit()
+        print('Inserted ' + atkName + ' in gen ' + str(gen))
+    # if the attack exists, update it
+    else:
+        cur.execute(UPDATE_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
+                                        bp, acc, pp, effPercent,
+                                        critRate, target, maxMove, maxPower,
+                                        priority, breaksProtect, contacting,
+                                        soundMove, bitingMove, punchMove,
+                                        copyable, thaws, reflectable,
+                                        gravityAffected, snatchable,
+                                        typeId, atkId, gen, existing[0]])
+        con.commit()
+    print('Updated ' + atkName + ' in gen ' + str(gen))
+
+    return atkName
 
 def translateNumStr( val ):
     if isinstance( val, int ):
@@ -1477,7 +1513,7 @@ def translateNumStr( val ):
     else:
         return '--'
 
-def parseAtkForGen4Up( name, soup, gen ):
+def parseAtkForGen4Up( name, soup, gen, isMax ):
     attack = {}
     tableContainer = soup.find('table', class_='dextable').parent
     # get a non-p container
@@ -1511,7 +1547,7 @@ def parseAtkForGen4Up( name, soup, gen ):
         # Gen specific attributes
         if gen == 8:
             # check if max move defined, status moves don't have it, use max guard
-            if attack['category'] == 'other':
+            if not isMax and attack['category'] == 'other':
                 attack['maxMove'] = 'Max Guard'
                 attack['maxPow'] = '--'
             # find max row, crit row
@@ -1519,8 +1555,9 @@ def parseAtkForGen4Up( name, soup, gen ):
                 title = allTrs[r].find('td')
                 if title and 'Corresponding' in title.text:
                     maxRowCols = allTrs[r+1].find_all('td')
-                    attack['maxMove'] = maxRowCols[0].find('u').text.strip()
-                    attack['maxPow'] = maxRowCols[1].text.strip()
+                    if not isMax:
+                        attack['maxMove'] = maxRowCols[0].find('u').text.strip()
+                        attack['maxPow'] = maxRowCols[1].text.strip()
                 # crit, prio, target
                 elif title and 'Hit Rate' in title.text:
                     critRowCols = allTrs[r+1].find_all('td')
@@ -1533,6 +1570,10 @@ def parseAtkForGen4Up( name, soup, gen ):
             attack['snatch'] = truthyFalsy( attrCols1[4].text.strip() )
             attack['gravity'] = truthyFalsy( attrCols2[0].text.strip() )
             attack['defrosts'] = truthyFalsy( attrCols2[1].text.strip() )
+            if isMax:
+                attack['maxMove'] = '--'
+                attack['maxPow'] = '--'
+                attack['category'] = '--'
             return { name: attack }
         # Gen 7
         elif gen == 7:
@@ -1558,6 +1599,9 @@ def parseAtkForGen4Up( name, soup, gen ):
             attack['snatch'] = truthyFalsy( attrCols1[3].text.strip() )
             attack['gravity'] = False
             attack['defrosts'] = truthyFalsy( attrCols2[0].text.strip() )
+            if isMax:
+                attack['maxMove'] = '--'
+                attack['maxPow'] = '--'
             return { name: attack }
         # Gen 6 & 5
         elif gen > 4:
@@ -1642,6 +1686,36 @@ def getGen8765SharedAttrs(attack, attrCols1, attrCols2):
     
     return attack
 
+def addMaxMoves():
+    nameFile = dataDir + 'Attacks/maxmoves.txt'
+    with open(nameFile, 'r', encoding='utf-8') as f:
+        maxNames = f.read().splitlines()
+
+    cur = con.cursor()
+    for maxmove in maxNames:    
+        # add to the attack table if not exists
+        cur.execute(SELECT_ATTACK,[maxmove])
+        existing = cur.fetchone()
+        if not existing:
+            cur.execute(INSERT_ATTACK,[maxmove])
+            con.commit()
+            print('Inserted ' + maxmove)
+            cur.execute(SELECT_ATTACK,[maxmove])
+            existing = cur.fetchone()
+
+        atkId = existing[0]
+        # insert/update the form for gen 7 or 8
+        gen = 8 if (maxmove.startswith('Max ') or maxmove.startswith('G-Max ')) else 7
+
+        # get the max html & open for parsing
+        maxhtml = dataDir + 'Attacks/' + maxmove.lower().strip().replace(' ','') + '.html'
+        with open(maxhtml, 'r', encoding='utf-8') as f:
+            content = f.read()
+            soup = BeautifulSoup(content, 'html.parser')
+
+        writeAtkByGenData(atkId, maxmove, soup, gen, True)
+        
+
 def truthyFalsy( val ):
     if val == 'Yes':
         return True
@@ -1650,18 +1724,97 @@ def truthyFalsy( val ):
     else:
         return bool(val)
 
+def updatePokeAtkGenData( movemap, gen, dexId, pokeName, formName ):
+    # remap moves from groups to by name
+    # movename: {
+    #   level up: { move }
+    #   egg move: { move }
+    mappedmoves = {}
+    # loop over movegroup keys
+    for movegroup in movemap.keys():
+        # get the moves in the group
+        movesingroup = movemap[movegroup]
+        # loop over the move name keys
+        for move in movesingroup.keys():
+            # check if the move is applicable to the specified form
+            if 'forms' in move and formName in move['forms']:
+                # check if move is not already mapped for the form
+                if not move in mappedmoves:
+                    mappedmoves[move] = {}
+                # add the move to the movegroup for the move
+                mappedmoves[move][movegroup] = movesingroup[move]
+            # if no form specified, apply to all forms
+            elif not 'forms' in move:
+                # check if move is not already mapped for the form
+                if not move in mappedmoves:
+                    mappedmoves[move] = {}
+                # add the move to the movegroup for the move
+                mappedmoves[move][movegroup] = movesingroup[move]
+
+    cur = con.cursor()
+    setErrorFlag = False
+    
+    # get the poke form and map the attacks in the database
+    for attack in mappedmoves.keys():
+        # Max Guard isn't a stored attack, so skip it
+        if 'Max Guard' in attack:
+            continue
+        
+        atkName = checkDuplicated(attack)
+        # get the attack from the database
+        cur.execute(SELECT_ATTACK,[atkName])
+        atk = cur.fetchone()
+        if not atk:
+            print('Error - failed to find attack ' + atkName)
+            setErrorFlag = True
+            continue
+        
+        # get the attack for the gen
+        cur.execute(SELECT_ATK_BYGEN,[atk[1], gen])
+        atkForm = cur.fetchone()
+        if not atkForm:
+            print('Error - failed to find attack ' + atkName + ' in gen ' + str(gen))
+            setErrorFlag = True
+            continue
+
+        pokeForm = None
+        if formName == 'Base':
+            #  get the poke forms, need to get all to handle non-'Base' base forms
+            cur.execute(SELECT_PFORM_BY_DEXID, [dexId])
+            pokeForm = cur.fetchone()
+        else:
+            cur.execute(SELECT_BY_FORM_AND_DEXID, [formName, dexId])
+            pokeForm = cur.fetchone()
+
+        if not pokeForm:
+            print('Error - failed to find ' + formName + ' for dex id ' + str(dexId))
+            setErrorFlag = True
+            continue
+
+        # check whether the relationship already exists
+        cur.execute(SELECT_MOVESBYGEN,[gen,pokeForm[0],atkForm[0]])
+        existing = cur.fetchone()
+        if not existing:
+            cur.execute(INSERT_MOVESBYGEN,[gen,pokeForm[0],atkForm[0],str(mappedmoves[attack])])
+            con.commit()
+            print('Inserted ' + atkName + ' to ' + pokeName + ' - ' + formName + ' in ' + str(gen))
+            
+    return setErrorFlag       
+
 #############
 # Test runner
-def writeOutPokeAttacks(start, end):
+def iteratePokeAtkGen(start, end, startGen, endGen, write):
     attackFile = dataDir + 'attacks.txt'
     writtenAttacks = []
     # check existing written attacks on re-runs
     if path.exists(attackFile):
         with open(attackFile, 'r', encoding='utf-8') as f:
             writtenAttacks = f.read().splitlines()
+    # remove dupes
+    allAttacks = set([checkDuplicated(atkName) for atkName in writtenAttacks])
 
-    # Cycle pokemon
-    for gen in reversed(range(1,9)):
+    # Cycle pokemon (attacks loaded for gen 4 up at the moment)
+    for gen in reversed(range(startGen,(endGen+1))):
         genDir = dataDir + 'Gen' + str(gen) +'/'
         htmls = os.listdir(genDir)
         for html in htmls:
@@ -1672,22 +1825,29 @@ def writeOutPokeAttacks(start, end):
                 dexId = int(html.rsplit('.',1)[0])
                 if start <= dexId and dexId <= end:
                     genHtml = 'Gen' + str(gen) +'/' + html
-                    print('processing ' + genHtml)
+                    print('\nprocessing ' + genHtml)
                     pokeName = initTests(genHtml)
                     formNames = getFormNames(pokeName, statTables, megaTables)
                     attackGroups = getPokeAttacks(formNames,dexId)
-
-                    # add the returned attacks to the list of attacks
+                    mappedattacks = {}
+                    for form in formNames:
+                        errorFlag = updatePokeAtkGenData(attackGroups, gen, dexId, pokeName, form)    
+                        # terminate on error to allow it to be fixed
+                        if errorFlag:
+                            return
+                        
+                    # add the returned attacks to the list of attacks and to the database
                     for group in attackGroups.keys():
                         attacks = attackGroups[group].keys()
                         for attack in attacks:
                             if attack not in writtenAttacks:
                                 writtenAttacks.append(attack)
-            # write at the end of each pokemon
-            with open(attackFile, 'w', encoding='utf-8') as f:
-                for attack in writtenAttacks:
-                    f.write(attack+'\n')
-        
+                                
+            # write to the attacks file at the end of each pokemon
+            if write:
+                with open(attackFile, 'w', encoding='utf-8') as f:
+                    for attack in writtenAttacks:
+                        f.write(attack+'\n')
 
 def initItemIteration():
     itemFile = dataDir + 'items.txt'
