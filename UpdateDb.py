@@ -816,12 +816,12 @@ def getGender( allTables ):
     else:
         # get the percentage for male & female
         malePer = gendPers[0].find_all('td')[1].text
-        m = re.search('[\d]+', malePer)
+        m = re.search('[\d.]+', malePer)
         malePer = m.group(0)
         if malePer:
             malePer = int(malePer)
         femalePer = gendPers[1].find_all('td')[1].text
-        m = re.search('[\d]+', femalePer)
+        m = re.search('[\d.]+', femalePer)
         femalePer = m.group(0)
         if femalePer:
             femalePer = int(femalePer)
@@ -1390,12 +1390,14 @@ def checkDuplicated( atkName ):
 
 # ===================
 #   Insert/Update AttackByGen objects from the attach html pages
-def getAttackByGenData(startFrom, endAt, genStart, genEnd):
+def getAttackByGenData(startFrom, endAt, genStart, genEnd, specificColumns):
     # get the set of all attacks from the database
     cur = con.cursor()
     cur.execute('SELECT * FROM Attack')
     allAttacks = cur.fetchall()
     atkDir = dataDir + 'Attacks/'
+
+    maxAttacks = getMaxAttacks()
 
     # Loop over each attack, check if it's in the current gen,
     # then parse & update if found
@@ -1426,14 +1428,15 @@ def getAttackByGenData(startFrom, endAt, genStart, genEnd):
                     content = f.read()
                     soup = BeautifulSoup(content, 'html.parser')
 
-                processedAtks.append(writeAtkByGenData(atkId, atkName, soup, gen, False))
+                isMax = atkName in maxAttacks
+                processedAtks.append(writeAtkByGenData(atkId, atkName, soup, gen, isMax, specificColumns))
 
         if foundEnd:
             break
         
     return processedAtks
 
-def writeAtkByGenData(atkId, atkName, soup, gen, isMax):
+def writeAtkByGenData(atkId, atkName, soup, gen, isMax, specificCols):
     atkData = parseAtkForGen4Up(atkName, soup, gen, isMax)
     ## Attributes:
     # atkCategory, atkDesc, atkEffect,
@@ -1450,8 +1453,12 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax):
     bp = str(translateNumStr( atkData[atkName]['bp'] ))
     acc = str(translateNumStr( atkData[atkName]['acc'] ))
     pp = translateNumStr( atkData[atkName]['pp'] )
-    effPercent = str(translateNumStr( atkData[atkName]['effPer'] )) + ' %'
-    critRate = atkData[atkName]['critRate']
+    effPercent = str(translateNumStr( atkData[atkName]['effPer'] ))
+    if not effPercent == '--':
+        effPercent = effPercent + ' %'
+    critRate = str(translateNumStr( atkData[atkName]['critRate'] ))
+    if not critRate == '--':
+        critRate = critRate + ' %'
     target = atkData[atkName]['target']
     maxMove = atkData[atkName]['maxMove']
     maxPower = atkData[atkName]['maxPow']
@@ -1489,7 +1496,16 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax):
                                         typeId, atkId, gen])
         con.commit()
         print('Inserted ' + atkName + ' in gen ' + str(gen))
-    # if the attack exists, update it
+    # TODO: change for individual edits
+    elif specificCols:
+        cur.execute("""UPDATE AttackByGen SET bp=?, acc=?,
+                    pp=? effPercent=?, critRate=?, maxPower=?
+                    WHERE atkFormId=?""",
+                    [bp, acc, pp, effPercent, critRate, maxPower, existing[0]])
+        con.commit()
+        print('Updated specific columns for ' + atkName + ' in gen ' + str(gen))
+        
+    # if the attack exists, update all columns if none specified
     else:
         cur.execute(UPDATE_ATK_BYGEN, [atkCategory,atkDesc,atkEffect,
                                         bp, acc, pp, effPercent,
@@ -1505,11 +1521,23 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax):
     return atkName
 
 def translateNumStr( val ):
-    if isinstance( val, int ):
-        if val >= 0 and val <= 100:
-            return val
-        else:
+    # extract numerical value from input
+    m = re.search('[\d.]+', val)
+    val = m.group(0)
+    numval = None
+    if '.' in val:
+        try:
+            numval = float(val)
+        except:
             return '--'
+    else:
+        try:
+            numval = int(val)
+        except:
+            return '--'
+
+    if numval >= 0 and numval <= 100:
+        return numval
     else:
         return '--'
 
@@ -1686,10 +1714,15 @@ def getGen8765SharedAttrs(attack, attrCols1, attrCols2):
     
     return attack
 
-def addMaxMoves():
+def getMaxAttacks():
     nameFile = dataDir + 'Attacks/maxmoves.txt'
     with open(nameFile, 'r', encoding='utf-8') as f:
         maxNames = f.read().splitlines()
+
+    return maxNames
+
+def addMaxMoves(specificColumns):
+    maxNames = getMaxAttacks()
 
     cur = con.cursor()
     for maxmove in maxNames:    
@@ -1708,12 +1741,12 @@ def addMaxMoves():
         gen = 8 if (maxmove.startswith('Max ') or maxmove.startswith('G-Max ')) else 7
 
         # get the max html & open for parsing
-        maxhtml = dataDir + 'Attacks/' + maxmove.lower().strip().replace(' ','') + '.html'
+        maxhtml = dataDir + 'Attacks/Gen' + str(gen) + '/' + maxmove.lower().strip().replace(' ','') + '.html'
         with open(maxhtml, 'r', encoding='utf-8') as f:
             content = f.read()
             soup = BeautifulSoup(content, 'html.parser')
 
-        writeAtkByGenData(atkId, maxmove, soup, gen, True)
+        writeAtkByGenData(atkId, maxmove, soup, gen, True, specificColumns)
         
 
 def truthyFalsy( val ):
