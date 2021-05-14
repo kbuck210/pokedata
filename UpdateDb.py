@@ -4,6 +4,7 @@ import sqlite3
 import os.path
 from os import path
 from os import listdir
+from os import rename
 from bs4 import BeautifulSoup
 
 # Downloaded HTML Directory & DB Path (check mac then windows)
@@ -1832,7 +1833,209 @@ def updatePokeAtkGenData( movemap, gen, dexId, pokeName, formName ):
             con.commit()
             print('Inserted ' + atkName + ' to ' + pokeName + ' - ' + formName + ' in ' + str(gen))
             
-    return setErrorFlag       
+    return setErrorFlag
+
+#######################
+# Scrape Sprites & Icons
+def imgDownloader(start, end, genStart, genEnd):
+    base_url = 'https://www.serebii.net'
+    for dexId in range(start, (end+1)):
+        for gen in reversed(range(genStart, (genEnd+1))):
+            genHtml = 'Gen' + str(gen) + '/' + str(dexId).zfill(3) + '.html'
+            fullpath = dataDir + genHtml
+            if not path.exists(fullpath):
+                continue
+            with open(fullpath, 'r', encoding='utf-8') as f:
+                content = f.read()
+                soup = BeautifulSoup(content, 'html.parser')
+
+            # get all imgs
+            allImgs = soup.find_all('img')
+            outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+            for img in allImgs:
+                imgName = img['src'].rsplit('/',1)[1]
+                # determine the type of img
+                outPath = None
+                if '/icon/' in img['src'].lower() and img['src'].lower().endswith('.png'):
+                    # icon
+                    outPath = outRoot + 'icons/' + imgName
+                elif '/pokemon/' in img['src'].lower() and img['src'].lower().endswith('.png'):
+                    # sprite
+                    outPath = outRoot + 'sprites/' + imgName
+                elif '/shiny/' in img['src'].lower() and img['src'].lower().endswith('.png'):
+                    # shiny sprite
+                    outPath = outRoot + 'sprites_shiny/' + imgName
+
+                # download the data if the file doesn't already exist
+                if not outPath or path.exists(outPath):
+                    continue
+                
+                fullurl = base_url + img['src']
+                netImg = requests.get(fullurl)
+                if netImg.status_code == 200:
+                    with open(outPath, 'wb') as f:
+                        f.write(netImg.content)
+                    print('downloaded ' + img['src'])
+                else:
+                    print('Failed to download: ' + fullurl)
+
+def moveUnused():
+    outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+    iconDir = outRoot + 'icons/'
+    spriteDir = outRoot + 'sprites/'
+    shinyDir = outRoot + 'sprites_shiny/'
+    iconUnused = outRoot + 'icons_unused/'
+    spriteUnused = outRoot + 'sprites_unused/'
+    shinyUnused = outRoot + 'sprites_shiny_unused/'
+
+    allIcons = os.listdir(iconDir)
+    allSprites = os.listdir(spriteDir)
+    allShiny = os.listdir(shinyDir)
+    
+    cur = con.cursor()
+    cur.execute('SELECT DISTINCT pokeId FROM PokemonForm WHERE isBase=0')
+    allAlts = cur.fetchall()
+    altids = []
+    for alt in allAlts:
+        altids.append(alt[0])
+        
+    for dexId in range(1,898):
+        # check icons, sprites, & shiny for alts where shouldn't be
+        moveNonAlts(dexId, allIcons, altids, iconDir, iconUnused, False)
+        moveNonAlts(dexId, allSprites, altids, spriteDir, spriteUnused, True)
+        moveNonAlts(dexId, allShiny, altids, shinyDir, shinyUnused, True)
+        
+def moveNonAlts(dexId, allFiles, altids, curDir, newDir, keepGmax):
+    # check icons for alts where shouldn't be
+    pokeImgs = []
+    for img in allFiles:
+        # find the icon for this dexid
+        if img.startswith(str(dexId).zfill(3)):
+            pokeImgs.append(img)
+    # if the dex id has no alts, keep only the non-alt ID
+    if not dexId in altids and len(pokeImgs) > 1:
+        for img in pokeImgs:
+            # if gmax img but not keep gmax, move it
+            if img == (str(dexId).zfill(3) + '-gi.png') and not keepGmax:
+                fullpath = curDir + img
+                newpath = newDir + img
+                os.rename(fullpath, newpath)
+                print('moved ' + img)
+            # if is gmax and keep gmax, skip
+            elif img == (str(dexId).zfill(3) + '-gi.png') and keepGmax:
+                continue
+            # otherwise anything not equal to base is moved
+            elif img != (str(dexId).zfill(3) + '.png'):
+                fullpath = curDir + img
+                newpath = newDir + img
+                os.rename(fullpath, newpath)
+                print('moved ' + img)
+
+def findSpriteGaps():
+    outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+    iconDir = outRoot + 'icons/'
+    spriteDir = outRoot + 'sprites/'
+    shinyDir = outRoot + 'sprites_shiny/'
+    iconUnused = outRoot + 'icons_unused/'
+    spriteUnused = outRoot + 'sprites_unused/'
+    shinyUnused = outRoot + 'sprites_shiny_unused/'
+
+    allIcons = os.listdir(iconDir)
+    allSprites = os.listdir(spriteDir)
+    allShiny = os.listdir(shinyDir)
+    allIcUnused = os.listdir(iconUnused)
+    allSpUnused = os.listdir(spriteUnused)
+    allShUnused = os.listdir(shinyUnused)
+
+    checkOtherFolder(allIcons, allIcUnused)
+    checkOtherFolder(allSprites, allSpUnused)
+    checkOtherFolder(allShiny, allShUnused)
+
+def checkOtherFolder(allUsed, allUnused):
+    for unused in allUnused:
+        m = re.search('[\d]+', unused)
+        foundId = m.group(0)
+        baseImg = foundId + '.png'
+        if not baseImg in allUsed:
+            print('missing ' + baseImg)
+
+def renameForms():
+    outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+    iconDir = outRoot + 'icons/'
+    spriteDir = outRoot + 'sprites/'
+    shinyDir = outRoot + 'sprites_shiny/'
+    iconUnused = outRoot + 'icons_unused/'
+    spriteUnused = outRoot + 'sprites_unused/'
+    shinyUnused = outRoot + 'sprites_shiny_unused/'
+
+    allIcons = os.listdir(iconDir)
+    allSprites = os.listdir(spriteDir)
+    allShiny = os.listdir(shinyDir)
+
+    #renameImgs(iconDir, allIcons, '-m.png', '_mega.png')
+    #renameImgs(spriteDir, allSprites, '-m.png', '_mega.png')
+    #renameImgs(shinyDir, allShiny, '-m.png', '_mega.png')
+
+    #renameImgs(iconDir, allIcons, '-gi.png', '_gmax.png')
+    #renameImgs(spriteDir, allSprites, '-gi.png', '_gmax.png')
+    #renameImgs(shinyDir, allShiny, '-gi.png', '_gmax.png')
+
+    addPrefix(iconDir, allIcons, 'ic_')
+    addPrefix(spriteDir, allSprites, 'sp_')
+    addPrefix(shinyDir, allShiny, 'sh_')
+
+def renameImgs(curDir, allFiles, search, replace):
+    for img in allFiles:
+        if img.endswith(search):
+            newname = img.replace(search,replace)
+            os.rename((curDir + img), (curDir + newname))
+
+def addPrefix(curDir, allFiles, prefix):
+    for img in allFiles:
+        newname = prefix + img
+        os.rename((curDir + img), (curDir + newname))
+
+def fixDbTrailing():
+    appDb = 'C:/Users/kbuck/AndroidStudioProjects/PokeRef/app/src/main/assets/databases/BattleDex.db'
+    con = sqlite3.connect(appDb)
+    cur = con.cursor()
+    cur.execute('SELECT pokeFormId, shinySprite, pokeId FROM PokemonForm WHERE shinySprite LIKE "%/_.png" ESCAPE "/"')
+    brokenSprites = cur.fetchall()
+
+    for sprite in brokenSprites:
+        name = sprite[1]
+        toks = name.rsplit('_',1)
+        fixed = ''.join(toks)
+        if fixed == 'sh_' + str(sprite[2]).zfill(3) + '.png':
+            cur.execute('UPDATE PokemonForm SET shinySprite=? WHERE pokeFormId=?',[fixed,sprite[0]])
+            con.commit()
+
+def fixAlolanForms():
+    appDb = 'C:/Users/kbuck/AndroidStudioProjects/PokeRef/app/src/main/assets/databases/BattleDex.db'
+    con = sqlite3.connect(appDb)
+    cur = con.cursor()
+    outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+    iconDir = outRoot + 'icons/'
+    spriteDir = outRoot + 'sprites/'
+    shinyDir = outRoot + 'sprites_shiny/'
+
+    fixSuffixes(iconDir, os.listdir(iconDir), cur)
+    fixSuffixes(spriteDir, os.listdir(spriteDir), cur)
+    fixSuffixes(shinyDir, os.listdir(shinyDir), cur)
+    con.close()
+
+def fixSuffixes(curDir, allFiles, cur):
+    for img in allFiles:
+        dexId = img.split('_')[1].split('_')[0].split('.')[0]
+        cur.execute('SELECT sprite, icon, shinySprite FROM PokemonForm WHERE pokeId=?',[dexId])
+        forms = cur.fetchall()
+        for form in forms:
+            if 'Alolan' in form[0] and img.endswith('-a.png'):
+                os.rename((curDir + img), (curDir + form[0]))
+                break
+            elif 'Galarian' in form[0] and img.endswith('-g.png'):
+                os.rename((curDir + img), (curDir + form[0]))
+                break
 
 #############
 # Test runner
