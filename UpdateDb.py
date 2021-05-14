@@ -12,9 +12,9 @@ dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
 if not path.exists(dataDir):
     dataDir = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\DexPages\\'
 
-dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/PokeRefDbNew.db'
+dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/BattleDex.db'
 if not path.exists(dbPath):
-    dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\PokeRefDbNew.db'
+    dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\BattleDex.db'
 
 # =================
 # TABLE: Ability
@@ -974,6 +974,7 @@ def getEVsEarned( formName, allTables ):
         return val + ' ' + stat
     # if multiple, return evs for form
     else:
+        # Check if there are separate EVs for different forms
         for form in evs:
             m = re.search(r'\d', form)
             if m and formName == form[:m.start()]:
@@ -981,12 +982,36 @@ def getEVsEarned( formName, allTables ):
                 val = toks[0]
                 stat = translateStatString(toks[1])
                 return val + ' ' + stat
+            
+        # Check if there are multiple EVs for single form
+        sameMon = True
+        for form in evs:
+            m = re.search(r'\d', form)
+            if m.start() != 0:
+                sameMon = False
+
+        if sameMon:
+            modified = []
+            for ev in evs:
+                m = re.search(r'\d', form)
+                toks = form[m.start():].strip().split(' ', 1)
+                val = toks[0]
+                stat = translateStatString(toks[1])
+                modified.append(val + ' ' + stat)
+
+            if len(modified) > 0:
+                return ', '.join(modified)
+          
         return None
 
 def translateStatString( stat ):
     if stat.endswith('Sp. Attack'):
         return 'SpAtk'
+    elif stat.endswith('Sp.Attack'):
+        return 'SpAtk'
     elif stat.endswith('Sp. Defense'):
+        return 'SpDef'
+    elif stat.endswith('Sp.Defense'):
         return 'SpDef'
     elif stat.endswith('Attack'):
         return 'Atk'
@@ -1500,7 +1525,7 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax, specificCols):
     # TODO: change for individual edits
     elif specificCols:
         cur.execute("""UPDATE AttackByGen SET bp=?, acc=?,
-                    pp=? effPercent=?, critRate=?, maxPower=?
+                    pp=?, effPercent=?, critRate=?, maxPower=?
                     WHERE atkFormId=?""",
                     [bp, acc, pp, effPercent, critRate, maxPower, existing[0]])
         con.commit()
@@ -1524,6 +1549,9 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax, specificCols):
 def translateNumStr( val ):
     # extract numerical value from input
     m = re.search('[\d.]+', val)
+    if not m:
+        return '--'
+    
     val = m.group(0)
     numval = None
     if '.' in val:
@@ -2191,3 +2219,33 @@ def initTests( genHtml ):
     statTables.extend(getStatTables(allTables))
     megaTables.extend(getMegaTables(pokeName, allTables))
     return pokeName
+
+def correctEvsEarned(dexId):
+    cur = con.cursor()
+    cur.execute('SELECT pokeFormId, formName, pokeId, evsEarned FROM PokemonForm')
+    nulls = cur.fetchall()
+    # find the most recent form
+    dataDir = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/'
+    for nil in nulls:
+        if dexId and dexId != nil[2]:
+            continue
+        #skip single ev records
+        if not ',' in nil[3]:
+            continue
+        updated = False
+        for gen in reversed(range(1,9)):
+            genHtml = 'Gen' + str(gen) + '/' + str(nil[2]).zfill(3) + '.html'
+            html = dataDir + genHtml
+            if path.exists(html):
+                initTests(genHtml)
+                evsEarned = getEVsEarned(nil[1], allTables)
+                if evsEarned:
+                    cur.execute('UPDATE PokemonForm SET evsEarned=? WHERE pokeFormId=?',[evsEarned,nil[0]])
+                    con.commit()
+                    updated = True
+                    print('updated evsEarned for ' + str(nil[0]) + ' - ' + nil[1])
+                    break
+
+        if not updated:
+            print('no evs found for ' + str(nil[0]) + ' - ' + nil[1])            
+            
