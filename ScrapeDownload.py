@@ -26,6 +26,9 @@ atk1 = "attackdex-rby/"
 # Scrape Ability Dexes
 abdex = "abilitydex/"
 
+# Scrape Item Dex
+itemdex = "itemdex/"
+
 # Gen output folders
 gen8out = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/Gen8/'
 gen7out = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/DexPages/Gen7/'
@@ -409,3 +412,4 @@ def downloadMaxZAttacks( page, html ):
     with open(outfile, 'w', encoding='utf-8') as f:
         f.write(str(soup))
         print('Wrote: ' + html.replace('.shtml','.html'))
+

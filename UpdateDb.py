@@ -2,6 +2,7 @@ import re
 import requests
 import sqlite3
 import os.path
+import json
 from os import path
 from os import listdir
 from os import rename
@@ -14,7 +15,7 @@ if not path.exists(dataDir):
 
 dbPath = '/Users/kbuck/Documents/MacDeveloper/Python Scraping/BattleDex.db'
 if not path.exists(dbPath):
-    dbPath = 'G:\\Android Development\\Database Stuff\\PokeRef\\PythonDev\\pokedata\\BattleDex.db'
+    dbPath = 'C:\\Users\\kbuck\\AndroidStudioProjects\\PokeRef\\app\\src\\main\\assets\\databases\\BattleDex.db'
 
 # =================
 # TABLE: Ability
@@ -1256,12 +1257,39 @@ def getAttackTables():
         elif 'level up' in header.lower() or \
              'attacks' in header.lower() or \
              'moves' in header.lower():
-            tables[header] = t
-
+            if header not in tables:
+                tables[header] = t
+            else:
+                header = header + '2'
+                tables[header] = t
+                
     # Skip collapsed table if details table exists
-    if 'Transfer Only Moves' in tables.keys() and 'Transfer Only Moves (Details)' in tables.keys():
-        del tables['Transfer Only Moves']
     return tables
+
+def getAtkTableWithinTable(table):
+    # get parent of first tr
+    parent = table.find('tr').parent
+    allRows = parent.find_all('tr', recursive=False)
+    splitRow = None
+    for r in range(2, len(allRows)):
+        tds = allRows[r].find_all('td', recursive=False)
+        if len(tds) == 1 and 'transfer only' in tds[0].text.lower():
+            splitRow = r
+            break
+
+    if not splitRow or splitRow == 0:
+        return (allRows, None)
+    else:
+        topHalf = []
+        bottomHalf = []
+        for r in range(0, splitRow):
+            topHalf.append(allRows[r])
+
+        bottomHalf.append(allRows[splitRow])
+        bottomHalf.append(allRows[1])
+        for r in range(splitRow+1, len(allRows)):
+            bottomHalf.append(allRows[r])
+        return (topHalf, bottomHalf)
 
 def getAttackTableColumnData( title, allRows, formNames, dexId ):
     moves = {}
@@ -1354,10 +1382,24 @@ def getFormsForAttack( infoTds, formCol, formNames, dexId ):
             if srcId == str(dexId) + '.png':
                 forms.append(formNames[0])
                 # otherwise use alt text or title tags
-            elif img.get('alt') and img['alt'].strip() in formNames:
-                forms.append(img['alt'].strip())
-            elif img.get('title') and img['title'].strip() in formNames:
-                forms.append(img['title'].strip())
+            elif img.get('alt'):
+                alt = img['alt'].strip()
+                if alt in formNames:
+                    forms.append(img['alt'].strip())
+                else:
+                    for form in formNames:
+                        if (alt.lower().startswith('alolan') and form.lower().startswith('alolan')) or (alt.lower().startswith('galar') and form.lower().startswith('galar')):
+                            forms.append(img['alt'].strip())
+                            break
+            elif img.get('title'):
+                title = img['title'].strip()
+                if title in formNames:
+                    forms.append(img['title'].strip())
+                else:
+                    for form in formNames:
+                        if (title.lower().startswith('alolan') and form.lower().startswith('alolan')) or (title.lower().startswith('galar') and form.lower().startswith('galar')):
+                            forms.append(img['title'].strip())
+                            break
     return forms
 
 def getPokeAttacks(formNames, dexId):
@@ -1546,7 +1588,7 @@ def writeAtkByGenData(atkId, atkName, soup, gen, isMax, specificCols):
 
     return atkName
 
-def translateNumStr( val ):
+def translateNumStr( val, upperBound ):
     # extract numerical value from input
     m = re.search('[\d.]+', val)
     if not m:
@@ -1565,7 +1607,9 @@ def translateNumStr( val ):
         except:
             return '--'
 
-    if numval >= 0 and numval <= 100:
+    if upperBound and numval >= 0 and numval <= upperBound:
+        return numval
+    elif numval >= 0 and not upperBound:
         return numval
     else:
         return '--'
@@ -2047,24 +2091,83 @@ def fixAlolanForms():
     spriteDir = outRoot + 'sprites/'
     shinyDir = outRoot + 'sprites_shiny/'
 
-    fixSuffixes(iconDir, os.listdir(iconDir), cur)
-    fixSuffixes(spriteDir, os.listdir(spriteDir), cur)
-    fixSuffixes(shinyDir, os.listdir(shinyDir), cur)
+    fixSuffixes(iconDir, os.listdir(iconDir), cur, 2)
+    fixSuffixes(spriteDir, os.listdir(spriteDir), cur, 1)
+    fixSuffixes(shinyDir, os.listdir(shinyDir), cur, 3)
     con.close()
 
-def fixSuffixes(curDir, allFiles, cur):
+def fixSuffixes(curDir, allFiles, cur, resInd):
     for img in allFiles:
-        dexId = img.split('_')[1].split('_')[0].split('.')[0]
-        cur.execute('SELECT sprite, icon, shinySprite FROM PokemonForm WHERE pokeId=?',[dexId])
+        dexId = img.split('_',1)[1].split('_')[0].split('.')[0].split('-')[0]
+        cur.execute('SELECT formName, sprite, icon, shinySprite FROM PokemonForm WHERE pokeId=?',[int(dexId)])
         forms = cur.fetchall()
         for form in forms:
             if 'Alolan' in form[0] and img.endswith('-a.png'):
-                os.rename((curDir + img), (curDir + form[0]))
+                os.rename((curDir + img), (curDir + form[resInd]))
                 break
             elif 'Galarian' in form[0] and img.endswith('-g.png'):
-                os.rename((curDir + img), (curDir + form[0]))
+                os.rename((curDir + img), (curDir + form[resInd]))
                 break
 
+def mapMissing():
+    appDb = 'C:/Users/kbuck/AndroidStudioProjects/PokeRef/app/src/main/assets/databases/BattleDex.db'
+    con = sqlite3.connect(appDb)
+    cur = con.cursor()
+    cur.execute('SELECT formName, sprite, icon, shinySprite FROM PokemonForm')
+    forms = cur.fetchall()
+    missingFromFiles = []
+    extraInDir = []
+
+    outRoot = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/'
+    iconDir = outRoot + 'icons/'
+    spriteDir = outRoot + 'sprites/'
+    shinyDir = outRoot + 'sprites_shiny/'
+    allIcons = os.listdir(iconDir)
+    allSprites = os.listdir(spriteDir)
+    allShiny = os.listdir(shinyDir)
+
+    allDbIcons = []
+    allDbSprites = []
+    allDbShiny = []
+
+    # Check whether the DB records exist
+    for form in forms:
+        if not path.exists(iconDir + form[2]):
+            missingFromFiles.append(form[2])
+        if not path.exists(spriteDir + form[1]):
+            missingFromFiles.append(form[1])
+        if not path.exists(shinyDir + form[3]):
+            missingFromFiles.append(form[3])
+
+        allDbIcons.append(form[2])
+        allDbSprites.append(form[1])
+        allDbShiny.append(form[3])
+        
+    # Gather list of extra sprites
+    for icon in allIcons:
+        if not icon in allDbIcons:
+            extraInDir.append(icon)
+    for sprite in allSprites:
+        if not sprite in allDbSprites:
+            extraInDir.append(sprite)
+    for shiny in allShiny:
+        if not shiny in allDbShiny:
+            extraInDir.append(shiny)
+
+    print('missing files: ')
+    print(missingFromFiles)
+    print('extra files: ')
+    print(extraInDir)
+
+def findBrokenBp():
+    appDb = 'C:/Users/kbuck/AndroidStudioProjects/PokeRef/app/src/main/assets/databases/BattleDex.db'
+    con = sqlite3.connect(appDb)
+    cur = con.cursor()
+    cur.execute('SELECT atkName, atkFormId, bp FROM AttackByGen AS G, Attack AS A WHERE (atkCategory="physical" OR atkCategory="special") AND (bp="--" OR bp="0") AND G.atkId=A.atkId')
+    results = cur.fetchall()
+    print('\nResults:\n')
+    print(results)
+    
 #############
 # Test runner
 def iteratePokeAtkGen(start, end, startGen, endGen, write):
@@ -2098,7 +2201,7 @@ def iteratePokeAtkGen(start, end, startGen, endGen, write):
                         errorFlag = updatePokeAtkGenData(attackGroups, gen, dexId, pokeName, form)    
                         # terminate on error to allow it to be fixed
                         if errorFlag:
-                            return
+                            return writtenAttacks
                         
                     # add the returned attacks to the list of attacks and to the database
                     for group in attackGroups.keys():
@@ -2112,6 +2215,8 @@ def iteratePokeAtkGen(start, end, startGen, endGen, write):
                 with open(attackFile, 'w', encoding='utf-8') as f:
                     for attack in writtenAttacks:
                         f.write(attack+'\n')
+
+    return writtenAttacks
 
 def initItemIteration():
     itemFile = dataDir + 'items.txt'
@@ -2248,4 +2353,539 @@ def correctEvsEarned(dexId):
 
         if not updated:
             print('no evs found for ' + str(nil[0]) + ' - ' + nil[1])            
+
+def findMoveDataFromHtml(startGen, endGen, start, end):
+    # Cycle pokemon (attacks loaded for gen 4 up at the moment)
+    for gen in reversed(range(startGen,(endGen+1))):
+        genDir = dataDir + 'Gen' + str(gen) +'/'
+        htmls = os.listdir(genDir)
+        for html in htmls:
+            # skip any non html file
+            if not html.rsplit('.',1)[1] == 'html':
+                continue
+            else:
+                dexId = int(html.rsplit('.',1)[0])
+                if start <= dexId and dexId <= end:
+                    genHtml = 'Gen' + str(gen) +'/' + html
+                    print('\nprocessing ' + genHtml)
+                    pokeName = initTests(genHtml)
+                    formNames = getFormNames(pokeName, statTables, megaTables)
+                    attackGroups = getPokeAttacks(formNames,dexId)
+                    mappedattacks = {}
+                    for form in formNames:
+                        errorFlag = updatePokeAtkGenData(attackGroups, gen, dexId, pokeName, form)    
+                        # terminate on error to allow it to be fixed
+                        if errorFlag:
+                            return
+
+def correctMissingGenMoves(startGen, endGen):
+    cur = con.cursor()
+    valid_dir = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/pokedata/DexValidate/Attacks/'
+    remaining = {}
+    for gen in reversed(range(startGen, endGen+1)):
+        missingFile = valid_dir + 'Gen' + str(gen) + 'Missing.txt'
+        with open(missingFile, 'r', encoding='utf-8') as jsonFile:
+            jData = json.load(jsonFile)
+
+        # get the mon & list of missing attacks from the json
+        for mon in jData:
+            atks = jData[mon]
+
+            # get the nat id from the database
+            cur.execute("SELECT nat_id FROM Pokemon WHERE name=?", [mon])
+            nat_id = cur.fetchone()[0]
+
+            # update/insert the attacks for this mon
+            updatedAttacks = iteratePokeAtkGen(nat_id, nat_id, gen, gen, False)
+
+
+            # validate that none of the attacks are still missing
+            stillMissing = []
+            for atk in atks:
+                if atk not in updatedAttacks:
+                    stillMissing.append(atk)
+
+            if len(stillMissing) > 0:
+                remaining[mon] = stillMissing
+
+    return remaining
             
+def fixAltFormMoveDuplication():
+    # get all mons with alt forms
+    cur = con.cursor()
+    cur.execute("SELECT nat_id from Pokemon")
+    allNatIds = cur.fetchall()
+    multiforms = {}
+    for natId in allNatIds:
+        cur.execute("SELECT * FROM PokemonForm WHERE pokeId=?", [natId[0]])
+        forms = cur.fetchall()
+        multiforms[natId]=[]
+        if len(forms) > 1:
+            for form in forms:
+                multiforms[natId].append(form)
+
+    # for each of the multiform form IDs, get all of their attacks and check whether the level-up text makes sense
+    # also check forms for TM/TR, max moves, move tutors
+    invalidMoves = []
+    unableToCheck = []
+    for key in multiforms:
+        allForms = multiforms[key]
+        for form in allForms:
+            otherForms = []
+            for f in allForms:
+                if f[0] != form[0]:
+                    otherForms.append(f[1])
+            cur.execute("SELECT * FROM PokeMovesByGen WHERE pokeFormId=?", [form[0]])
+            allMoves = cur.fetchall()
+            for move in allMoves:
+                desc = move[3]
+                desc = fixJsonString(desc)
+                j = json.loads(desc)
+                # ways to be valid:
+                # 'standard level up',
+                # 'level up' without other form name,
+                # other key has forms attribute containing form
+                # if any valid case found, quit searching
+                levelUpKeys = []
+                otherKeys = []
+                tempInvalid = []
+                for key in j:
+                    if 'level up' in key.lower():
+                        levelUpKeys.append(key)
+                    else:
+                        otherKeys.append(key)
+
+                # check each level up key to see whether it contains the form name of an alt form
+                keyCounter = 0
+                for levelKey in levelUpKeys:
+                    for other in otherForms:
+                        if other.lower() in levelKey.lower():
+                            keyCounter += 1
+                            break
+                # if the total alt form counter equals the number of level up keys, means this form is not valid level up
+                if len(levelUpKeys) > 0 and keyCounter == len(levelUpKeys):
+                    print('form ' + form[1] + ' not in level up for ' + str((move[0],move[1],move[2])))
+                    tempInvalid.append((move[0],move[1],move[2]))
+                # if valid level up move, then continue to next move
+                elif len(levelUpKeys) > 0:
+                    continue
+
+                valid = False
+                for key in otherKeys:
+                    # if searching a 'level up' key, look for other form in key name
+                    print('on form ' + str(form[0]) + ' atk: ' + str(move[2]))
+                    # check for form name in forms attribute
+                    if 'forms' in j[key] and not form[1] in j[key]['forms']:
+                        remapped = ['Normal', 'Plant Cloak', 'Land Forme', 'Aria Forme', 'Hoopa Confined', 'Baile Style', 'Hero of Many Battles', 'Single Strike Style']
+                        if form[1] in remapped and 'Base' not in j[key]['forms']:
+                            print('form ' + form[1] + ' not in forms for ' + str((move[0],move[1],move[2])))
+                            tempInvalid.append((move[0],move[1],move[2]))
+                        elif form[1] not in remapped:
+                            print('form ' + form[1] + ' not in forms for ' + str((move[0],move[1],move[2])))
+                            tempInvalid.append((move[0],move[1],move[2]))
+                        else:
+                            valid = True
+                    elif 'forms' in j[key]:
+                        valid = True
+                    elif 'forms' not in j[key]:
+                        unableToCheck.append((move[0],move[1],move[2]))
+
+                if valid:
+                    tempInvalid = []
+
+                if len(tempInvalid) > 0:
+                    invalidMoves.extend(tempInvalid)
+
+    print('invalid: ')
+    print(invalidMoves)
+    print('unable: ')
+    print(unableToCheck)
+
+def fixJsonString(string):
+    openQuotes = False
+    newString = ''
+    for char in string:
+        if char == '"':
+            openQuotes = not openQuotes
+        elif not openQuotes and char == '\'':
+            char = '"'
+
+        newString += char
+        
+    return newString
+
+def deleteDuplicatedMoves():
+    cur = con.cursor()
+    dupFile = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/pokedata/DexValidate/Attacks/duplicateAltFormMoves.txt'
+    with open(dupFile, 'r', encoding='utf-8') as f:
+        moves = f.readlines()
+	
+    stripped = []
+    for move in moves:
+        toks = move.split(",")
+        gen = toks[0].split("(")[1].strip()
+        poke = toks[1].strip()
+        atk = toks[2].split(")")[0].strip()
+        stripped.append((gen, poke, atk))
+
+    for move in stripped:
+        cur.execute("""select atkName, name, formName from Attack as A, Pokemon as P, PokemonForm as F
+                        where F.pokeId = P.nat_id 
+                        and atkId IN (SELECT atkId FROM AttackByGen AS G WHERE G.atkFormId=? AND atkFormId IN (
+                        SELECT atkFormId FROM PokeMovesByGen WHERE genId=? AND pokeFormId = F.pokeFormId))
+                        AND F.pokeFormId=?""", [move[2], move[0], move[1]])
+        print('move to delete: ' + str(cur.fetchone()))
+        #cur.execute("DELETE FROM PokeMovesByGen WHERE genId=? AND pokeFormId=? AND atkFormId=?",[move[0], move[1], move[2]])
+
+def reinsertAllMoves(genId, dexId, moveMap):
+    cur = con.cursor()
+    missingMoves = []
+    # loop over the forms in the move map, querying the DB for the pokeFormId
+    for form in moveMap:
+        pokeFormId = None
+        if form == 'Base':
+            cur.execute("SELECT pokeFormId FROM PokemonForm WHERE isBase=1 AND pokeId=?", [dexId])
+            pokeFormId = cur.fetchone()[0]
+        else:
+            cur.execute("SELECT pokeFormId FROM PokemonForm WHERE formName=? AND pokeId=?", [form, dexId])
+            pokeFormId = cur.fetchone()[0]
+
+        if not pokeFormId:
+            print("failed to find PokemonForm for form: " + form)
+            continue
+
+        # for each attack in the movemap, get the atkFormId based on the name and gen
+        formMoves = moveMap[form]
+        for move in formMoves:
+            capitalized = capitalizeWords(move)
+            capitalized = checkDuplicated(capitalized)
+            if capitalized == 'Max Guard':
+                continue
+            cur.execute("SELECT atkFormId FROM AttackByGen WHERE genId=? AND atkId=(SELECT atkId FROM Attack WHERE atkName=?)",[genId, capitalized])
+            atk = cur.fetchone()
+            if not atk:
+                print('No move ' + capitalized + ' found in gen ' + str(genId) + ' for ' + str(dexId).zfill(3))
+                missingMoves.append(capitalized)
+                continue 
+            atkFormId = atk[0]
+
+            moveCategories = formMoves[move]
+            consolidated = []
+            for category in moveCategories:
+                if 'level up' in category.lower() and 'Level Up' not in consolidated:
+                    consolidated.append('Level Up')
+                elif 'technical machine' in category.lower() or 'technical record' in category.lower() or \
+                    ('tm ' in category.lower() and 'attacks' in category.lower()) or 'hm attacks' in category.lower():
+                    if not 'TM/TR/HM' in consolidated:
+                        consolidated.append('TM/TR/HM')
+                elif 'move tutor' in category.lower() and 'Tutor Moves' not in consolidated:
+                    consolidated.append('Tutor Moves')
+                elif 'egg move' in category.lower() and 'Egg Moves' not in consolidated:
+                    consolidated.append('Egg Moves')
+                elif 'transfer only' in category.lower() and 'Transfer Only' not in consolidated:
+                    consolidated.append('Transfer Only')
+                elif 'useable' in category.lower() and category not in consolidated:
+                    consolidated.append(category)
+                elif 'pre-evolution only' in category.lower() and 'Pre-Evolution' not in consolidated:
+                    consolidated.append('Pre-Evolution')
+            catStr = ''
+            for index in range(0, len(consolidated)):
+                catStr += consolidated[index]
+                if index < (len(consolidated) - 2):
+                    catStr += ', '
+            # check whether the move already exists:
+            cur.execute("SELECT * FROM PokeMovesByGen WHERE genId=? AND pokeFormId=? AND atkFormId=?", [genId, pokeFormId, atkFormId])
+            result = cur.fetchone()
+            if not result:
+                # insert the move for this form in this gen, adding categories to the gen info
+                cur.execute("INSERT INTO PokeMovesByGen(genId, pokeFormId, atkFormId, groupDesc) VALUES(?,?,?,?)",[genId, pokeFormId, atkFormId, catStr]) 
+                con.commit()
+                print("Inserted moves for " + str(dexId).zfill(3) + " - " + form + " in gen " + str(genId))
+##            else:
+##                print("move already exists for " + str(dexId).zfill(3) + " - " + form + " in gen " + str(genId))
+
+    return missingMoves
+
+def getMovesFromRows(allRows, title, formNames, dexId):
+    allMoves = {}
+    titleForm = None
+    for form in formNames:
+        if form.lower() in title.lower():
+            titleForm = form
+        elif form.lower().startswith('alola') or form.lower().startswith('galar'):
+            if 'alola' in title.lower() or 'galar' in title.lower():
+                titleForm = form
+
+    moves = getAttackTableColumnData(title, allRows, formNames, dexId)
+    
+    # if the form found in the table title, add the found moves to the mapped form
+    if titleForm:
+        if not titleForm in allMoves:
+            allMoves[titleForm] = {}
+            allMoves[titleForm][title] = {}
+        elif title not in allMoves[titleForm]:
+            allMoves[titleForm][title] = {}
+
+        for move in moves:
+            allMoves[titleForm][title][move] = moves[move]
+
+    # if form not in the title name, try to get it from the moves result
+    else:
+        for move in moves:
+            if 'forms' in moves[move]:
+                forms = moves[move]['forms']
+                for form in forms:
+                    formName = checkBaseTranslation(form, formNames)
+                    if not formName in allMoves:
+                        allMoves[formName] = {}
+                        allMoves[formName][title] = {}
+                    elif title not in allMoves[formName]:
+                        allMoves[formName][title] = {}
+                    allMoves[formName][title][move] = moves[move]
+            # if not titleForm && not 'forms' defined, then is standard level up
+            else:
+                if not 'Base' in allMoves:
+                    allMoves['Base'] = {}
+                    allMoves['Base'][title] = {}
+                elif title not in allMoves['Base']:
+                    allMoves['Base'][title] = {}
+                allMoves['Base'][title][move] = moves[move]
+
+    allMoves = remapMovesByName(allMoves)
+    return allMoves
+    #missing = reinsertAllMoves(gen, dexId, allMoves)
+    #if len(missing) > 0:
+    #    missingMoves[dexId] = missing
+
+def remapPokeMovesByGen(startGen, endGen, start, end):
+    cur = con.cursor()
+    missingMoves = {}
+    for gen in reversed(range(startGen, endGen+1)):
+        genDir = dataDir + 'Gen' + str(gen) + '/'
+        if not start:
+            start = 1
+        if not end:
+            end = 898
+
+        for dexId in range(start, end+1):
+            allTables.clear()
+            html = genDir + str(dexId).zfill(3) + '.html'
+            
+            if path.exists(html):
+                print('reading html: ' + html)
+                with open(html, 'r', encoding='utf-8') as f:
+                    content = f.read()
+                    soup = BeautifulSoup(content, 'html.parser')
+
+                allTables.extend(getAllTables(soup))
+                print('allTables: ' + str(len(allTables)))
+                # map keyed on the table header title
+                atkTables = getAttackTables()
+                print('atkTables: ' + str(atkTables.keys()))
+
+                # check if there is a forms column
+                cur.execute("SELECT formName FROM PokemonForm WHERE pokeId=? AND pokeFormId IN (SELECT pokeFormId FROM PokemonInDex WHERE genId=?)", [dexId, gen])
+                result = cur.fetchall()
+                formNames = []
+                for form in result:
+                    formNames.append(form[0])
+
+                # loop over each of the attack tables
+                allMoves = {}
+                for table in atkTables:
+                    tables = getAtkTableWithinTable(atkTables[table])
+                    topRows = tables[0]
+                    if not topRows or len(topRows) < 1:
+                        continue
+                    h = topRows[0].find('h3')
+                    topTitle = h.text if h else None
+                    if not topTitle:
+                        h = topRows[0].find('td')
+                        topTitle = h.text if h else None
+                    if not topTitle:
+                        continue
+
+                    topMoves = getMovesFromRows(topRows, topTitle, formNames, dexId)
+                    missing = reinsertAllMoves(gen, dexId, topMoves)
+                    if len(missing) > 0:
+                        missingMoves[dexId] = missing
+                    
+                    botRows = None
+                    botMoves = None
+                    if tables[1]:
+                        botRows = tables[1]
+                        h = botRows[0].find('h3')
+                        botTitle = h.text if h else None
+                        if not botTitle:
+                            h = botRows[0].find('td')
+                            botTitle = h.text if h else None
+                        if not botTitle:
+                            continue
+
+                        botMoves = getMovesFromRows(botRows, botTitle, formNames, dexId)
+                        missing = reinsertAllMoves(gen, dexId, botMoves)
+                        if len(missing) > 0:
+                            missingMoves[dexId] = missing
+                    
+##                    titleForm = None
+##                    for form in formNames:
+##                        if form.lower() in title.lower():
+##                            titleForm = form
+##                        elif form.lower().startswith('alola') or form.lower().startswith('galar'):
+##                            if 'alola' in title.lower() or 'galar' in title.lower():
+##                                titleForm = form
+##
+##                    moves = getAttackTableColumnData(title, allRows, formNames, dexId)
+##                    
+##                    # if the form found in the table title, add the found moves to the mapped form
+##                    if titleForm:
+##                        if not titleForm in allMoves:
+##                            allMoves[titleForm] = {}
+##                            allMoves[titleForm][title] = {}
+##                        elif title not in allMoves[titleForm]:
+##                            allMoves[titleForm][title] = {}
+##
+##                        for move in moves:
+##                            allMoves[titleForm][title][move] = moves[move]
+##
+##                    # if form not in the title name, try to get it from the moves result
+##                    else:
+##                        for move in moves:
+##                            if 'forms' in moves[move]:
+##                                forms = moves[move]['forms']
+##                                for form in forms:
+##                                    formName = checkBaseTranslation(form, formNames)
+##                                    if not formName in allMoves:
+##                                        allMoves[formName] = {}
+##                                        allMoves[formName][title] = {}
+##                                    elif title not in allMoves[formName]:
+##                                        allMoves[formName][title] = {}
+##                                    allMoves[formName][title][move] = moves[move]
+##                            # if not titleForm && not 'forms' defined, then is standard level up
+##                            else:
+##                                if not 'Base' in allMoves:
+##                                    allMoves['Base'] = {}
+##                                    allMoves['Base'][title] = {}
+##                                elif title not in allMoves['Base']:
+##                                    allMoves['Base'][title] = {}
+##                                allMoves['Base'][title][move] = moves[move]
+##
+##                allMoves = remapMovesByName(allMoves)
+##                return allMoves
+##                #missing = reinsertAllMoves(gen, dexId, allMoves)
+##                #if len(missing) > 0:
+##                #    missingMoves[dexId] = missing
+    return missingMoves
+
+def capitalizeWords(atkName):
+    flag = False
+    capitalized = ''
+    for char in atkName:
+        if char == ' ' or char == '-':
+            flag = True
+            capitalized += char
+            continue
+        if flag:
+            capitalized += char.upper()
+            flag = False
+        else:
+            capitalized += char
+    return capitalized
+                    
+def checkBaseTranslation(formName, allForms):
+    remapped = ['Normal', 'Plant Cloak', 'Land Forme', 'Aria Forme', 'Hoopa Confined', 'Baile Style', 'Hero of Many Battles', 'Single Strike Style']
+    if formName in remapped:
+        return 'Base'
+    else:
+        if formName.lower().startswith('alola') or formName.lower().startswith('galar'):
+            for form in allForms:
+                if form.lower().startswith('alola') or form.lower().startswith('galar'):
+                    return form
+
+    return formName
+
+def remapMovesByName(allMoves):
+    formMoves = {}
+    for form in allMoves:
+        moveCategories = allMoves[form]
+        moves = {}
+        for category in moveCategories:
+            catMoves = moveCategories[category]
+            for move in catMoves:
+                if not move in moves:
+                    moves[move] = []
+                moves[move].append(category)
+        formMoves[form] = moves
+    return formMoves
+
+def fixBlankGroupDesc():
+    cur = con.cursor()
+    cur.execute("SELECT * FROM PokeMovesByGen WHERE groupDesc=''")
+    moves = cur.fetchall()
+    for move in moves:
+        gen = move[0]
+        pokeFormId = move[1]
+        atkFormId = move[2]
+
+        cur.execute("SELECT atkName FROM Attack WHERE atkId=(SELECT atkId FROM AttackByGen WHERE atkFormId=?)",[atkFormId])
+        name = cur.fetchone()
+        if name[0].startswith('Max') or name[0].startswith('G-Max'):
+            cur.execute("UPDATE PokeMovesByGen SET groupDesc='Usable Max' WHERE genId=? AND pokeFormId=? AND atkFormId=?", [gen, pokeFormId, atkFormId])
+            con.commit()
+            print('updated ' + str(move))
+        else:
+            zmoves = ['10,000,000 Volt Thunderbolt', 'Acid Downpour', 'All-Out Pummeling', 'Black Hole Eclipse', 'Bloom Doom', 'Breakneck Blitz', 'Catastropika', 'Clangorous Soulblaze', 'Continental Crush', 'Corkscrew Crash', 'Devastating Drake', 'Extreme Evoboost', 'Genesis Supernova', 'Gigavolt Havoc', 'Guardian Of Alola', 'Hydro Vortex', 'Inferno Overdrive', "Let's Snuggle Forever", 'Light That Burns The Sky', 'Malicious Moonsault', 'Menacing Moonraze Maelstrom', 'Never-Ending Nightmare', 'Oceanic Operetta', 'Pulverizing Pancake', 'Savage Spin-Out', 'Searing Sunraze Smash', 'Shattered Psyche', 'Sinister Arrow Raid', 'Soul-Stealing 7-Star Strike', 'Splintered Stormshards', 'Stoked Sparksurfer', 'Subzero Slammer', 'Supersonic Skystrike', 'Tectonic Rage', 'Twinkle Tackle']
+            if name[0] in zmoves:
+                cur.execute("UPDATE PokeMovesByGen SET groupDesc='Usable Max' WHERE genId=? AND pokeFormId=? AND atkFormId=?", [gen, pokeFormId, atkFormId])
+                con.commit()
+                print('updated ' + str(move))
+
+def checkItemIcons():
+    mapped = mapItemIcons()
+
+    spriteDir = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/items/'
+    allImgs = os.listdir(spriteDir)
+
+    dbExtras = []
+    fileExtras= []
+    for key in mapped:
+        if key not in allImgs:
+            dbExtras.append(key)
+
+    for img in allImgs:
+        if img not in mapped.keys():
+            fileExtras.append(img)
+
+    print('DB Extras: ')
+    print(dbExtras)
+    print('FileExtras: ')
+    print(fileExtras)
+
+def renameItemIcons():
+    mapped = mapItemIcons()
+    spriteDir = 'G:/Android Development/Database Stuff/PokeRef/PythonDev/sprites/items/'
+    allImgs = os.listdir(spriteDir)
+
+    for img in allImgs:
+        if img in mapped.keys():
+            origFull = spriteDir + img
+            newFull = spriteDir + mapped[img]
+            if path.exists(origFull):
+                os.rename(origFull, newFull)
+
+def mapItemIcons():
+    # get all the item names from the database
+    cur = con.cursor()
+    cur.execute("SELECT itemIcon FROM Item")
+    allItems = cur.fetchall()
+
+    mapped = {}
+    for item in allItems:
+        toks = item[0].split("_")
+        urlname = ''
+        for r in range(1, len(toks)):
+            urlname += toks[r].lower()
+
+        mapped[urlname] = item[0]
+
+    return mapped
